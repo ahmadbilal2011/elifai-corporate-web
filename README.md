@@ -53,7 +53,9 @@ elifai-corporate-web/
 7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
 8. Footprint — Islamabad HQ with remote links to all six GCC states, Europe and Asia-Pacific; live PKT / AST / UTC clocks
 9. Engagements — market-by-market blueprint slider
-10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
+10. Leadership
+11. Team — six engineer cards with roles and skills (Aatif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
+12. Contact — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
 11. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
 12. Footer — Sysnetrix Pvt Ltd copyright (Islamabad), market badges, contact links, privacy notice
 
@@ -62,7 +64,7 @@ elifai-corporate-web/
 - The mark lives in `assets/img/logo/`. `elifai-mark.svg` uses `currentColor`, so it takes the text colour of wherever it is placed; `-on-dark` and `-on-light` have fixed colours for documents and slides.
 - **Palette:** AWS "squid ink" navy ground, Red Hat red (`--red`) for primary buttons and brand marks, AWS orange (`--accent`) for signals, links and data highlights, green only for healthy states. Every text pair meets WCAG AA 4.5:1 in both themes.
 - **Type:** Red Hat Display (headings), Red Hat Text (body), Red Hat Mono (data), all open-source via Google Fonts.
-- The site opens in dark mode. The sun/moon button switches to light mode and the choice is remembered per browser.
+- **Theme by time of day:** the site opens in dark mode between 19:00 and 03:00 (visitor's local time) and in light mode the rest of the day; an open tab switches over at the boundary. The sun/moon button overrides this for the current browser session. The hours live in `assets/js/theme-init.js` and `assets/js/modules/theme.js`.
 - All colours are tokens at the top of `assets/css/main.css`; the light palette is under `:root[data-theme="light"]`.
 
 ## Run locally
@@ -153,6 +155,8 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 - **Cloud region notes** on the Platforms section reflect each provider's published Gulf regions as of November 2026. Review them when providers open new regions (for example the AWS Saudi Arabia region).
 - **SLA targets** in the Managed services section are standard targets; adjust them to match your contracts.
 - **Colours, type and spacing** are tokens at the top of `assets/css/main.css`.
+- **Canvas animation:** each hero slide has its own motion in `topology.js` (`animate()`): zones orbiting with self-healing alerts (Managed), an activation wave through the layers (AIOps), five clouds orbiting the Islamabad NOC (Multi-cloud), and a rolling patch wave across the Linux fleet. All of it stops under reduced motion and with the pause button.
+- **Team:** cards are in the `TEAM` section of `index.html`; initials avatars can be swapped for photos.
 - **Hero slides:** each `<article data-slide data-mode="…">` maps to a canvas layout in `topology.js` (`cloud`, `ai`, `pipeline`, `modules`).
 - **Contact recipient:** change `MAIL_TO` at the top of `contact.php`.
 
