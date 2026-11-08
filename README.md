@@ -1,6 +1,6 @@
 # elifai-corporate-web
 
-Official website for **Elifai**, a venture by **Sysnetrix Pvt Ltd** — AI systems, cloud architecture and enterprise engineering for Pakistan, the GCC and global clients.
+Official website for **Elifai**, a venture by **Sysnetrix Pvt Ltd** (headquartered in Islamabad, Pakistan) — remote managed services, AI consultancy for IT operations, Red Hat / Ubuntu platforms and multi-cloud engineering (AWS, Google Cloud, Oracle Cloud, Alibaba Cloud, VMware) for Pakistan, the GCC and global clients.
 
 - Live domain: https://elifai.pk
 - Stack: semantic HTML5, hand-written CSS, vanilla ES modules, one PHP file for the contact form
@@ -21,10 +21,15 @@ elifai-corporate-web/
 ├── robots.txt · sitemap.xml · site.webmanifest
 ├── assets/
 │   ├── css/main.css           Design tokens + all styles
-│   ├── img/                   Logo mark, favicon, social preview image
+│   ├── img/                   Favicon (follows OS light/dark), social image
+│   │   └── logo/              Elifai mark SVGs (currentColor, on-dark, on-light) + PNG lockups
 │   └── js/
+│       ├── theme-init.js      Applies saved light/dark theme before first paint
 │       ├── main.js            Entry module
 │       └── modules/
+│           ├── theme.js       Light / dark toggle
+│           ├── platforms.js   Platform matrix filter
+│           ├── replay.js      AIOps incident replay
 │           ├── chrome.js      Header blur, mobile menu, active nav, ticker, reveal
 │           ├── slider.js      Shared slider engine (autoplay, drag/swipe, keyboard)
 │           ├── hero.js        Hero service slider [ 01 / 04 ]
@@ -38,15 +43,24 @@ elifai-corporate-web/
 
 ## Page sections
 
-1. Global header — blurred backdrop on scroll, Elifai mark + "A Sysnetrix venture", "Schedule executive briefing" CTA
-2. Hero — four-vertical slider (Cloud, AI, DevOps, Software) with counter, progress bar, pause, drag/swipe, arrow keys, and a live topology canvas that reshapes itself for each vertical; WhatsApp, call and proposal CTAs
-3. Technology ticker — GPU-accelerated infinite marquee (pauses on hover, becomes a static list under reduced motion)
-4. Capabilities — Enterprise AI & automation, Cloud & multi-cloud DevOps, Custom enterprise software
-5. Footprint matrix — coordinate-grid map of Pakistan, KSA and UAE coverage with remote links; region cards highlight the map and show local time
-6. Engagements — market-by-market blueprint slider (Pakistan, Saudi Arabia, UAE & GCC, Global)
-7. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
-8. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
-9. Footer — Sysnetrix copyright, market badges, contact links, privacy notice
+1. Global header — Elifai mark, "by Sysnetrix, Islamabad", light/dark toggle, "Schedule executive briefing" CTA
+2. Hero — four-slide slider (Managed services, AIOps, Gulf multi-cloud, Red Hat & Ubuntu) with `[ 01 / 04 ]` counter, progress, pause, drag/swipe and arrow keys, plus a live topology canvas that reshapes per slide (the multi-cloud view shows AWS, Google Cloud, Oracle, Alibaba and VMware estates around the Islamabad NOC)
+3. Technology ticker — infinite, GPU-accelerated, pauses on hover
+4. Services — Managed services & remote operations, AI consultancy for operations, Cloud/Linux/Kubernetes engineering, Custom software
+5. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
+6. AI operations — Assess → Pilot → Operate method and an illustrative incident replay
+7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
+8. Footprint — Islamabad HQ with remote links to all six GCC states, Europe and Asia-Pacific; live PKT / AST / UTC clocks
+9. Engagements — market-by-market blueprint slider
+10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
+11. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
+12. Footer — Sysnetrix Pvt Ltd copyright (Islamabad), market badges, contact links, privacy notice
+
+## Logo & themes
+
+- The mark lives in `assets/img/logo/`. `elifai-mark.svg` uses `currentColor`, so it takes the text colour of wherever it is placed; `-on-dark` and `-on-light` have fixed colours for documents and slides.
+- The site opens in dark mode. The sun/moon button switches to light mode and the choice is remembered per browser.
+- All colours are tokens at the top of `assets/css/main.css`; the light palette is under `:root[data-theme="light"]`.
 
 ## Run locally
 
@@ -133,6 +147,8 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 
 - **Copy** lives directly in `index.html`; every section is marked with a comment banner.
 - **Engagement blueprints** are written as representative scenarios. Replace them with named case studies once clients approve publication.
+- **Cloud region notes** on the Platforms section reflect each provider's published Gulf regions as of November 2026. Review them when providers open new regions (for example the AWS Saudi Arabia region).
+- **SLA targets** in the Managed services section are standard targets; adjust them to match your contracts.
 - **Colours, type and spacing** are tokens at the top of `assets/css/main.css`.
 - **Hero slides:** each `<article data-slide data-mode="…">` maps to a canvas layout in `topology.js` (`cloud`, `ai`, `pipeline`, `modules`).
 - **Contact recipient:** change `MAIL_TO` at the top of `contact.php`.

@@ -5,9 +5,26 @@
  */
 
 const N = 48;
-const CYAN = [34, 211, 238];
-const EMERALD = [52, 211, 153];
-const SLATE = [148, 163, 184];
+
+/* Colours follow the active theme's CSS custom properties */
+function hexToRgb(v, fallback) {
+  const m = (v || "").trim().match(/^#?([0-9a-f]{6})$/i);
+  if (!m) return fallback;
+  const n = parseInt(m[1], 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+function readColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const light = document.documentElement.getAttribute("data-theme") === "light";
+  return {
+    cyan: hexToRgb(cs.getPropertyValue("--cyan"), [34, 211, 238]),
+    emerald: hexToRgb(cs.getPropertyValue("--emerald"), [52, 211, 153]),
+    edge: light ? [15, 23, 42] : [148, 163, 184],
+    edgeAlpha: light ? 0.14 : 0.16,
+    nodeFill: cs.getPropertyValue("--bg-2").trim() || "#0B0F17",
+    label: cs.getPropertyValue("--text-2").trim() || "#B4BCCB",
+  };
+}
 
 function rng(seed) {
   let a = seed >>> 0;
@@ -48,6 +65,34 @@ const LAYOUTS = {
         edges.push([base, base + 1 + i]);
       }
     }
+    return { pts, edges };
+  },
+
+  hybrid(aspect) {
+    // Islamabad NOC ring in the centre, five cloud estates around it
+    const pts = [];
+    const edges = [];
+    const cx = 0.5, cy = 0.5;
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2;
+      pts.push({ x: cx + Math.cos(a) * 0.075 / aspect, y: cy + Math.sin(a) * 0.075, hub: i === 0, label: i === 0 ? "noc · islamabad" : null });
+      edges.push([i, (i + 1) % 8]);
+    }
+    const clouds = ["aws", "google cloud", "oracle oci", "alibaba", "vmware"];
+    clouds.forEach((name, c) => {
+      const a = -Math.PI / 2 + (c / clouds.length) * Math.PI * 2;
+      const hx = cx + Math.cos(a) * 0.34 / aspect;
+      const hy = cy + Math.sin(a) * 0.34;
+      const base = pts.length;
+      pts.push({ x: hx, y: hy, hub: true, label: name });
+      edges.push([base, (c * 2) % 8]);
+      for (let i = 0; i < 7; i++) {
+        const b = a + ((i - 3) / 7) * 1.5;
+        const r = 0.1 + (i % 2) * 0.03;
+        pts.push({ x: hx + Math.cos(b) * r / aspect, y: hy + Math.sin(b) * r, hub: false });
+        edges.push([base, base + 1 + i]);
+      }
+    });
     return { pts, edges };
   },
 
@@ -132,18 +177,20 @@ const LAYOUTS = {
 };
 
 export const MODE_LABELS = {
-  cloud: "multi-zone-cluster",
-  ai: "inference-graph",
+  cloud: "managed-estate",
+  ai: "aiops-correlation",
+  hybrid: "gulf-multi-cloud",
   pipeline: "delivery-pipeline",
-  modules: "service-modules",
+  modules: "rhel-ubuntu-fleet",
 };
 
 export function createTopology(canvas, { reducedMotion = false, onStats } = {}) {
   const ctx = canvas.getContext("2d", { alpha: true });
   const r = rng(42);
   const nodes = Array.from({ length: N }, () => ({
-    x: r(), y: r(), tx: 0.5, ty: 0.5, ox: 0, oy: 0, hub: false, delay: 0,
+    x: r(), y: r(), tx: 0.5, ty: 0.5, ox: 0, oy: 0, hub: false, delay: 0, label: null,
   }));
+  let C = readColors();
   let edges = [];
   let packets = [];
   let w = 0, h = 0, dpr = 1, aspect = 1;
@@ -177,7 +224,7 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
     switchedAt = now;
     layout.pts.forEach((p, i) => {
       const n = nodes[i];
-      n.tx = p.x; n.ty = p.y; n.hub = p.hub;
+      n.tx = p.x; n.ty = p.y; n.hub = p.hub; n.label = p.label || null;
       n.delay = instant ? 0 : (i / N) * 380 + r() * 120;
       if (instant) { n.x = p.x; n.y = p.y; }
     });
@@ -244,7 +291,7 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
 
     // edges
     ctx.lineWidth = 1;
-    ctx.strokeStyle = `rgba(${SLATE.join(",")},0.16)`;
+    ctx.strokeStyle = `rgba(${C.edge.join(",")},${C.edgeAlpha})`;
     ctx.beginPath();
     for (const [a, b] of edges) {
       const [x1, y1] = pos(nodes[a]);
@@ -261,9 +308,9 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
       const x = x1 + (x2 - x1) * p.t;
       const y = y1 + (y2 - y1) * p.t;
       const alpha = Math.sin(p.t * Math.PI);
-      ctx.fillStyle = `rgba(${CYAN.join(",")},${0.25 * alpha})`;
+      ctx.fillStyle = `rgba(${C.cyan.join(",")},${0.25 * alpha})`;
       ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = `rgba(${CYAN.join(",")},${0.95 * alpha})`;
+      ctx.fillStyle = `rgba(${C.cyan.join(",")},${0.95 * alpha})`;
       ctx.beginPath(); ctx.arc(x, y, 1.7, 0, Math.PI * 2); ctx.fill();
     }
 
@@ -271,23 +318,47 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
     for (const n of nodes) {
       const [x, y] = pos(n);
       if (n.hub) {
-        ctx.strokeStyle = `rgba(${EMERALD.join(",")},0.5)`;
+        ctx.strokeStyle = `rgba(${C.emerald.join(",")},0.5)`;
         ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.stroke();
-        ctx.fillStyle = `rgb(${EMERALD.join(",")})`;
+        ctx.fillStyle = `rgb(${C.emerald.join(",")})`;
         ctx.beginPath(); ctx.arc(x, y, 3.2, 0, Math.PI * 2); ctx.fill();
       } else {
-        ctx.fillStyle = "#0B0F17";
+        ctx.fillStyle = C.nodeFill;
         ctx.beginPath(); ctx.arc(x, y, 3.4, 0, Math.PI * 2); ctx.fill();
-        ctx.strokeStyle = `rgba(${CYAN.join(",")},0.85)`;
+        ctx.strokeStyle = `rgba(${C.cyan.join(",")},0.85)`;
         ctx.lineWidth = 1.2;
         ctx.beginPath(); ctx.arc(x, y, 3.4, 0, Math.PI * 2); ctx.stroke();
         ctx.lineWidth = 1;
       }
     }
 
+    // labels for named hubs (cloud estates, NOC)
+    ctx.font = '500 11px "JetBrains Mono", ui-monospace, monospace';
+    ctx.textBaseline = "middle";
+    for (const n of nodes) {
+      if (!n.label) continue;
+      const [x, y] = pos(n);
+      const settle = Math.max(0, 1 - Math.hypot(n.tx - n.x, n.ty - n.y) * 12);
+      if (settle <= 0.05) continue;
+      ctx.globalAlpha = settle;
+      ctx.fillStyle = C.label;
+      // place the label on the side facing the centre, away from the node fan
+      const vx = px(0.5) - x, vy = py(0.5) - y;
+      const d = Math.hypot(vx, vy);
+      if (d < 40) {
+        ctx.textAlign = "center";
+        ctx.fillText(n.label, px(0.5), py(0.5) + (h - 40) * 0.075 + 20);
+      } else {
+        const ux = vx / d, uy = vy / d;
+        ctx.textAlign = ux > 0.35 ? "left" : ux < -0.35 ? "right" : "center";
+        ctx.fillText(n.label, x + ux * 16, y + uy * 16 + (Math.abs(ux) > 0.35 ? -8 : 0));
+      }
+      ctx.globalAlpha = 1;
+    }
+
     // pointer lens
     if (pointer.active) {
-      ctx.strokeStyle = `rgba(${CYAN.join(",")},0.18)`;
+      ctx.strokeStyle = `rgba(${C.cyan.join(",")},0.18)`;
       ctx.setLineDash([3, 5]);
       ctx.beginPath(); ctx.arc(pointer.x, pointer.y, 90, 0, Math.PI * 2); ctx.stroke();
       ctx.setLineDash([]);
@@ -324,6 +395,11 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stop();
     else if (canvas.getBoundingClientRect().bottom > 0) start();
+  });
+
+  document.addEventListener("themechange", () => {
+    C = readColors();
+    if (!running) draw(performance.now());
   });
 
   new ResizeObserver(() => resize()).observe(canvas);

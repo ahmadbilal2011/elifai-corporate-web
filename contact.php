@@ -92,8 +92,8 @@ $region  = clean_line((string) ($_POST['region'] ?? ''), 60);
 $message = trim(mb_substr((string) ($_POST['message'] ?? ''), 0, 5000, 'UTF-8'));
 $consent = ($_POST['consent'] ?? '') === 'yes';
 
-$topics  = ['Executive briefing', 'Proposal request', 'AI and automation', 'Cloud and Kubernetes',
-            'DevOps and SRE', 'Custom software', 'Careers', 'Something else'];
+$topics  = ['Executive briefing', 'Proposal request', 'Managed services', 'AI for operations',
+            'Cloud and Kubernetes', 'Red Hat / Ubuntu', 'Custom software', 'Careers', 'Something else'];
 $regions = ['Pakistan', 'Saudi Arabia', 'UAE / other GCC', 'Europe / UK', 'Rest of world'];
 
 $errors = [];
