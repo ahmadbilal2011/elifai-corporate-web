@@ -10,7 +10,7 @@ rm -f "$OUT"
 
 zip -r -q -X "$OUT" \
   .htaccess index.html privacy.html 404.html contact.php vendor-news.php \
-  robots.txt sitemap.xml site.webmanifest assets \
+  robots.txt sitemap.xml site.webmanifest assets ar insights \
   -x "*.DS_Store" "*/Thumbs.db"
 
 echo "Built $OUT ($(du -h "$OUT" | cut -f1))"

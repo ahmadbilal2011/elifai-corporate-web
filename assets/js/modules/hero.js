@@ -1,6 +1,6 @@
-import { createSlider, pad2 } from "./slider.js?v=8";
-import { createTopology, MODE_LABELS } from "./topology.js?v=8";
-import { initHud } from "./hud.js?v=8";
+import { createSlider, pad2 } from "./slider.js?v=9";
+import { createTopology, MODE_LABELS } from "./topology.js?v=9";
+import { initHud } from "./hud.js?v=9";
 
 export function initHero({ reducedMotion }) {
   const root = document.querySelector("[data-hero-slider]");

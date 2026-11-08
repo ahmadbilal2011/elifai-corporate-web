@@ -60,8 +60,10 @@ elifai-corporate-web/
 9. Engagements — market-by-market blueprint slider
 10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
 11. Team — six engineer cards with roles and skills (Atif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
-12. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
-13. Footer — Sysnetrix Pvt Ltd copyright (Islamabad), market badges, contact links, privacy notice
+12. Insights — three articles for Saudi and Gulf buyers (Saudi cloud regions, NCA controls for Kubernetes, AIOps), each its own page under `/insights/`
+13. FAQ — six questions with FAQPage structured data
+14. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
+15. Footer — Sysnetrix Pvt Ltd copyright (Islamabad), market badges, contact links, privacy notice
 
 ## Logo & themes
 
@@ -151,6 +153,19 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 | Form says "mail server did not accept" | `MAIL_FROM` must be an address on this cPanel account; check Email Deliverability. |
 | Old design or animation after an update | CSS and JS now revalidate on every visit. If a browser still shows the old version, press Ctrl+F5 once. After each release run `bash scripts/bump-version.sh <n>` so every module URL changes. |
 | `/privacy` shows 404 | `mod_rewrite` is off; link to `/privacy.html` or ask the host to enable it. |
+
+## SEO
+
+- Title, description and Open Graph tags target Saudi Arabia and the Gulf (Riyadh, Jeddah, Dammam, UAE, Qatar).
+- Structured data: Organization/ProfessionalService, Service catalogue and FAQPage on the home page; Article and BreadcrumbList on each insight; an Arabic ProfessionalService on `/ar/`.
+- `hreflang` links pair the English home page with the Arabic page at `/ar/`.
+- `sitemap.xml` lists the home, Arabic, insight and privacy pages. Submit it in Google Search Console and Bing Webmaster Tools after deploying.
+- To add an article, copy one file in `insights/`, change the text and the JSON-LD, add a card to the Insights section in `index.html`, and add the URL to `sitemap.xml`.
+- The Arabic page was written in Modern Standard Arabic; have a native speaker review it before launch.
+
+## Live section touches
+
+`assets/js/modules/live.js` keeps each section current: a compressed P1 incident replay against the 15-minute target (Managed services), the live day/night line and business-hours markers on the world map (Footprint), "on shift now" from the NOC rota in Pakistan time (Team), and Gulf office hours (Contact, Sunday to Thursday, 09:00 to 18:00 Riyadh time). Shift hours are the `data-shift` values on each team card.
 
 ## Live vendor updates
 
