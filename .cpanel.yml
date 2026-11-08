@@ -1,0 +1,12 @@
+# cPanel → Git Version Control → "Deploy HEAD Commit" runs these tasks.
+# Change DEPLOYPATH if the site lives in an addon-domain folder
+# (e.g. $HOME/elifai.pk instead of $HOME/public_html).
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/cp -R assets $DEPLOYPATH
+    - /bin/cp index.html privacy.html 404.html contact.php $DEPLOYPATH
+    - /bin/cp robots.txt sitemap.xml site.webmanifest $DEPLOYPATH
+    - /bin/cp .htaccess $DEPLOYPATH
