@@ -195,6 +195,23 @@ const AGENTS = [
 ];
 const ISSUES = ["disk pressure", "pod crash-loop", "cert expiring", "high latency", "failed patch", "memory leak", "SSH brute-force", "node not ready", "backup missed", "port flapping"];
 
+/* Workload logos shown on a few nodes per view (files in assets/img/workloads/).
+   To add one: drop the file in that folder and add its name here. Nodes
+   without a logo stay plain health dots. */
+const WORKLOADS = [
+  ["redhat", "svg"], ["ubuntu", "svg"], ["oracle", "svg"], ["mysql", "svg"],
+  ["mongodb", "svg"], ["redis", "svg"], ["apache", "png"], ["grafana", "svg"],
+];
+const LOGO_DIR = "/assets/img/workloads/";
+const logos = {};
+WORKLOADS.forEach(([name, ext]) => {
+  const img = new Image();
+  img.decoding = "async";
+  img.onload = () => { logos[name] = img; };
+  img.src = `${LOGO_DIR}${name}.${ext}`;
+});
+const BADGE_R = 16;
+
 /* Node colour mix held constant in every view: 70% green, 15% orange, 15% red */
 const SHARE_WARN = 0.15;
 const SHARE_BAD = 0.15;
@@ -284,6 +301,14 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
       n.g = p.g ?? -1; n.dir = p.dir ?? 1; n.m = p.m ?? 0; n.act = 0; n.mx = 0; n.my = 0;
       n.delay = instant ? 0 : (i / N) * 380 + r() * 120;
       if (instant) { n.x = p.x; n.y = p.y; }
+      n.logo = null;
+    });
+    // spread the logos evenly over the non-hub nodes of this layout
+    const members = nodes.filter((n) => !n.hub);
+    const stepIx = members.length / WORKLOADS.length;
+    WORKLOADS.forEach(([name], k) => {
+      const n = members[Math.floor(k * stepIx + stepIx / 2)];
+      if (n) n.logo = name;
     });
   }
 
@@ -456,12 +481,13 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
         // fixing: red node with a progress ring that fills as the engineer works
         const p = Math.min(1, (now - n.since) / n.dur);
         const pulse = 0.5 + 0.5 * Math.sin((now - n.since) / 160);
+        const ring = n.logo && logos[n.logo] ? BADGE_R + 5 : 8;
         ctx.fillStyle = rgba(C.bad, 0.14 + 0.1 * pulse);
-        ctx.beginPath(); ctx.arc(x, y, 10 + pulse * 2, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, y, ring + 2 + pulse * 2, 0, Math.PI * 2); ctx.fill();
         ctx.strokeStyle = rgba(C.edge, 0.25); ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(x, y, ring, 0, Math.PI * 2); ctx.stroke();
         ctx.strokeStyle = rgba(C.ok, 0.95);
-        ctx.beginPath(); ctx.arc(x, y, 8, -Math.PI / 2, -Math.PI / 2 + p * Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(x, y, ring, -Math.PI / 2, -Math.PI / 2 + p * Math.PI * 2); ctx.stroke();
         ctx.lineWidth = 1;
       }
       const healed = now - n.healedAt;
@@ -483,12 +509,27 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
         ctx.strokeStyle = rgba(C.ok, 0.45);
         ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.stroke();
       }
-      ctx.fillStyle = rgba(col, n.state === "ok" ? 0.9 : 1);
-      ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = rgba(col, 0.95);
-      ctx.lineWidth = 1.3;
-      ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.stroke();
-      ctx.lineWidth = 1;
+      const img = n.logo && logos[n.logo];
+      if (img) {
+        // logo badge: white disc in both themes so every logo reads; ring colour = health
+        const R = BADGE_R + n.act * 2;
+        ctx.fillStyle = "#FFFFFF";
+        ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = rgba(col, 1);
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.stroke();
+        ctx.lineWidth = 1;
+        const iw = R * 1.3;
+        const ih = iw * (img.naturalHeight && img.naturalWidth ? img.naturalHeight / img.naturalWidth : 1);
+        ctx.drawImage(img, x - iw / 2, y - ih / 2, iw, ih);
+      } else {
+        ctx.fillStyle = rgba(col, n.state === "ok" ? 0.9 : 1);
+        ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = rgba(col, 0.95);
+        ctx.lineWidth = 1.3;
+        ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.stroke();
+        ctx.lineWidth = 1;
+      }
     }
 
     // hub labels
@@ -514,15 +555,29 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
     // every red node shows who is fixing it, with a progress bar
     const open = nodes.filter((n) => n.state === "bad").sort((a, b) => a.since - b.since);
     ctx.font = '600 10.5px "Red Hat Mono", ui-monospace, monospace';
-    const placed = [];
-    const hit = (x, y, ww, hh) => placed.some((p) => x < p[0] + p[2] && x + ww > p[0] && y < p[1] + p[3] && y + hh > p[1]);
+    // reserve every logo badge so labels never cover one
+    const placed = nodes.filter((n) => n.logo && logos[n.logo]).map((n) => {
+      const [bx0, by0] = pos(n);
+      return [bx0 - BADGE_R - 3, by0 - BADGE_R - 3, BADGE_R * 2 + 6, BADGE_R * 2 + 6, n];
+    });
+    const hit = (x, y, ww, hh, self) => placed.some((p) => p[4] !== self && x < p[0] + p[2] && x + ww > p[0] && y < p[1] + p[3] && y + hh > p[1]);
     for (const n of open) {
       const [x, y] = pos(n);
       const p = Math.min(1, (now - n.since) / n.dur);
       const text = `${n.agent} fixing`;
       const tw = ctx.measureText(text).width + 14, th = 20;
-      const spots = [[x + 10, y - th - 6], [x - 10 - tw, y - th - 6], [x + 10, y + 8], [x - 10 - tw, y + 8]];
-      let [bx, by] = spots.find(([sx, sy]) => sx > 2 && sx + tw < w - 2 && sy > 2 && sy + th < h - 2 && !hit(sx, sy, tw, th)) || spots[0];
+      const off = n.logo && logos[n.logo] ? BADGE_R + 4 : 10;
+      const spots = [
+        [x + off, y - th - off + 4], [x - off - tw, y - th - off + 4], [x + off, y + off - 4], [x - off - tw, y + off - 4],
+        [x - tw / 2, y - th - off - 2], [x - tw / 2, y + off + 2],
+      ];
+      const fits = ([sx, sy]) => sx > 2 && sx + tw < w - 2 && sy > 2 && sy + th < h - 2 && !hit(sx, sy, tw, th, n);
+      let spot = spots.find(fits);
+      // crowded corner: stack the label clear of its neighbours
+      for (let k = 1; !spot && k <= 6; k++) {
+        spot = [[spots[0][0], spots[0][1] - k * (th + 3)], [spots[2][0], spots[2][1] + k * (th + 3)]].find(fits);
+      }
+      let [bx, by] = spot || spots[0];
       bx = Math.max(2, Math.min(w - tw - 2, bx)); by = Math.max(2, Math.min(h - th - 2, by));
       placed.push([bx, by, tw, th]);
       ctx.globalAlpha = Math.min(1, (now - n.since) / 200);

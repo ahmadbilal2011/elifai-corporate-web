@@ -1,4 +1,4 @@
-import { createSlider, pad2 } from "./slider.js?v=7";
+import { createSlider, pad2 } from "./slider.js?v=8";
 
 export function initEngagements({ reducedMotion }) {
   const root = document.querySelector("[data-eng-slider]");
