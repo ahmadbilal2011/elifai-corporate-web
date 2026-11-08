@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Elifai by Sysnetrix — managed cloud, AI operations &amp; enterprise engineering from Islamabad</title>
   <meta name="description" content="Elifai, a Sysnetrix Pvt Ltd venture headquartered in Islamabad, delivers remote managed services, AI consultancy for IT operations, Red Hat and Ubuntu platforms, and multi-cloud engineering across AWS, Google Cloud, Oracle, Alibaba Cloud and VMware for clients in Pakistan, the GCC and worldwide.">
-  <meta name="theme-color" content="#080A0F" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0C1219" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F5F6F8" media="(prefers-color-scheme: light)">
   <meta name="color-scheme" content="dark light">
   <link rel="canonical" href="https://elifai.pk/">
@@ -29,9 +29,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/assets/css/main.css?v=2">
-  <script type="module" src="/assets/js/main.js?v=2"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700&amp;family=Red+Hat+Text:wght@400;500;600&amp;family=Red+Hat+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="/assets/css/main.css?v=3">
+  <script type="module" src="/assets/js/main.js?v=3"></script>
 
   <script type="application/ld+json">
   {
@@ -72,6 +72,7 @@
       <nav class="nav" aria-label="Primary">
         <ul class="nav-list">
           <li><a href="#capabilities">Services</a></li>
+          <li><a href="#noc">NOC</a></li>
           <li><a href="#platforms">Platforms</a></li>
           <li><a href="#aiops">AI operations</a></li>
           <li><a href="#managed">Managed services</a></li>
@@ -96,7 +97,8 @@
     <div class="mobile-nav" id="mobile-nav" hidden data-mobile-nav>
       <ul>
         <li><a href="#capabilities">Services</a></li>
-        <li><a href="#platforms">Platforms</a></li>
+        <li><a href="#noc">NOC</a></li>
+          <li><a href="#platforms">Platforms</a></li>
         <li><a href="#aiops">AI operations</a></li>
         <li><a href="#managed">Managed services</a></li>
         <li><a href="#footprint">Footprint</a></li>
@@ -177,7 +179,7 @@
               <button type="button" class="icon-btn" data-prev aria-label="Previous service">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
               </button>
-              <button type="button" class="icon-btn" data-pause aria-label="Pause rotation" aria-pressed="false">
+              <button type="button" class="icon-btn" data-pause aria-label="Pause animation" aria-pressed="false">
                 <svg viewBox="0 0 24 24" aria-hidden="true" class="i-pause"><path d="M9 5v14M15 5v14" stroke="currentColor" stroke-width="1.8"/></svg>
                 <svg viewBox="0 0 24 24" aria-hidden="true" class="i-play"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
               </button>
@@ -305,8 +307,99 @@
       </div>
     </section>
 
+    <!-- ============ NOC CONSOLE (tech showcase) ============ -->
+    <section class="section section-alt noc-section" id="noc" aria-labelledby="noc-heading">
+      <div class="wrap">
+        <header class="section-head section-head-split">
+          <div>
+            <h2 id="noc-heading" class="section-title">One console for the whole estate</h2>
+            <p class="section-lede">This is the view our Islamabad operations centre works from: every cluster, every Linux host and every open incident across AWS, Google Cloud, Oracle, Alibaba Cloud, OpenShift and VMware, on one screen. Shown here with a demo tenant.</p>
+          </div>
+          <div class="noc-legend mono" aria-hidden="true">
+            <span><i class="st st-ok"></i>Healthy</span><span><i class="st st-warn"></i>Change in progress</span><span><i class="st st-bad"></i>Needs attention</span>
+          </div>
+        </header>
+
+        <div class="app-frame" data-noc>
+          <div class="app-top">
+            <span class="app-brand">
+              <svg viewBox="86 24 126 467" aria-hidden="true"><path d="M103 29H191V62H139V79H207L198 116H103Z"/><path d="M109 174H122V443L91 474V193Z"/><path d="M134 150H162V458L134 486Z"/><path d="M174 169H203V431L174 460Z"/></svg>
+              Elifai NOC
+            </span>
+            <span class="app-tenant mono">tenant: gulf-retail-demo</span>
+            <span class="app-status"><span class="pulse" aria-hidden="true"></span>All critical services normal</span>
+            <span class="app-clock mono" data-clock="Asia/Karachi">--:--</span>
+          </div>
+
+          <div class="app-body">
+            <ul class="app-nav" aria-hidden="true">
+              <li class="is-on">Overview</li><li>Estates</li><li>Linux fleet</li><li>Incidents</li><li>Changes</li><li>Cost</li><li>Reports</li>
+            </ul>
+
+            <div class="app-main">
+              <dl class="kpis">
+                <div class="kpi"><dt>Availability, 30 days</dt><dd class="mono">99.97<small>%</small></dd><span class="kpi-sub ok">SLO 99.95%</span></div>
+                <div class="kpi"><dt>Open incidents</dt><dd class="mono">2</dd><span class="kpi-sub">P3 · no P1 / P2</span></div>
+                <div class="kpi"><dt>Patch compliance</dt><dd class="mono">98.4<small>%</small></dd><span class="kpi-sub ok">756 Linux hosts</span></div>
+                <div class="kpi"><dt>Cloud spend vs budget</dt><dd class="mono">87<small>%</small></dd><span class="kpi-sub">Day 24 of 30</span></div>
+              </dl>
+
+              <div class="app-grid">
+                <div class="panel panel-estates">
+                  <p class="panel-title">Estates</p>
+                  <div class="table-scroll">
+                    <table class="estates mono">
+                      <thead><tr><th scope="col">Platform</th><th scope="col">Region</th><th scope="col">Workload</th><th scope="col">Size</th><th scope="col">State</th></tr></thead>
+                      <tbody>
+                        <tr><td><span class="pf" style="--pf:#FF9900">AWS</span></td><td>UAE</td><td>EKS prod</td><td>42 nodes</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                        <tr><td><span class="pf" style="--pf:#4285F4">Google Cloud</span></td><td>Dammam</td><td>GKE prod</td><td>18 nodes</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                        <tr><td><span class="pf" style="--pf:#C74634">Oracle OCI</span></td><td>Jeddah</td><td>OKE + Exadata</td><td>12 nodes</td><td><i class="st st-warn"></i>Upgrading</td></tr>
+                        <tr><td><span class="pf" style="--pf:#EE0000">OpenShift</span></td><td>Riyadh DC</td><td>Core banking</td><td>24 nodes</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                        <tr><td><span class="pf" style="--pf:#FF6A00">Alibaba Cloud</span></td><td>Riyadh</td><td>ACK edge</td><td>8 nodes</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                        <tr><td><span class="pf" style="--pf:#8A9BB0">VMware</span></td><td>Dubai DC</td><td>Legacy ERP</td><td>96 VMs</td><td><i class="st st-warn"></i>Migrating</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="panel panel-slo">
+                  <p class="panel-title">Checkout API latency, p95 <span class="mono">last 24 h</span></p>
+                  <svg class="slo-chart" viewBox="0 0 320 120" preserveAspectRatio="none" aria-hidden="true">
+                    <path class="slo-threshold" d="M0 34H320"/>
+                    <path class="slo-area" d="M0 92 L20 88 L40 90 L60 84 L80 86 L100 80 L120 82 L140 62 L150 40 L160 58 L175 78 L195 84 L215 82 L235 86 L255 80 L275 84 L295 82 L320 86 V120 H0Z"/>
+                    <path class="slo-line" d="M0 92 L20 88 L40 90 L60 84 L80 86 L100 80 L120 82 L140 62 L150 40 L160 58 L175 78 L195 84 L215 82 L235 86 L255 80 L275 84 L295 82 L320 86"/>
+                    <circle class="slo-dot" cx="150" cy="40" r="4"/>
+                  </svg>
+                  <p class="slo-note mono"><span>threshold 400 ms</span><span>peak 372 ms at 02:14, auto-resolved</span></p>
+                </div>
+
+                <div class="panel panel-fleet">
+                  <p class="panel-title">Linux fleet patch status</p>
+                  <ul class="fleet mono">
+                    <li style="--v:.99"><span class="os os-rh">RHEL 9</span><span class="bar"><i></i></span><span>312 · 99%</span></li>
+                    <li style="--v:.97"><span class="os os-rh">RHEL 8</span><span class="bar"><i></i></span><span>140 · 97%</span></li>
+                    <li style="--v:.99"><span class="os os-ub">Ubuntu 24.04</span><span class="bar"><i></i></span><span>208 · 99%</span></li>
+                    <li style="--v:.95"><span class="os os-ub">Ubuntu 22.04</span><span class="bar"><i></i></span><span>96 · 95%</span></li>
+                  </ul>
+                </div>
+
+                <div class="panel panel-incidents">
+                  <p class="panel-title">Incidents &amp; changes</p>
+                  <ul class="feed">
+                    <li><span class="sev sev-3">P3</span><div><b>Disk 81% on erp-db-02</b><span class="mono">VMware · AIOps: grows 2%/day, extend before Thursday</span></div></li>
+                    <li><span class="sev sev-3">P3</span><div><b>Certificate expires in 12 days</b><span class="mono">AWS · renewal change CHG-2291 scheduled</span></div></li>
+                    <li><span class="sev sev-4">CHG</span><div><b>OKE 1.30 upgrade, node pool 2 of 3</b><span class="mono">Oracle OCI · approved by client CAB</span></div></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ PLATFORMS ============ -->
-    <section class="section section-alt" id="platforms" aria-labelledby="plat-heading">
+    <section class="section" id="platforms" aria-labelledby="plat-heading">
       <div class="wrap">
         <header class="section-head section-head-split">
           <div>
@@ -371,12 +464,11 @@
             <p class="plat-where mono"><span>Where</span>Your data centre, in-country</p>
           </li>
         </ul>
-        <p class="fine-print">Product names are trademarks of their respective owners and are listed to describe the platforms we support; no partnership or endorsement is implied. Region availability as published by each provider in November 2026.</p>
       </div>
     </section>
 
     <!-- ============ AI OPERATIONS ============ -->
-    <section class="section" id="aiops" aria-labelledby="ai-heading">
+    <section class="section section-alt" id="aiops" aria-labelledby="ai-heading">
       <div class="wrap aiops">
         <div class="aiops-copy">
           <h2 id="ai-heading" class="section-title">AI consultancy for operations teams</h2>
@@ -402,13 +494,12 @@
             <li data-line><time>02:15:02</time><span class="tag tag-ok">approved</span><span>On-call engineer approved; change applied and logged</span></li>
             <li data-line><time>02:17:40</time><span class="tag tag-ok">resolved</span><span>Latency normal; incident review drafted for the morning</span></li>
           </ol>
-          <p class="replay-note">Illustrative sequence showing how an AIOps workflow hands decisions to a person. Timings vary by environment.</p>
         </figure>
       </div>
     </section>
 
     <!-- ============ MANAGED SERVICES ============ -->
-    <section class="section section-alt" id="managed" aria-labelledby="ms-heading">
+    <section class="section" id="managed" aria-labelledby="ms-heading">
       <div class="wrap">
         <header class="section-head">
           <h2 id="ms-heading" class="section-title">Remote managed services, contracted like a utility</h2>
@@ -473,7 +564,7 @@
     </section>
 
     <!-- ============ FOOTPRINT ============ -->
-    <section class="section" id="footprint" aria-labelledby="fp-heading">
+    <section class="section section-alt" id="footprint" aria-labelledby="fp-heading">
       <div class="wrap">
         <header class="section-head">
           <h2 id="fp-heading" class="section-title">Headquartered in Islamabad, working across the Gulf</h2>
@@ -540,17 +631,17 @@
 
           <div class="fp-cards">
             <button type="button" class="fp-card" data-target="pk" aria-pressed="false">
-              <span class="fp-card-head"><span class="fp-code mono">HQ · ISLAMABAD</span><span class="fp-clock mono" data-clock="Asia/Karachi">--:--</span></span>
+              <span class="fp-card-head"><span class="fp-code mono">HQ, Islamabad</span><span class="fp-clock mono" data-clock="Asia/Karachi">--:--</span></span>
               <span class="fp-card-title">Sysnetrix headquarters</span>
               <span class="fp-card-text">Engineering, the operations centre and leadership sit in Islamabad. Pakistan clients get on-site workshops and hands-on support.</span>
             </button>
             <button type="button" class="fp-card" data-target="gcc" aria-pressed="false">
-              <span class="fp-card-head"><span class="fp-code mono">GCC · REMOTE</span><span class="fp-clock mono" data-clock="Asia/Riyadh">--:--</span></span>
+              <span class="fp-card-head"><span class="fp-code mono">GCC, remote</span><span class="fp-clock mono" data-clock="Asia/Riyadh">--:--</span></span>
               <span class="fp-card-title">Gulf clients, served remotely</span>
               <span class="fp-card-text">Saudi Arabia, the UAE, Qatar, Bahrain, Kuwait and Oman. Workloads stay in in-country cloud regions; we operate them over secure remote access, with Arabic-first interfaces where needed.</span>
             </button>
             <button type="button" class="fp-card" data-target="global" aria-pressed="false">
-              <span class="fp-card-head"><span class="fp-code mono">GLOBAL · REMOTE</span><span class="fp-clock mono" data-clock="UTC">--:--</span></span>
+              <span class="fp-card-head"><span class="fp-code mono">Global, remote</span><span class="fp-clock mono" data-clock="UTC">--:--</span></span>
               <span class="fp-card-title">International teams</span>
               <span class="fp-card-text">Platform and SRE capacity for companies in Europe, the UK and Asia-Pacific, working in your tools, tickets and standups.</span>
             </button>
@@ -560,7 +651,7 @@
     </section>
 
     <!-- ============ ENGAGEMENTS SLIDER ============ -->
-    <section class="section section-alt" id="engagements" aria-labelledby="eng-heading">
+    <section class="section" id="engagements" aria-labelledby="eng-heading">
       <div class="wrap">
         <header class="section-head section-head-split">
           <div>
@@ -647,7 +738,7 @@
     </section>
 
     <!-- ============ LEADERSHIP ============ -->
-    <section class="section" id="leadership" aria-labelledby="lead-heading">
+    <section class="section section-alt" id="leadership" aria-labelledby="lead-heading">
       <div class="wrap lead">
         <h2 id="lead-heading" class="sr-only">Leadership</h2>
         <figure class="lead-quote">
@@ -694,7 +785,7 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section section-alt" id="contact" aria-labelledby="contact-heading">
+    <section class="section" id="contact" aria-labelledby="contact-heading">
       <div class="wrap contact">
         <div class="contact-intro">
           <h2 id="contact-heading" class="section-title">Tell us what has to stay up</h2>
@@ -809,6 +900,7 @@
         <p class="footer-head">Company</p>
         <ul>
           <li><a href="#capabilities">Services</a></li>
+          <li><a href="#noc">NOC</a></li>
           <li><a href="#platforms">Platforms</a></li>
           <li><a href="#managed">Managed services</a></li>
           <li><a href="#leadership">Leadership</a></li>
@@ -831,6 +923,7 @@
     <div class="wrap footer-legal">
       <p>© <span data-year>2026</span> Sysnetrix Pvt Ltd, Islamabad, Pakistan. All rights reserved. Elifai is a venture of Sysnetrix Pvt Ltd.</p>
       <p><a href="/privacy">Privacy notice</a><span class="sep" aria-hidden="true">/</span>No tracking or advertising cookies.</p>
+      <p class="legal-tm">AWS, Google Cloud, Oracle, Alibaba Cloud, Red Hat, OpenShift, Ubuntu and VMware are trademarks of their respective owners, named to describe the platforms we support. Gulf region details as published by each provider in November 2026.</p>
     </div>
   </footer>
 </body>

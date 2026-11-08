@@ -45,7 +45,8 @@ elifai-corporate-web/
 
 1. Global header — Elifai mark, "by Sysnetrix, Islamabad", light/dark toggle, "Schedule executive briefing" CTA
 2. Hero — four-slide slider (Managed services, AIOps, Gulf multi-cloud, Red Hat & Ubuntu) with `[ 01 / 04 ]` counter, progress, pause, drag/swipe and arrow keys, plus a live topology canvas that reshapes per slide (the multi-cloud view shows AWS, Google Cloud, Oracle, Alibaba and VMware estates around the Islamabad NOC)
-3. Technology ticker — infinite, GPU-accelerated, pauses on hover
+3. NOC console — live-HTML operations console (demo tenant) showing estates across AWS, Google Cloud, OCI, OpenShift, Alibaba Cloud and VMware, Linux fleet patch status, latency SLO and incidents
+4. Technology ticker — infinite, GPU-accelerated, pauses on hover
 4. Services — Managed services & remote operations, AI consultancy for operations, Cloud/Linux/Kubernetes engineering, Custom software
 5. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
 6. AI operations — Assess → Pilot → Operate method and an illustrative incident replay
@@ -59,6 +60,8 @@ elifai-corporate-web/
 ## Logo & themes
 
 - The mark lives in `assets/img/logo/`. `elifai-mark.svg` uses `currentColor`, so it takes the text colour of wherever it is placed; `-on-dark` and `-on-light` have fixed colours for documents and slides.
+- **Palette:** AWS "squid ink" navy ground, Red Hat red (`--red`) for primary buttons and brand marks, AWS orange (`--accent`) for signals, links and data highlights, green only for healthy states. Every text pair meets WCAG AA 4.5:1 in both themes.
+- **Type:** Red Hat Display (headings), Red Hat Text (body), Red Hat Mono (data), all open-source via Google Fonts.
 - The site opens in dark mode. The sun/moon button switches to light mode and the choice is remembered per browser.
 - All colours are tokens at the top of `assets/css/main.css`; the light palette is under `:root[data-theme="light"]`.
 

@@ -82,8 +82,9 @@ export function initHero({ reducedMotion }) {
     pauseBtn.addEventListener("click", () => {
       const pressed = pauseBtn.getAttribute("aria-pressed") === "true";
       pauseBtn.setAttribute("aria-pressed", String(!pressed));
-      pauseBtn.setAttribute("aria-label", pressed ? "Pause rotation" : "Resume rotation");
+      pauseBtn.setAttribute("aria-label", pressed ? "Pause animation" : "Resume animation");
       slider.setUserPaused(!pressed);
+      topo?.setPaused(!pressed);
     });
   }
 }

@@ -17,8 +17,8 @@ function readColors() {
   const cs = getComputedStyle(document.documentElement);
   const light = document.documentElement.getAttribute("data-theme") === "light";
   return {
-    cyan: hexToRgb(cs.getPropertyValue("--cyan"), [34, 211, 238]),
-    emerald: hexToRgb(cs.getPropertyValue("--emerald"), [52, 211, 153]),
+    cyan: hexToRgb(cs.getPropertyValue("--accent"), [255, 153, 0]),
+    emerald: hexToRgb(cs.getPropertyValue("--red"), [209, 0, 0]),
     edge: light ? [15, 23, 42] : [148, 163, 184],
     edgeAlpha: light ? 0.14 : 0.16,
     nodeFill: cs.getPropertyValue("--bg-2").trim() || "#0B0F17",
@@ -333,7 +333,7 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
     }
 
     // labels for named hubs (cloud estates, NOC)
-    ctx.font = '500 11px "JetBrains Mono", ui-monospace, monospace';
+    ctx.font = '500 11px "Red Hat Mono", ui-monospace, monospace';
     ctx.textBaseline = "middle";
     for (const n of nodes) {
       if (!n.label) continue;
@@ -371,8 +371,9 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
     raf = requestAnimationFrame(loop);
   }
 
+  let userPaused = false;
   function start() {
-    if (running || reducedMotion) return;
+    if (running || reducedMotion || userPaused) return;
     running = true;
     raf = requestAnimationFrame(loop);
   }
@@ -406,5 +407,10 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
   resize();
   if (onStats) onStats({ nodes: N, links: edges.length, msgs: 0 });
 
-  return { setMode };
+  function setPaused(v) {
+    userPaused = v;
+    if (v) stop(); else if (canvas.getBoundingClientRect().bottom > 0) start();
+  }
+
+  return { setMode, setPaused };
 }

@@ -10,7 +10,7 @@ export function initTheme() {
       setTimeout(() => root.classList.remove("theme-anim"), 400);
     }
     root.setAttribute("data-theme", theme);
-    metas.forEach((m) => m.setAttribute("content", theme === "light" ? "#F5F6F8" : "#080A0F"));
+    metas.forEach((m) => m.setAttribute("content", theme === "light" ? "#F5F6F8" : "#0C1219"));
     buttons.forEach((b) => b.setAttribute("aria-label", theme === "light" ? "Switch to dark mode" : "Switch to light mode"));
     try { localStorage.setItem("elifai-theme", theme); } catch { /* ignore */ }
     document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));

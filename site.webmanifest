@@ -4,8 +4,8 @@
   "description": "AI systems, cloud architecture and enterprise engineering. A Sysnetrix venture.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#080A0F",
-  "theme_color": "#080A0F",
+  "background_color": "#0C1219",
+  "theme_color": "#0C1219",
   "icons": [
     { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
     { "src": "/assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }

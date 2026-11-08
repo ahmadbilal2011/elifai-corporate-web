@@ -5,6 +5,7 @@
 import { initTheme } from "./modules/theme.js";
 import { initChrome } from "./modules/chrome.js";
 import { initHero } from "./modules/hero.js";
+import { initNoc } from "./modules/noc.js";
 import { initPlatforms } from "./modules/platforms.js";
 import { initReplay } from "./modules/replay.js";
 import { initFootprint } from "./modules/footprint.js";
@@ -14,7 +15,7 @@ import { initContact } from "./modules/contact.js";
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const ctx = { reducedMotion };
 
-for (const init of [initTheme, initChrome, initHero, initPlatforms, initReplay, initFootprint, initEngagements, initContact]) {
+for (const init of [initTheme, initChrome, initHero, initNoc, initPlatforms, initReplay, initFootprint, initEngagements, initContact]) {
   try {
     init(ctx);
   } catch (err) {
