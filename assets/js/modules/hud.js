@@ -10,19 +10,33 @@ const IPS = ["203.0.113.", "198.51.100.", "192.0.2."];
 const ip = () => IPS[Math.floor(Math.random() * 3)] + (2 + Math.floor(Math.random() * 250));
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 
-const EVENTS = [
+const AGENTS = ["Ali Raza", "Sana Khan", "Hamza Sheikh", "Fatima Malik", "Imran Akhtar", "Noor Ahmed", "Zeeshan Haider", "Daniel Brooks", "Emma Clarke", "Lucas Meyer", "Sophie Laurent", "James Walker"];
+const OK_EVENTS = [
+  () => ["ok", "TLS", `Cert rotated ${pick(["api", "portal", "sso", "erp"])}.demo`],
+  () => ["ok", "IAM", `MFA passed ops-noc-${String(1 + Math.floor(Math.random() * 12)).padStart(2, "0")}`],
+  () => ["ok", "PATCH", `${pick(["RHEL 10", "RHEL 9", "Ubuntu 24.04", "Ubuntu 26.04"])} wave ${1 + Math.floor(Math.random() * 4)} done`],
+  () => ["ok", "BACKUP", `${pick(["erp-db", "core-pg", "vault", "minio"])} snapshot verified`],
+  () => ["ok", "HEALTH", `${pick(["EKS", "GKE", "OKE", "OpenShift", "ACK"])} probes 100% green`],
+  () => ["ok", "DR", `Failover test passed ${pick(["Dammam", "Jeddah", "Dubai"])}`],
+  () => ["ok", "SLO", `Checkout p95 within target`],
+];
+const INFO_EVENTS = [
+  () => ["info", "AIOPS", `Anomaly scored ${(0.6 + Math.random() * 0.39).toFixed(2)}, watching`],
+  () => ["info", "CAP", `Node pool at ${70 + Math.floor(Math.random() * 15)}%, scale-out queued`],
+];
+const BLOCK_EVENTS = [
   () => ["block", "WAF", `SQLi probe blocked ${ip()}`],
   () => ["block", "IDS", `SSH brute-force dropped ${ip()}`],
   () => ["block", "FW", `Geo-block rule hit ${ip()}`],
   () => ["block", "EDR", `Dropper quarantined wks-${100 + Math.floor(Math.random() * 80)}`],
   () => ["block", "DNS", `C2 domain sinkholed`],
-  () => ["ok", "TLS", `Cert rotated ${pick(["api", "portal", "sso", "erp"])}.demo`],
-  () => ["ok", "IAM", `MFA passed ops-noc-${String(1 + Math.floor(Math.random() * 12)).padStart(2, "0")}`],
-  () => ["ok", "PATCH", `${pick(["RHEL 9", "Ubuntu 24.04", "RHEL 8"])} wave ${1 + Math.floor(Math.random() * 4)} done`],
-  () => ["info", "SIEM", `${6 + Math.floor(Math.random() * 30)} events → 1 case`],
-  () => ["info", "AIOPS", `Anomaly scored ${(0.6 + Math.random() * 0.39).toFixed(2)}`],
-  () => ["info", "DLP", `Upload held for review`],
 ];
+function nextEvent() {
+  const x = Math.random();
+  if (x < 0.7) return pick(OK_EVENTS)();
+  if (x < 0.8) return pick(INFO_EVENTS)();
+  return pick(BLOCK_EVENTS)();
+}
 
 function hexToRgb(v, fb) {
   const m = (v || "").trim().match(/^#?([0-9a-f]{6})$/i);
@@ -47,6 +61,7 @@ export function initHud({ reducedMotion }) {
     const cs = getComputedStyle(document.documentElement);
     C = {
       red: hexToRgb(cs.getPropertyValue("--red"), [209, 0, 0]),
+      green: hexToRgb(cs.getPropertyValue("--emerald"), [61, 220, 151]),
       accent: hexToRgb(cs.getPropertyValue("--accent"), [255, 153, 0]),
       ok: hexToRgb(cs.getPropertyValue("--emerald"), [61, 220, 151]),
       line: document.documentElement.dataset.theme === "light" ? [20, 28, 39] : [160, 174, 196],
@@ -89,20 +104,21 @@ export function initHud({ reducedMotion }) {
     // sweep wedge
     const g = ctx.createConicGradient ? ctx.createConicGradient(sweep - 0.9, cx, cy) : null;
     if (g) {
-      g.addColorStop(0, `rgba(${C.accent.join(",")},0)`);
-      g.addColorStop(0.14, `rgba(${C.accent.join(",")},0.32)`);
-      g.addColorStop(0.145, `rgba(${C.accent.join(",")},0)`);
+      g.addColorStop(0, `rgba(${C.green.join(",")},0)`);
+      g.addColorStop(0.14, `rgba(${C.green.join(",")},0.3)`);
+      g.addColorStop(0.145, `rgba(${C.green.join(",")},0)`);
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2); ctx.fill();
     }
-    ctx.strokeStyle = `rgba(${C.accent.join(",")},0.9)`;
+    ctx.strokeStyle = `rgba(${C.green.join(",")},0.9)`;
     ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(sweep) * rad, cy + Math.sin(sweep) * rad); ctx.stroke();
 
     // blips fade after the sweep passes them
     for (const b of blips) {
       b.life -= dt / 2600;
       const x = cx + Math.cos(b.a) * b.r * rad, y = cy + Math.sin(b.a) * b.r * rad;
-      const col = b.hostile ? C.red : C.ok;
+      // hostile contacts show red, then turn green once neutralised
+      const col = b.hostile && b.life > 0.55 ? C.red : C.green;
       ctx.fillStyle = `rgba(${col.join(",")},${Math.max(0, b.life)})`;
       ctx.beginPath(); ctx.arc(x, y, 2.6, 0, Math.PI * 2); ctx.fill();
       if (b.hostile) {
@@ -134,15 +150,15 @@ export function initHud({ reducedMotion }) {
     path(seriesIn);
     ctx.lineTo(w + stepX, h); ctx.lineTo(-stepX, h); ctx.closePath();
     const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, `rgba(${C.accent.join(",")},0.28)`);
-    g.addColorStop(1, `rgba(${C.accent.join(",")},0)`);
+    g.addColorStop(0, `rgba(${C.green.join(",")},0.26)`);
+    g.addColorStop(1, `rgba(${C.green.join(",")},0)`);
     ctx.fillStyle = g; ctx.fill();
-    path(seriesIn); ctx.strokeStyle = `rgb(${C.accent.join(",")})`; ctx.lineWidth = 1.6; ctx.stroke();
+    path(seriesIn); ctx.strokeStyle = `rgb(${C.green.join(",")})`; ctx.lineWidth = 1.6; ctx.stroke();
     // outbound
-    path(seriesOut); ctx.strokeStyle = `rgba(${C.red.join(",")},0.9)`; ctx.lineWidth = 1.3; ctx.stroke();
+    path(seriesOut); ctx.strokeStyle = `rgba(${C.accent.join(",")},0.85)`; ctx.lineWidth = 1.3; ctx.stroke();
     // head dot
     const lastY = h - 4 - seriesIn[N - 2] * (h - 8);
-    ctx.fillStyle = `rgb(${C.accent.join(",")})`;
+    ctx.fillStyle = `rgb(${C.green.join(",")})`;
     ctx.beginPath(); ctx.arc((N - 2 - shift) * stepX, lastY, 2.6, 0, Math.PI * 2); ctx.fill();
   }
 
@@ -152,28 +168,54 @@ export function initHud({ reducedMotion }) {
   function updateBars() {
     bars.forEach((b, i) => {
       const prev = Number(b.dataset.v || 0.4 + Math.random() * 0.3);
-      let v = prev + (Math.random() - 0.48) * 0.22;
-      if (i === 5) v = Math.min(v, 0.55); // the VMware estate is being drained
-      v = Math.max(0.12, Math.min(0.96, v));
+      let v = prev + (Math.random() - 0.5) * 0.18 + (0.55 - prev) * 0.15;
+      if (i === 5) v = Math.min(v, 0.5); // the VMware estate is being drained
+      v = Math.max(0.15, Math.min(0.97, v));
       b.dataset.v = v.toFixed(3);
       b.style.setProperty("--v", v.toFixed(3));
-      b.classList.toggle("is-hot", v > 0.82);
+      b.classList.toggle("is-warm", v > 0.78 && v <= 0.9);
+      b.classList.toggle("is-hot", v > 0.9);
     });
   }
 
-  function pushEvent() {
-    const [lv, tag, text] = pick(EVENTS)();
+  const pending = [];
+  function addLine(lv, tag, text) {
     const li = document.createElement("li");
     li.className = "is-new";
+    if (!log) return;
     li.innerHTML = `<span class="lv lv-${lv}">${tag}</span>`;
     li.append(document.createTextNode(text));
     log.prepend(li);
     while (log.children.length > 6) log.lastElementChild.remove();
     requestAnimationFrame(() => li.classList.remove("is-new"));
+  }
+  function pushEvent() {
+    const [lv, tag, text] = nextEvent();
     if (lv === "block") {
+      const who = pick(AGENTS);
+      addLine("block", tag, `${text} · ${who} on it`);
+      pending.push({ at: performance.now() + 2200 + Math.random() * 1500, who, tag });
       blocked += 1 + Math.floor(Math.random() * 3);
       out.blocked.textContent = blocked.toLocaleString("en-US");
+    } else {
+      addLine(lv, tag, text);
     }
+  }
+  function flushPending(now) {
+    for (let i = pending.length - 1; i >= 0; i--) {
+      if (now >= pending[i].at) {
+        const p = pending.splice(i, 1)[0];
+        addLine("ok", "FIXED", `${p.tag} resolved by ${p.who}`);
+      }
+    }
+  }
+  let lastIncidentLog = 0;
+  function logIncident(ev) {
+    const now = performance.now();
+    if (now - lastIncidentLog < 2400) return; // keep the log readable
+    lastIncidentLog = now;
+    if (ev.type === "open") addLine("block", "INC", `${ev.issue} → ${ev.agent}`);
+    else addLine("ok", "FIXED", `${ev.issue} · ${ev.agent}`);
   }
 
   function updateCounters() {
@@ -188,7 +230,7 @@ export function initHud({ reducedMotion }) {
   updateBars();
   if (reducedMotion) {
     drawAll();
-    return { setPaused() {} };
+    return { setPaused() {}, logIncident() {} };
   }
 
   /* ---------- loop ---------- */
@@ -214,13 +256,14 @@ export function initHud({ reducedMotion }) {
     tBlip += dt;
     if (tBlip > 700) {
       tBlip = 0;
-      const hostile = Math.random() < 0.45;
+      const hostile = Math.random() < 0.2;
       blips.push({ a: sweep - 0.05, r: 0.25 + Math.random() * 0.7, life: 1, hostile });
       if (hostile) out.threats.textContent = String(++threats);
     }
 
     tBars += dt; if (tBars > 1100) { tBars = 0; updateBars(); }
-    tLog += dt; if (tLog > 1700) { tLog = 0; pushEvent(); }
+    tLog += dt; if (tLog > 1900) { tLog = 0; pushEvent(); }
+    flushPending(now);
     tCnt += dt; if (tCnt > 900) { tCnt = 0; updateCounters(); }
 
     drawRadar(dt);
@@ -240,6 +283,7 @@ export function initHud({ reducedMotion }) {
   root.classList.add("is-live");
 
   return {
+    logIncident,
     setPaused(v) {
       paused = v;
       root.classList.toggle("is-paused", v);

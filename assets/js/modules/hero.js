@@ -18,18 +18,20 @@ export function initHero({ reducedMotion }) {
   const modeLabel = document.querySelector("[data-console-mode]");
   const rLinks = document.querySelector("[data-r-links]");
   const rMsgs = document.querySelector("[data-r-msgs]");
+  const rFixed = document.querySelector("[data-r-fixed]");
+  const hud = initHud({ reducedMotion });
   let topo = null;
   if (canvas && canvas.getContext) {
     topo = createTopology(canvas, {
       reducedMotion,
-      onStats: ({ links, msgs }) => {
+      onIncident: (ev) => hud?.logIncident(ev),
+      onStats: ({ links, msgs, fixed }) => {
+        if (rFixed && fixed != null) rFixed.textContent = fixed;
         if (rLinks) rLinks.textContent = links;
         if (rMsgs) rMsgs.textContent = msgs;
       },
     });
   }
-
-  const hud = initHud({ reducedMotion });
 
   function render(next, prev) {
     const incoming = slides[next];

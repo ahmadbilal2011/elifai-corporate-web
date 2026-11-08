@@ -36,7 +36,7 @@ export function initFootprint() {
       return null;
     }
   });
-  const labels = { "Asia/Karachi": "PKT", "Asia/Riyadh": "AST", UTC: "UTC" };
+  const labels = { "Asia/Karachi": "PKT", "Asia/Riyadh": "AST", "Europe/Paris": "CET", UTC: "UTC" };
   function tick() {
     const now = new Date();
     clocks.forEach((el, i) => {

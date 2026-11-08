@@ -17,14 +17,15 @@ function readColors() {
   const cs = getComputedStyle(document.documentElement);
   const light = document.documentElement.getAttribute("data-theme") === "light";
   return {
-    cyan: hexToRgb(cs.getPropertyValue("--accent"), [255, 153, 0]),
-    emerald: hexToRgb(cs.getPropertyValue("--red"), [209, 0, 0]),
-    edge: light ? [15, 23, 42] : [148, 163, 184],
-    edgeAlpha: light ? 0.14 : 0.16,
-    nodeFill: cs.getPropertyValue("--bg-2").trim() || "#0B0F17",
-    amber: hexToRgb(cs.getPropertyValue("--amber"), [255, 194, 71]),
     ok: hexToRgb(cs.getPropertyValue("--emerald"), [61, 220, 151]),
-    label: cs.getPropertyValue("--text-2").trim() || "#B4BCCB",
+    warn: hexToRgb(cs.getPropertyValue("--accent"), [255, 153, 0]),
+    bad: hexToRgb(cs.getPropertyValue("--red"), [209, 0, 0]),
+    edge: light ? [20, 28, 39] : [160, 174, 196],
+    edgeAlpha: light ? 0.12 : 0.14,
+    nodeFill: cs.getPropertyValue("--bg").trim() || "#0C1219",
+    label: cs.getPropertyValue("--text-2").trim() || "#B9C2D0",
+    text: cs.getPropertyValue("--text").trim() || "#EEF1F6",
+    chip: cs.getPropertyValue("--bg-2").trim() || "#121A25",
   };
 }
 
@@ -186,12 +187,25 @@ export const MODE_LABELS = {
   modules: "rhel-ubuntu-fleet",
 };
 
-export function createTopology(canvas, { reducedMotion = false, onStats } = {}) {
+/* Engineers on the Islamabad NOC rota (display names for the showcase) */
+const AGENTS = [
+  "Ali Raza", "Sana Khan", "Hamza Sheikh", "Fatima Malik", "Imran Akhtar", "Noor Ahmed",
+  "Zeeshan Haider", "Ayesha Butt", "Usman Javed", "Mariam Siddiqui",
+  "Daniel Brooks", "Emma Clarke", "Lucas Meyer", "Sophie Laurent", "James Walker", "Olivia Bennett",
+];
+const ISSUES = ["disk pressure", "pod crash-loop", "cert expiring", "high latency", "failed patch", "memory leak", "SSH brute-force", "node not ready", "backup missed", "port flapping"];
+
+/* Target share of nodes by state: ~70% healthy, ~10% warning, ~20% incident being fixed */
+const SHARE_WARN = 0.1;
+const SHARE_BAD = 0.2;
+
+export function createTopology(canvas, { reducedMotion = false, onStats, onIncident } = {}) {
   const ctx = canvas.getContext("2d", { alpha: true });
   const r = rng(42);
-  const nodes = Array.from({ length: N }, () => ({
-    x: r(), y: r(), tx: 0.5, ty: 0.5, ox: 0, oy: 0, mx: 0, my: 0, hub: false, delay: 0, label: null,
-    g: -1, dir: 1, m: 0, act: 0, alertAt: -1e9, patchedAt: -1e9,
+  const nodes = Array.from({ length: N }, (_, i) => ({
+    i, x: r(), y: r(), tx: 0.5, ty: 0.5, ox: 0, oy: 0, mx: 0, my: 0, hub: false, delay: 0, label: null,
+    g: -1, dir: 1, m: 0, act: 0, patchedAt: -1e9,
+    state: "ok", since: 0, dur: 0, agent: null, issue: null, healedAt: -1e9,
   }));
   let C = readColors();
   let edges = [];
@@ -200,14 +214,52 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
   let mode = "cloud";
   let switchedAt = 0;
   let pointer = { x: -9999, y: -9999, active: false };
-  let raf = 0;
-  let running = false;
-  let lastSpawn = 0;
-  let delivered = 0;
-  let statsAt = 0;
-  let lastAlert = 0;
-  let scanX = -1;
-  let clock = 0;
+  let raf = 0, running = false, userPaused = false;
+  let lastSpawn = 0, delivered = 0, statsAt = 0, lastState = 0, scanX = -1;
+  let agentIx = Math.floor(r() * AGENTS.length);
+  let fixedCount = 0;
+
+  /* seed initial states so the first frame already shows the mix */
+  function seedStates(now) {
+    nodes.forEach((n) => { n.state = "ok"; n.agent = null; });
+    const pool = nodes.filter((n) => !n.hub).sort(() => r() - 0.5);
+    const nBad = Math.round(N * SHARE_BAD * 0.8), nWarn = Math.round(N * SHARE_WARN);
+    pool.slice(0, nBad).forEach((n, k) => startIncident(n, now - k * 400, true));
+    pool.slice(nBad, nBad + nWarn).forEach((n) => { n.state = "warn"; n.since = now; n.dur = 2500 + r() * 4000; });
+  }
+
+  function startIncident(n, now, quiet) {
+    n.state = "bad";
+    n.since = now;
+    n.dur = 2600 + r() * 2600;              // time to fix
+    n.agent = AGENTS[agentIx++ % AGENTS.length];
+    n.issue = ISSUES[Math.floor(r() * ISSUES.length)];
+    if (!quiet && onIncident) onIncident({ type: "open", agent: n.agent, issue: n.issue });
+  }
+
+  function updateStates(now) {
+    let bad = 0, warn = 0;
+    for (const n of nodes) {
+      if (n.state === "bad") {
+        if (now - n.since > n.dur) {
+          n.state = "ok"; n.healedAt = now; fixedCount++;
+          if (onIncident) onIncident({ type: "fixed", agent: n.agent, issue: n.issue, total: fixedCount });
+        } else bad++;
+      } else if (n.state === "warn") {
+        if (now - n.since > n.dur) {
+          // most warnings clear on their own; a few escalate into an incident
+          if (r() < 0.3) startIncident(n, now); else n.state = "ok";
+        } else warn++;
+      }
+    }
+    if (now - lastState < 350) return;
+    lastState = now;
+    const candidates = nodes.filter((n) => !n.hub && n.state === "ok" && now - n.healedAt > 2500);
+    if (!candidates.length) return;
+    const pickOne = () => candidates.splice(Math.floor(r() * candidates.length), 1)[0];
+    if (bad < N * SHARE_BAD && candidates.length) startIncident(pickOne(), now);
+    if (warn < N * SHARE_WARN && candidates.length) { const n = pickOne(); n.state = "warn"; n.since = now; n.dur = 2500 + r() * 4000; }
+  }
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -219,21 +271,21 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     applyLayout(mode, true);
-    if (!running) draw(performance.now());
+    if (!running) draw();
   }
 
   function applyLayout(name, instant = false) {
     const layout = LAYOUTS[name](aspect);
     edges = layout.edges;
     packets = [];
-    const now = performance.now();
-    switchedAt = now;
+    switchedAt = performance.now();
     layout.pts.forEach((p, i) => {
       const n = nodes[i];
       n.tx = p.x; n.ty = p.y; n.hub = p.hub; n.label = p.label || null;
-      n.g = p.g ?? -1; n.dir = p.dir ?? 1; n.m = p.m ?? 0; n.act = 0; n.mx = 0; n.my = 0; n.alertAt = -1e9; n.patchedAt = -1e9;
+      n.g = p.g ?? -1; n.dir = p.dir ?? 1; n.m = p.m ?? 0; n.act = 0; n.mx = 0; n.my = 0;
       n.delay = instant ? 0 : (i / N) * 380 + r() * 120;
       if (instant) { n.x = p.x; n.y = p.y; }
+      if (n.hub) n.state = "ok";
     });
   }
 
@@ -241,58 +293,12 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
     if (!LAYOUTS[name] || name === mode) return;
     mode = name;
     applyLayout(name, reducedMotion);
-    if (reducedMotion) draw(performance.now());
+    if (reducedMotion) draw();
   }
 
-  const px = (x) => 24 + x * (w - 48);
-  const py = (y) => 20 + y * (h - 40);
+  const px = (x) => 28 + x * (w - 56);
+  const py = (y) => 24 + y * (h - 48);
 
-  function step(now) {
-    const since = now - switchedAt;
-    for (const n of nodes) {
-      if (since > n.delay) {
-        n.x += (n.tx - n.x) * 0.075;
-        n.y += (n.ty - n.y) * 0.075;
-      }
-      // pointer repulsion as a decaying offset
-      let fx = 0, fy = 0;
-      if (pointer.active) {
-        const dx = px(n.x) - pointer.x;
-        const dy = py(n.y) - pointer.y;
-        const d2 = dx * dx + dy * dy;
-        const R = 90;
-        if (d2 < R * R && d2 > 0.01) {
-          const d = Math.sqrt(d2);
-          const f = (1 - d / R) * 22;
-          fx = (dx / d) * f; fy = (dy / d) * f;
-        }
-      }
-      n.ox += (fx - n.ox) * 0.15;
-      n.oy += (fy - n.oy) * 0.15;
-    }
-
-    animate(now, since);
-
-    if (now - lastSpawn > 90 && edges.length && packets.length < 60) {
-      lastSpawn = now;
-      const e = edges[Math.floor(Math.random() * edges.length)];
-      const flip = mode === "ai" || mode === "pipeline" ? false : Math.random() < 0.5;
-      packets.push({ a: flip ? e[1] : e[0], b: flip ? e[0] : e[1], t: 0, v: 0.012 + Math.random() * 0.014 });
-    }
-    for (const p of packets) p.t += p.v;
-    const before = packets.length;
-    packets = packets.filter((p) => p.t < 1);
-    delivered += before - packets.length;
-
-    if (onStats && now - statsAt > 1000) {
-      onStats({ nodes: N, links: edges.length, msgs: delivered });
-      delivered = 0;
-      statsAt = now;
-    }
-  }
-
-
-  /* ---- Per-mode living motion: orbits, inference waves, patch waves, self-healing ---- */
   function rotateAbout(n, cxp, cyp, theta) {
     const nx = px(n.tx), ny = py(n.ty);
     const dx = nx - cxp, dy = ny - cyp;
@@ -300,185 +306,194 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
     return [cxp + dx * c - dy * s - nx, cyp + dx * s + dy * c - ny];
   }
 
+  /* Calm, slow motion per mode (a full turn takes minutes, not seconds) */
   function animate(now, since) {
     const t = now / 1000;
-    clock = t;
-    const k = Math.min(1, Math.max(0, (since - 900) / 1400)); // ease motion in after the morph
+    const k = Math.min(1, Math.max(0, (since - 900) / 1800));
     const cxp = px(0.5), cyp = py(0.5);
-
     for (const n of nodes) { n.mx = 0; n.my = 0; n.act = 0; }
 
     if (mode === "cloud") {
-      // zones spin slowly round their hubs, control plane counter-rotates
       for (const n of nodes) {
-        if (n.g === -1) {
-          [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.22 * k);
-        } else if (n.g >= 0 && !n.hub) {
+        if (n.g === -1) [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.03 * k);
+        else if (n.g >= 0 && !n.hub) {
           const H = nodes[n.g];
-          [n.mx, n.my] = rotateAbout(n, px(H.tx), py(H.ty), t * 0.32 * n.dir * k);
+          [n.mx, n.my] = rotateAbout(n, px(H.tx), py(H.ty), Math.sin(t * 0.12 + n.g) * 0.18 * n.dir * k);
         }
       }
     } else if (mode === "hybrid") {
-      // the five clouds orbit the Islamabad NOC; each estate turns on itself too
-      const orbit = t * 0.07 * k;
+      const orbit = Math.sin(t * 0.05) * 0.12 * k; // gentle sway instead of spinning
       for (const n of nodes) {
-        if (n.g === -2) {
-          [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.45 * k);
-        } else if (n.g >= 0) {
+        if (n.g === -2) [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.04 * k);
+        else if (n.g >= 0) {
           const [ox, oy] = rotateAbout(n, cxp, cyp, orbit);
           let sx = 0, sy = 0;
-          if (!n.hub) {
-            const H = nodes[n.g];
-            [sx, sy] = rotateAbout(n, px(H.tx), py(H.ty), Math.sin(t * 0.6 + n.g) * 0.35 * k);
-          }
+          if (!n.hub) { const H = nodes[n.g]; [sx, sy] = rotateAbout(n, px(H.tx), py(H.ty), Math.sin(t * 0.15 + n.g) * 0.15 * k); }
           n.mx = ox + sx; n.my = oy + sy;
         }
       }
     } else if (mode === "ai") {
-      // an activation wave sweeps through the layers, left to right
-      const wave = ((t * 0.32) % 1.35) - 0.18;
+      const wave = ((t * 0.18) % 1.35) - 0.18;
       for (const n of nodes) {
         const d = n.tx - wave;
-        n.act = Math.exp(-(d * d) / 0.0035) * k;
-        n.my = Math.sin(t * 1.4 + n.ty * 9) * 2.2 * k;
+        n.act = Math.exp(-(d * d) / 0.004) * k;
+        n.my = Math.sin(t * 0.6 + n.ty * 9) * 1.6 * k;
       }
     } else if (mode === "modules") {
-      // Linux fleet: modules breathe, a rolling patch wave marks hosts as patched
-      scanX = ((t * 0.16) % 1.3) - 0.12;
+      scanX = ((t * 0.09) % 1.3) - 0.12;
       for (const n of nodes) {
-        n.my = Math.sin(t * 1.1 + n.m * 0.9) * 2.5 * k;
-        if (Math.abs(n.tx - scanX) < 0.02 && now - n.patchedAt > 3000) n.patchedAt = now;
+        n.my = Math.sin(t * 0.5 + n.m * 0.9) * 2 * k;
+        if (Math.abs(n.tx - scanX) < 0.02 && now - n.patchedAt > 4000) n.patchedAt = now;
       }
-    } else if (mode === "pipeline") {
-      const wave = ((t * 0.25) % 1.2) - 0.1;
-      for (const n of nodes) { const d = n.tx - wave; n.act = Math.exp(-(d * d) / 0.006) * k; }
-    }
-
-    // self-healing incidents: a host flags amber, then recovers green
-    if ((mode === "cloud" || mode === "hybrid" || mode === "modules") && now - lastAlert > 2600 && k > 0.5) {
-      lastAlert = now;
-      const pool = nodes.filter((n) => !n.hub && now - n.alertAt > 6000);
-      if (pool.length) pool[Math.floor(Math.random() * pool.length)].alertAt = now;
     }
   }
 
-  function pos(n) {
-    return [px(n.x) + n.ox + n.mx, py(n.y) + n.oy + n.my];
+  function step(now) {
+    const since = now - switchedAt;
+    for (const n of nodes) {
+      if (since > n.delay) {
+        n.x += (n.tx - n.x) * 0.06;
+        n.y += (n.ty - n.y) * 0.06;
+      }
+      let fx = 0, fy = 0;
+      if (pointer.active) {
+        const dx = px(n.x) - pointer.x, dy = py(n.y) - pointer.y;
+        const d2 = dx * dx + dy * dy, R = 90;
+        if (d2 < R * R && d2 > 0.01) { const d = Math.sqrt(d2), f = (1 - d / R) * 20; fx = (dx / d) * f; fy = (dy / d) * f; }
+      }
+      n.ox += (fx - n.ox) * 0.12;
+      n.oy += (fy - n.oy) * 0.12;
+    }
+    animate(now, since);
+    updateStates(now);
+
+    if (now - lastSpawn > 110 && edges.length && packets.length < 50) {
+      lastSpawn = now;
+      const e = edges[Math.floor(Math.random() * edges.length)];
+      const flip = mode === "ai" || mode === "pipeline" ? false : Math.random() < 0.5;
+      packets.push({ a: flip ? e[1] : e[0], b: flip ? e[0] : e[1], t: 0, v: 0.008 + Math.random() * 0.009 });
+    }
+    for (const p of packets) p.t += p.v;
+    const before = packets.length;
+    packets = packets.filter((p) => p.t < 1);
+    delivered += before - packets.length;
+
+    if (onStats && now - statsAt > 1000) {
+      onStats({ nodes: N, links: edges.length, msgs: delivered, fixed: fixedCount });
+      delivered = 0; statsAt = now;
+    }
+  }
+
+  const pos = (n) => [px(n.x) + n.ox + n.mx, py(n.y) + n.oy + n.my];
+  const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+  function roundRect(x, y, ww, hh, rr) {
+    ctx.beginPath();
+    ctx.moveTo(x + rr, y); ctx.arcTo(x + ww, y, x + ww, y + hh, rr); ctx.arcTo(x + ww, y + hh, x, y + hh, rr);
+    ctx.arcTo(x, y + hh, x, y, rr); ctx.arcTo(x, y, x + ww, y, rr); ctx.closePath();
   }
 
   function draw() {
+    const now = performance.now();
     ctx.clearRect(0, 0, w, h);
 
     // edges
     ctx.lineWidth = 1;
-    ctx.strokeStyle = `rgba(${C.edge.join(",")},${C.edgeAlpha})`;
+    ctx.strokeStyle = rgba(C.edge, C.edgeAlpha);
     ctx.beginPath();
     for (const [a, b] of edges) {
-      const [x1, y1] = pos(nodes[a]);
-      const [x2, y2] = pos(nodes[b]);
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
+      const [x1, y1] = pos(nodes[a]); const [x2, y2] = pos(nodes[b]);
+      ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
     }
     ctx.stroke();
 
-    // edges lit by an activation wave (AI, pipeline)
-    if (mode === "ai" || mode === "pipeline") {
+    // inference wave lights edges in green
+    if (mode === "ai") {
       for (const [a, b] of edges) {
         const act = Math.min(nodes[a].act, nodes[b].act) * 0.7 + Math.max(nodes[a].act, nodes[b].act) * 0.3;
         if (act < 0.08) continue;
-        const [x1, y1] = pos(nodes[a]);
-        const [x2, y2] = pos(nodes[b]);
-        ctx.strokeStyle = `rgba(${C.cyan.join(",")},${0.65 * act})`;
-        ctx.lineWidth = 1 + act * 1.2;
+        const [x1, y1] = pos(nodes[a]); const [x2, y2] = pos(nodes[b]);
+        ctx.strokeStyle = rgba(C.ok, 0.55 * act);
+        ctx.lineWidth = 1 + act;
         ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
       }
       ctx.lineWidth = 1;
     }
 
-    // rolling patch wave (Linux fleet)
+    // rolling patch wave
     if (mode === "modules" && scanX > -0.1 && scanX < 1.1) {
       const sx = px(scanX);
-      const g = ctx.createLinearGradient(sx - 40, 0, sx, 0);
-      g.addColorStop(0, `rgba(${C.cyan.join(",")},0)`);
-      g.addColorStop(1, `rgba(${C.cyan.join(",")},0.14)`);
-      ctx.fillStyle = g;
-      ctx.fillRect(sx - 40, 14, 40, h - 28);
-      ctx.strokeStyle = `rgba(${C.cyan.join(",")},0.7)`;
-      ctx.beginPath(); ctx.moveTo(sx, 14); ctx.lineTo(sx, h - 14); ctx.stroke();
+      const g = ctx.createLinearGradient(sx - 50, 0, sx, 0);
+      g.addColorStop(0, rgba(C.ok, 0)); g.addColorStop(1, rgba(C.ok, 0.12));
+      ctx.fillStyle = g; ctx.fillRect(sx - 50, 18, 50, h - 36);
+      ctx.strokeStyle = rgba(C.ok, 0.6);
+      ctx.beginPath(); ctx.moveTo(sx, 18); ctx.lineTo(sx, h - 18); ctx.stroke();
       ctx.font = '500 10px "Red Hat Mono", ui-monospace, monospace';
-      ctx.fillStyle = C.label;
-      ctx.textAlign = sx > w - 140 ? "right" : "left";
-      ctx.textBaseline = "top";
-      ctx.fillText("rolling patch · rhel / ubuntu", sx + (sx > w - 140 ? -8 : 8), 18);
+      ctx.fillStyle = C.label; ctx.textBaseline = "top";
+      const right = sx > w - 170;
+      ctx.textAlign = right ? "right" : "left";
+      ctx.fillText("rolling patch · rhel / ubuntu", sx + (right ? -8 : 8), 22);
     }
 
-    // packets
+    // packets (healthy traffic is green)
     for (const p of packets) {
-      const [x1, y1] = pos(nodes[p.a]);
-      const [x2, y2] = pos(nodes[p.b]);
-      const x = x1 + (x2 - x1) * p.t;
-      const y = y1 + (y2 - y1) * p.t;
-      const alpha = Math.sin(p.t * Math.PI);
-      ctx.fillStyle = `rgba(${C.cyan.join(",")},${0.25 * alpha})`;
-      ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = `rgba(${C.cyan.join(",")},${0.95 * alpha})`;
-      ctx.beginPath(); ctx.arc(x, y, 1.7, 0, Math.PI * 2); ctx.fill();
+      const [x1, y1] = pos(nodes[p.a]); const [x2, y2] = pos(nodes[p.b]);
+      const x = x1 + (x2 - x1) * p.t, y = y1 + (y2 - y1) * p.t;
+      const al = Math.sin(p.t * Math.PI);
+      ctx.fillStyle = rgba(C.ok, 0.22 * al);
+      ctx.beginPath(); ctx.arc(x, y, 4.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = rgba(C.ok, 0.9 * al);
+      ctx.beginPath(); ctx.arc(x, y, 1.6, 0, Math.PI * 2); ctx.fill();
     }
 
     // nodes
-    const tnow = performance.now();
-    nodes.forEach((n, i) => {
+    for (const n of nodes) {
       const [x, y] = pos(n);
-      // alert → healed ring
-      const since = tnow - n.alertAt;
-      if (since < 1500) {
-        const pulse = 0.5 + 0.5 * Math.sin(since / 90);
-        ctx.strokeStyle = `rgba(${C.amber.join(",")},${0.4 + 0.5 * pulse})`;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.arc(x, y, 7 + pulse * 3, 0, Math.PI * 2); ctx.stroke();
+      const col = n.state === "bad" ? C.bad : n.state === "warn" ? C.warn : C.ok;
+      const rad = (n.hub ? 4.2 : 3.4) + n.act * 2;
+
+      if (n.state === "bad") {
+        // fixing: red node with a progress ring that fills as the engineer works
+        const p = Math.min(1, (now - n.since) / n.dur);
+        const pulse = 0.5 + 0.5 * Math.sin((now - n.since) / 160);
+        ctx.fillStyle = rgba(C.bad, 0.14 + 0.1 * pulse);
+        ctx.beginPath(); ctx.arc(x, y, 10 + pulse * 2, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = rgba(C.edge, 0.25); ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.stroke();
+        ctx.strokeStyle = rgba(C.ok, 0.95);
+        ctx.beginPath(); ctx.arc(x, y, 8, -Math.PI / 2, -Math.PI / 2 + p * Math.PI * 2); ctx.stroke();
         ctx.lineWidth = 1;
-      } else if (since < 2800) {
-        const p = (since - 1500) / 1300;
-        ctx.strokeStyle = `rgba(${C.ok.join(",")},${0.8 * (1 - p)})`;
-        ctx.beginPath(); ctx.arc(x, y, 6 + p * 16, 0, Math.PI * 2); ctx.stroke();
       }
-      // patched glow
-      const pAge = tnow - n.patchedAt;
+      const healed = now - n.healedAt;
+      if (healed < 1300) {
+        const p = healed / 1300;
+        ctx.strokeStyle = rgba(C.ok, 0.8 * (1 - p));
+        ctx.beginPath(); ctx.arc(x, y, 6 + p * 18, 0, Math.PI * 2); ctx.stroke();
+      }
+      const pAge = now - n.patchedAt;
       if (pAge < 2400) {
-        const p = 1 - pAge / 2400;
-        ctx.fillStyle = `rgba(${C.ok.join(",")},${0.28 * p})`;
+        ctx.fillStyle = rgba(C.ok, 0.25 * (1 - pAge / 2400));
         ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill();
       }
-      // radar ping on hubs
-      if (n.hub && running) {
-        const ph = ((clock * 0.55) + i * 0.37) % 1;
-        ctx.strokeStyle = `rgba(${C.emerald.join(",")},${0.35 * (1 - ph)})`;
-        ctx.beginPath(); ctx.arc(x, y, 7 + ph * 18, 0, Math.PI * 2); ctx.stroke();
-      }
       if (n.act > 0.05) {
-        ctx.fillStyle = `rgba(${C.cyan.join(",")},${0.22 * n.act})`;
+        ctx.fillStyle = rgba(C.ok, 0.18 * n.act);
         ctx.beginPath(); ctx.arc(x, y, 6 + n.act * 8, 0, Math.PI * 2); ctx.fill();
       }
-      const grow = n.act * 2.2;
       if (n.hub) {
-        ctx.strokeStyle = `rgba(${C.emerald.join(",")},0.5)`;
-        ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.stroke();
-        ctx.fillStyle = `rgb(${C.emerald.join(",")})`;
-        ctx.beginPath(); ctx.arc(x, y, 3.2, 0, Math.PI * 2); ctx.fill();
-      } else {
-        ctx.fillStyle = C.nodeFill;
-        ctx.beginPath(); ctx.arc(x, y, 3.4 + grow, 0, Math.PI * 2); ctx.fill();
-        ctx.strokeStyle = pAge < 2400 ? `rgba(${C.ok.join(",")},0.95)` : `rgba(${C.cyan.join(",")},0.85)`;
-        ctx.lineWidth = 1.2;
-        ctx.beginPath(); ctx.arc(x, y, 3.4 + grow, 0, Math.PI * 2); ctx.stroke();
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = rgba(C.ok, 0.45);
+        ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.stroke();
       }
-    });
+      ctx.fillStyle = n.state === "ok" && !n.hub ? C.nodeFill : rgba(col, 1);
+      ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = rgba(col, 0.95);
+      ctx.lineWidth = 1.3;
+      ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.stroke();
+      ctx.lineWidth = 1;
+    }
 
-    // labels for named hubs (cloud estates, NOC)
+    // hub labels
     ctx.font = '500 11px "Red Hat Mono", ui-monospace, monospace';
     ctx.textBaseline = "middle";
-    ctx.font = '500 11px "Red Hat Mono", ui-monospace, monospace';
     for (const n of nodes) {
       if (!n.label) continue;
       const [x, y] = pos(n);
@@ -486,13 +501,9 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
       if (settle <= 0.05) continue;
       ctx.globalAlpha = settle;
       ctx.fillStyle = C.label;
-      // place the label on the side facing the centre, away from the node fan
-      const vx = px(0.5) - x, vy = py(0.5) - y;
-      const d = Math.hypot(vx, vy);
-      if (d < 40) {
-        ctx.textAlign = "center";
-        ctx.fillText(n.label, px(0.5), py(0.5) + (h - 40) * 0.075 + 20);
-      } else {
+      const vx = px(0.5) - x, vy = py(0.5) - y, d = Math.hypot(vx, vy);
+      if (d < 40) { ctx.textAlign = "center"; ctx.fillText(n.label, px(0.5), py(0.5) + (h - 48) * 0.075 + 22); }
+      else {
         const ux = vx / d, uy = vy / d;
         ctx.textAlign = ux > 0.35 ? "left" : ux < -0.35 ? "right" : "center";
         ctx.fillText(n.label, x + ux * 16, y + uy * 16 + (Math.abs(ux) > 0.35 ? -8 : 0));
@@ -500,31 +511,41 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
       ctx.globalAlpha = 1;
     }
 
-    // pointer lens
+    // engineer callouts on the three most recent incidents
+    const open = nodes.filter((n) => n.state === "bad").sort((a, b) => b.since - a.since).slice(0, 3);
+    ctx.font = '500 10.5px "Red Hat Mono", ui-monospace, monospace';
+    for (const n of open) {
+      const [x, y] = pos(n);
+      const p = Math.min(1, (now - n.since) / n.dur);
+      const line1 = `${n.agent} fixing`;
+      const line2 = `${n.issue} · ${Math.round(p * 100)}%`;
+      const tw = Math.max(ctx.measureText(line1).width, ctx.measureText(line2).width) + 16;
+      let bx = x + 14, by = y - 34;
+      if (bx + tw > w - 6) bx = x - 14 - tw;
+      if (by < 6) by = y + 14;
+      ctx.globalAlpha = Math.min(1, (now - n.since) / 250);
+      ctx.fillStyle = C.chip;
+      roundRect(bx, by, tw, 32, 6); ctx.fill();
+      ctx.strokeStyle = rgba(C.bad, 0.55); ctx.stroke();
+      ctx.fillStyle = rgba(C.ok, 1);
+      ctx.fillRect(bx, by + 30, tw * p, 2);
+      ctx.textAlign = "left"; ctx.textBaseline = "top";
+      ctx.fillStyle = C.text; ctx.fillText(line1, bx + 8, by + 4);
+      ctx.fillStyle = C.label; ctx.fillText(line2, bx + 8, by + 17);
+      ctx.globalAlpha = 1;
+    }
+
     if (pointer.active) {
-      ctx.strokeStyle = `rgba(${C.cyan.join(",")},0.18)`;
+      ctx.strokeStyle = rgba(C.ok, 0.2);
       ctx.setLineDash([3, 5]);
       ctx.beginPath(); ctx.arc(pointer.x, pointer.y, 90, 0, Math.PI * 2); ctx.stroke();
       ctx.setLineDash([]);
     }
   }
 
-  function loop(now) {
-    step(now);
-    draw();
-    raf = requestAnimationFrame(loop);
-  }
-
-  let userPaused = false;
-  function start() {
-    if (running || reducedMotion || userPaused) return;
-    running = true;
-    raf = requestAnimationFrame(loop);
-  }
-  function stop() {
-    running = false;
-    cancelAnimationFrame(raf);
-  }
+  function loop(now) { step(now); draw(); raf = requestAnimationFrame(loop); }
+  function start() { if (running || reducedMotion || userPaused) return; running = true; raf = requestAnimationFrame(loop); }
+  function stop() { running = false; cancelAnimationFrame(raf); }
 
   canvas.addEventListener("pointermove", (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -532,29 +553,22 @@ export function createTopology(canvas, { reducedMotion = false, onStats } = {}) 
   });
   canvas.addEventListener("pointerleave", () => { pointer.active = false; });
 
-  // Only animate while visible on screen and while the tab is visible
-  const io = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting && !document.hidden) start(); else stop();
-  });
-  io.observe(canvas);
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) stop();
-    else if (canvas.getBoundingClientRect().bottom > 0) start();
-  });
-
-  document.addEventListener("themechange", () => {
-    C = readColors();
-    if (!running) draw(performance.now());
-  });
+  new IntersectionObserver(([entry]) => { entry.isIntersecting && !document.hidden ? start() : stop(); }).observe(canvas);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) stop(); else if (canvas.getBoundingClientRect().bottom > 0) start(); });
+  document.addEventListener("themechange", () => { C = readColors(); if (!running) draw(); });
 
   new ResizeObserver(() => resize()).observe(canvas);
   resize();
-  if (onStats) onStats({ nodes: N, links: edges.length, msgs: 0 });
-
-  function setPaused(v) {
-    userPaused = v;
-    if (v) stop(); else if (canvas.getBoundingClientRect().bottom > 0) start();
+  seedStates(performance.now());
+  if (reducedMotion) {
+    // static frame: freeze incidents half-way so the mix is visible
+    nodes.forEach((n) => { if (n.state === "bad") n.since = performance.now() - n.dur / 2; });
+    draw();
   }
+  if (onStats) onStats({ nodes: N, links: edges.length, msgs: 0, fixed: 0 });
 
-  return { setMode, setPaused };
+  return {
+    setMode,
+    setPaused(v) { userPaused = v; if (v) stop(); else if (canvas.getBoundingClientRect().bottom > 0) start(); },
+  };
 }

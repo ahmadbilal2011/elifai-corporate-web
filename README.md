@@ -52,11 +52,11 @@ elifai-corporate-web/
 3. NOC console — live-HTML operations console (demo tenant) showing estates across AWS, Google Cloud, OCI, OpenShift, Alibaba Cloud and VMware, Linux fleet patch status, latency SLO and incidents
 4. Technology ticker — infinite, GPU-accelerated, pauses on hover
 4. Services — Managed services & remote operations, AI consultancy for operations, Cloud/Linux/Kubernetes engineering, Custom software
-5. Vendor ecosystem — 38 on-premise, network, security, platform and video vendors grouped by category, with search, product-family summaries, per-vendor live headlines and a scrolling vendor wire
+5. Vendor ecosystem — 38 vendor names grouped by category; selecting a name shows its latest model (and a live headline when the PHP proxy is running); a running latest-products bar
 5b. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
 6. AI operations — Assess → Pilot → Operate method and an illustrative incident replay
 7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
-8. Footprint — Islamabad HQ with remote links to all six GCC states, Europe and Asia-Pacific; live PKT / AST / UTC clocks
+8. Footprint — dot-matrix world map (Natural Earth, public domain) with Islamabad HQ and remote delivery to 8 Gulf cities, 5 European cities and London, Toronto, Singapore, Nairobi and Sydney; live PKT / AST / CET / UTC clocks
 9. Engagements — market-by-market blueprint slider
 10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
 11. Team — six engineer cards with roles and skills (Atif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
@@ -181,6 +181,8 @@ Requirements: PHP with cURL (standard on cPanel) or `allow_url_fopen` on, and a 
 - **SLA targets** in the Managed services section are standard targets; adjust them to match your contracts.
 - **Colours, type and spacing** are tokens at the top of `assets/css/main.css`.
 - **Vendors:** product families are in `index.html` (Vendor ecosystem section) and `assets/data/vendors.json`; keep the two in step when you add or remove a vendor.
+- **Latest models:** curated in `assets/data/vendors.json` (`latest`) and mirrored in `index.html` (`data-latest` on each vendor button) as of November 2026; update both when a vendor launches a new flagship.
+- **Hero health mix:** the topology keeps roughly 70% of nodes healthy (green), 10% warning (orange) and 20% incidents (red); every incident shows an engineer's progress ring and is fixed within a few seconds. Shares are `SHARE_WARN` / `SHARE_BAD` in `topology.js`; engineer display names are in `AGENTS`.
 - **Hero ops wall:** all HUD figures (req/s, security events, cluster load) are simulated for the showcase; event IPs use the RFC 5737 documentation ranges.
 - **Canvas animation:** each hero slide has its own motion in `topology.js` (`animate()`): zones orbiting with self-healing alerts (Managed), an activation wave through the layers (AIOps), five clouds orbiting the Islamabad NOC (Multi-cloud), and a rolling patch wave across the Linux fleet. All of it stops under reduced motion and with the pause button.
 - **Team:** cards are in the `TEAM` section of `index.html`; initials avatars can be swapped for photos.

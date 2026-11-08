@@ -1,8 +1,7 @@
 /**
- * Vendor ecosystem: category filter, search, per-vendor live headlines and a
- * scrolling "vendor wire" across all vendors. Headlines come from
- * /vendor-news.php (server-side, cached). If PHP is not available, the
- * section still works as a static directory with links to each vendor.
+ * Vendor ecosystem: names only, latest model on click, and a running
+ * "latest products" bar. The bar starts with the curated latest models and,
+ * when /vendor-news.php is available, mixes in live headlines from vendor feeds.
  */
 const ENDPOINT = "/vendor-news.php";
 
@@ -26,7 +25,7 @@ function el(tag, cls, text) {
 
 async function getJSON(url) {
   const res = await fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" });
-  const data = await res.json(); // throws on HTML / PHP missing
+  const data = await res.json();
   if (!res.ok || !data.ok) throw new Error(data.message || "unavailable");
   return data;
 }
@@ -36,9 +35,8 @@ export function initEcosystem({ reducedMotion }) {
   if (!root) return;
 
   /* ---------- filter + search ---------- */
-  const chips = [...root.querySelectorAll("[data-vfilters] [data-vcat]")];
+  const filters = [...root.querySelectorAll("[data-vfilters] [data-vcat]")];
   const groups = [...root.querySelectorAll(".vgroup")];
-  const rows = [...root.querySelectorAll(".vendor")];
   const search = root.querySelector("[data-vsearch]");
   const empty = root.querySelector("[data-vempty]");
   let cat = "all";
@@ -48,107 +46,116 @@ export function initEcosystem({ reducedMotion }) {
     let shown = 0;
     groups.forEach((g) => {
       const catOk = cat === "all" || g.dataset.cat === cat;
-      let inGroup = 0;
-      g.querySelectorAll(".vendor").forEach((r) => {
-        const ok = catOk && (!q || r.dataset.name.includes(q));
-        r.hidden = !ok;
-        if (ok) inGroup++;
+      let n = 0;
+      g.querySelectorAll(".vchip").forEach((c) => {
+        const ok = catOk && (!q || c.dataset.name.includes(q));
+        c.parentElement.hidden = !ok;
+        if (ok) n++;
       });
-      g.hidden = inGroup === 0;
-      shown += inGroup;
+      g.hidden = n === 0;
+      shown += n;
     });
     empty.hidden = shown !== 0;
   }
-  chips.forEach((c) => c.addEventListener("click", () => {
-    cat = c.dataset.vcat;
-    chips.forEach((x) => x.setAttribute("aria-pressed", String(x === c)));
+  filters.forEach((f) => f.addEventListener("click", () => {
+    cat = f.dataset.vcat;
+    filters.forEach((x) => x.setAttribute("aria-pressed", String(x === f)));
     apply();
   }));
   search.addEventListener("input", apply);
 
-  /* ---------- per-vendor headlines ---------- */
-  const loaded = new Map();
-  function renderNews(box, vendorRow, data) {
-    box.replaceChildren();
-    const site = vendorRow.querySelector(".vendor-site");
-    if (!data || !data.items || !data.items.length) {
-      const p = el("p", "vnews-empty", "No recent headlines could be loaded. ");
-      const a = el("a", null, `Visit ${site.textContent}`);
-      a.href = site.href; a.target = "_blank"; a.rel = "noopener";
-      p.append(a);
-      box.append(p);
-      return;
+  /* ---------- latest model on click ---------- */
+  const news = new Map();
+  async function headline(slug) {
+    if (news.has(slug)) return news.get(slug);
+    try {
+      const data = await getJSON(`${ENDPOINT}?v=${encodeURIComponent(slug)}`);
+      const item = data.items && data.items[0] ? data.items[0] : null;
+      news.set(slug, item);
+      return item;
+    } catch {
+      news.set(slug, null);
+      return null;
     }
-    const ul = el("ul", "vnews-list");
-    data.items.forEach((i) => {
-      const li = el("li");
-      const a = el("a", null, i.title);
-      a.href = i.link; a.target = "_blank"; a.rel = "noopener nofollow";
-      const meta = el("span", "vnews-meta mono", [i.source, fmtDate(i.date)].filter(Boolean).join(" · "));
-      li.append(a, meta);
-      ul.append(li);
-    });
-    const foot = el("p", "vnews-foot mono", data.via === "official" ? `From ${site.textContent} · updated ${fmtDate(data.fetched)}` : `Via public news search · updated ${fmtDate(data.fetched)}`);
-    box.append(ul, foot);
   }
 
   root.addEventListener("click", async (e) => {
-    const btn = e.target.closest("[data-news-btn]");
-    if (!btn) return;
-    const row = btn.closest(".vendor");
-    const box = row.querySelector("[data-news]");
-    const open = btn.getAttribute("aria-expanded") === "true";
-    btn.setAttribute("aria-expanded", String(!open));
-    btn.textContent = open ? "Latest updates" : "Hide updates";
-    box.hidden = open;
-    row.classList.toggle("is-open", !open);
-    if (open || loaded.has(row.dataset.vendor)) return;
+    const chip = e.target.closest(".vchip");
+    if (!chip) return;
+    const group = chip.closest(".vgroup");
+    const box = group.querySelector("[data-vdetail]");
+    const wasOpen = chip.getAttribute("aria-expanded") === "true";
+    group.querySelectorAll(".vchip").forEach((c) => c.setAttribute("aria-expanded", "false"));
+    if (wasOpen) { box.hidden = true; return; }
+    chip.setAttribute("aria-expanded", "true");
 
-    box.replaceChildren(el("p", "vnews-loading mono", "Fetching latest headlines"));
-    try {
-      const data = await getJSON(`${ENDPOINT}?v=${encodeURIComponent(row.dataset.vendor)}`);
-      loaded.set(row.dataset.vendor, data);
-      renderNews(box, row, data);
-    } catch {
-      loaded.set(row.dataset.vendor, null);
-      renderNews(box, row, null);
+    const host = new URL(chip.dataset.site).hostname.replace(/^www\./, "");
+    box.replaceChildren();
+    const name = el("p", "vd-name", chip.textContent);
+    const model = el("p", "vd-model");
+    model.append(el("span", "vd-k mono", "Latest model"), el("b", null, chip.dataset.latest));
+    const link = el("a", "vd-site mono", host);
+    link.href = chip.dataset.site; link.target = "_blank"; link.rel = "noopener";
+    const live = el("p", "vd-live mono", "Checking latest news");
+    box.append(name, model, live, link);
+    box.hidden = false;
+
+    const item = await headline(chip.dataset.vendor);
+    if (chip.getAttribute("aria-expanded") !== "true") return;
+    if (item) {
+      live.replaceChildren(el("span", "vd-k", "In the news "));
+      const a = el("a", null, item.title);
+      a.href = item.link; a.target = "_blank"; a.rel = "noopener nofollow";
+      live.append(a, el("span", "vd-date", item.date ? ` · ${fmtDate(item.date)}` : ""));
+    } else {
+      live.remove();
     }
   });
 
-  /* ---------- vendor wire ---------- */
-  const wire = root.querySelector("[data-vwire]");
+  /* ---------- running latest-products bar ---------- */
   const list = root.querySelector("[data-vwire-list]");
-  async function loadWire() {
+  const startTicker = () => {
+    if (reducedMotion || list.classList.contains("is-running")) return;
+    [...list.children].forEach((li) => {
+      const c = li.cloneNode(true);
+      c.setAttribute("aria-hidden", "true");
+      c.querySelectorAll("a").forEach((a) => { a.tabIndex = -1; });
+      list.append(c);
+    });
+    list.style.setProperty("--dur", `${Math.max(60, list.children.length * 2.6)}s`);
+    list.classList.add("is-running");
+  };
+
+  async function mixLive() {
     try {
       const data = await getJSON(`${ENDPOINT}?wire=1`);
-      if (!data.items.length) return;
-      const frag = document.createDocumentFragment();
-      const build = () => data.items.forEach((i) => {
-        const li = el("li");
-        const v = el("b", null, i.vendor);
-        const a = el("a", null, i.title);
-        a.href = i.link; a.target = "_blank"; a.rel = "noopener nofollow";
-        li.append(v, a, el("span", "mono", fmtDate(i.date)));
-        frag.append(li);
+      if (!data.items || !data.items.length) return;
+      const originals = [...list.children].filter((li) => !li.hasAttribute("aria-hidden") && !li.classList.contains("is-live"));
+      list.classList.remove("is-running");
+      list.replaceChildren();
+      // alternate a live headline after every two curated models
+      let k = 0;
+      originals.forEach((li, i) => {
+        list.append(li);
+        if (i % 2 === 1 && k < data.items.length) {
+          const it = data.items[k++];
+          const n = el("li", "is-live");
+          const a = el("a", null, it.title);
+          a.href = it.link; a.target = "_blank"; a.rel = "noopener nofollow";
+          n.append(el("b", null, it.vendor), a, el("span", "mono", fmtDate(it.date)));
+          list.append(n);
+        }
       });
-      build();
-      list.replaceChildren(frag);
-      if (!reducedMotion) {
-        // duplicate for a seamless loop
-        [...list.children].forEach((li) => { const c = li.cloneNode(true); c.setAttribute("aria-hidden", "true"); c.querySelector("a").tabIndex = -1; list.append(c); });
-        list.style.setProperty("--dur", `${Math.max(40, data.items.length * 6)}s`);
-        list.classList.add("is-running");
-      }
-      wire.hidden = false;
-    } catch {
-      wire.hidden = true; // PHP not available (e.g. local static preview)
-    }
+      startTicker();
+    } catch { /* PHP not available: keep the curated bar */ }
   }
+
+  startTicker();
   const io = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting) return;
     io.disconnect();
-    loadWire();
-    setInterval(loadWire, 15 * 60 * 1000);
+    mixLive();
+    setInterval(mixLive, 20 * 60 * 1000);
   }, { rootMargin: "300px" });
   io.observe(root);
 }
