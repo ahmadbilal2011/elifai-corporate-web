@@ -35,8 +35,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700&amp;family=Red+Hat+Text:wght@400;500;600&amp;family=Red+Hat+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/assets/css/main.css?v=9">
-  <script type="module" src="/assets/js/main.js?v=9"></script>
+  <link rel="stylesheet" href="/assets/css/main.css?v=11">
+  <script type="module" src="/assets/js/main.js?v=11"></script>
 
   <script type="application/ld+json">
   {
@@ -286,77 +286,135 @@
       <div class="wrap">
         <header class="section-head">
           <h2 id="cap-heading" class="section-title">A technology consultancy that also runs what it builds</h2>
-          <p class="section-lede">Four practices under one standard: if we design it, we can tell you how it fails, how it recovers and what it costs to run every month, and we can stay on to run it for you.</p>
+          <p class="section-lede">Five practices, one standard: we tell you how it fails, how it recovers and what it costs each month, then stay on to run it.</p>
         </header>
 
-        <div class="cap-list">
-          <article class="cap" data-reveal>
-            <div class="cap-name">
-              <svg class="cap-icon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M20 9v11l7 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="20" cy="20" r="2.4" fill="currentColor"/></svg>
-              <h3>Managed services &amp; remote operations</h3>
-            </div>
-            <div class="cap-body">
-              <p>A remote operations team in Islamabad that monitors, patches, backs up and recovers your systems day and night. You get one accountable partner, named engineers and a monthly report you can show your board.</p>
-              <ul class="cap-points">
-                <li>24/7 monitoring and incident response with written service levels</li>
-                <li>Patch, backup and disaster-recovery management with tested restores</li>
-                <li>Co-managed models where your team keeps the keys and we carry the pager</li>
-                <li>Monthly service reviews covering uptime, changes, risk and cost</li>
-              </ul>
-            </div>
-            <p class="cap-stack mono">Prometheus · Grafana · PagerDuty · ServiceNow · Jira SM</p>
-          </article>
+        <div class="svc" data-svc>
+          <div class="svc-tabs" role="tablist" aria-label="Services" aria-orientation="vertical">
+            <button type="button" role="tab" id="svc-t1" aria-controls="svc-p1" aria-selected="true" data-svc-tab="0">
+              <span class="svc-tab-title">Managed services</span><span class="svc-tab-sub">24/7 remote operations</span><span class="svc-tab-bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button type="button" role="tab" id="svc-t2" aria-controls="svc-p2" aria-selected="false" tabindex="-1" data-svc-tab="1">
+              <span class="svc-tab-title">AI for operations</span><span class="svc-tab-sub">AIOps consultancy</span><span class="svc-tab-bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button type="button" role="tab" id="svc-t3" aria-controls="svc-p3" aria-selected="false" tabindex="-1" data-svc-tab="2">
+              <span class="svc-tab-title">Cloud, Linux and Kubernetes</span><span class="svc-tab-sub">Build and migrate</span><span class="svc-tab-bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button type="button" role="tab" id="svc-t4" aria-controls="svc-p4" aria-selected="false" tabindex="-1" data-svc-tab="3">
+              <span class="svc-tab-title">Enterprise software</span><span class="svc-tab-sub">Bilingual platforms</span><span class="svc-tab-bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button type="button" role="tab" id="svc-t5" aria-controls="svc-p5" aria-selected="false" tabindex="-1" data-svc-tab="4" class="svc-tab-smb">
+              <span class="svc-tab-title">Elifai Essentials <span class="svc-new mono">SMB</span></span><span class="svc-tab-sub">IT for small and medium businesses</span><span class="svc-tab-bar" aria-hidden="true"><i></i></span>
+            </button>
+          </div>
 
-          <article class="cap" data-reveal>
-            <div class="cap-name">
-              <svg class="cap-icon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="4" fill="currentColor"/><circle cx="8" cy="10" r="2.4"/><circle cx="32" cy="10" r="2.4"/><circle cx="8" cy="30" r="2.4"/><circle cx="32" cy="30" r="2.4"/><path d="M10 11.5 17 18M30 11.5 23 18M10 28.5 17 22M30 28.5 23 22" stroke="currentColor" stroke-width="1.2"/></svg>
-              <h3>AI consultancy for operations</h3>
-            </div>
-            <div class="cap-body">
-              <p>We help operations teams put AI to work where it pays back fastest: cutting alert noise, triaging tickets and writing the first draft of every incident review. Strategy, build and governance in one engagement.</p>
-              <ul class="cap-points">
-                <li>AIOps readiness assessment and a costed 90-day roadmap</li>
-                <li>Alert correlation and incident summaries over your existing telemetry</li>
-                <li>Ticket triage and knowledge-base assistants for service desks</li>
-                <li>Private model hosting and audit trails for regulated environments</li>
-              </ul>
-            </div>
-            <p class="cap-stack mono">Python · vLLM · LangGraph · pgvector · OpenTelemetry</p>
-          </article>
+          <div class="svc-panels">
+            <article class="svc-panel is-active" role="tabpanel" id="svc-p1" aria-labelledby="svc-t1" data-svc-panel>
+              <div class="svc-copy">
+                <h3>Managed services and remote operations</h3>
+                <p>We monitor, patch, back up and recover your systems day and night, with named engineers and a monthly report you can show your board.</p>
+                <ul class="cap-points">
+                  <li>24/7 monitoring and incident response with written service levels</li>
+                  <li>Patching, backup and disaster recovery with tested restores</li>
+                  <li>Co-managed or fully managed, you choose who holds the keys</li>
+                </ul>
+                <p class="cap-stack mono">Prometheus · Grafana · PagerDuty · ServiceNow</p>
+              </div>
+              <div class="svc-viz viz-uptime" aria-hidden="true">
+                <p class="viz-title mono">uptime, last 30 days <b>99.97%</b></p>
+                <div class="uptime-bars" data-uptime></div>
+                <p class="viz-foot mono"><span class="ok">incident on day 18</span> resolved in 11 min</p>
+              </div>
+            </article>
 
-          <article class="cap" data-reveal>
-            <div class="cap-name">
-              <svg class="cap-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 34 12v16L20 36 6 28V12Z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M20 12 27 16v8l-7 4-7-4v-8Z" fill="currentColor"/></svg>
-              <h3>Cloud, Linux &amp; Kubernetes engineering</h3>
-            </div>
-            <div class="cap-body">
-              <p>Landing zones, Kubernetes platforms and Linux estates across public, private and sovereign clouds, built as code and handed over with the runbooks, dashboards and alert rules your team needs at three in the morning.</p>
-              <ul class="cap-points">
-                <li>Landing zones and migrations on AWS, Google Cloud, Oracle and Alibaba Cloud</li>
-                <li>OpenShift, GKE, EKS and OKE builds, upgrades and zero-downtime cutovers</li>
-                <li>RHEL and Ubuntu standard builds, CIS hardening and Ansible automation</li>
-                <li>VMware estate assessments and exit paths to containers or public cloud</li>
-              </ul>
-            </div>
-            <p class="cap-stack mono">OpenShift · Terraform · Ansible · Argo CD · Vault</p>
-          </article>
+            <article class="svc-panel" role="tabpanel" id="svc-p2" aria-labelledby="svc-t2" data-svc-panel hidden>
+              <div class="svc-copy">
+                <h3>AI consultancy for operations</h3>
+                <p>We put AI to work where it pays back fastest: cutting alert noise, triaging tickets and drafting incident reviews, with an engineer approving every change.</p>
+                <ul class="cap-points">
+                  <li>AIOps readiness assessment and a costed 90-day roadmap</li>
+                  <li>Alert correlation and incident summaries on your telemetry</li>
+                  <li>Private models and audit trails for regulated data</li>
+                </ul>
+                <p class="cap-stack mono">Python · vLLM · LangGraph · OpenTelemetry</p>
+              </div>
+              <div class="svc-viz viz-funnel" aria-hidden="true">
+                <p class="viz-title mono">alerts in <b data-funnel-count>412</b></p>
+                <div class="funnel">
+                  <div class="funnel-rain" data-funnel-rain></div>
+                  <svg class="funnel-shape" viewBox="0 0 200 120" preserveAspectRatio="none"><path d="M0 0 H200 L120 92 V120 H80 V92 Z"/></svg>
+                </div>
+                <div class="funnel-out"><span class="sev sev-3">1</span>incident · likely cause: storage IOPS limit</div>
+              </div>
+            </article>
 
-          <article class="cap" data-reveal>
-            <div class="cap-name">
-              <svg class="cap-icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="7" width="30" height="26" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5 14h30" stroke="currentColor" stroke-width="1.3"/><path d="m14 20-4 4 4 4M26 20l4 4-4 4M22 19l-4 10" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
-              <h3>Custom enterprise software</h3>
-            </div>
-            <div class="cap-body">
-              <p>Web platforms, internal tools and integrations written to be maintained by someone other than us. Typed code, automated tests, documented APIs and source code that belongs to you from the first commit.</p>
-              <ul class="cap-points">
-                <li>Customer portals and back-office systems with role-based access</li>
-                <li>ERP, payment gateway and government-platform integrations</li>
-                <li>Bilingual Arabic, Urdu and English interfaces with right-to-left layouts</li>
-                <li>Legacy application modernisation into containers</li>
-              </ul>
-            </div>
-            <p class="cap-stack mono">TypeScript · Go · PostgreSQL · Kafka · REST &amp; GraphQL</p>
-          </article>
+            <article class="svc-panel" role="tabpanel" id="svc-p3" aria-labelledby="svc-t3" data-svc-panel hidden>
+              <div class="svc-copy">
+                <h3>Cloud, Linux and Kubernetes engineering</h3>
+                <p>Landing zones, Kubernetes platforms and Linux estates across public, private and sovereign clouds, built as code and handed over with runbooks.</p>
+                <ul class="cap-points">
+                  <li>Landing zones and migrations on AWS, Google Cloud, Oracle and Alibaba Cloud</li>
+                  <li>OpenShift, GKE, EKS and OKE builds and zero-downtime upgrades</li>
+                  <li>RHEL and Ubuntu hardening, Ansible automation, VMware exits</li>
+                </ul>
+                <p class="cap-stack mono">OpenShift · Terraform · Ansible · Argo CD</p>
+              </div>
+              <div class="svc-viz viz-stack" aria-hidden="true">
+                <p class="viz-title mono">platform build</p>
+                <ol class="stack">
+                  <li style="--i:4"><span>Your applications</span><i>deployed via GitOps</i></li>
+                  <li style="--i:3"><span>Kubernetes · OpenShift</span><i>multi-zone</i></li>
+                  <li style="--i:2"><span>RHEL · Ubuntu</span><i>CIS hardened</i></li>
+                  <li style="--i:1"><span>Saudi cloud region or your data centre</span><i>in-Kingdom</i></li>
+                </ol>
+              </div>
+            </article>
+
+            <article class="svc-panel" role="tabpanel" id="svc-p4" aria-labelledby="svc-t4" data-svc-panel hidden>
+              <div class="svc-copy">
+                <h3>Custom enterprise software</h3>
+                <p>Portals, internal tools and integrations written to be maintained by someone other than us, with source code that belongs to you from the first commit.</p>
+                <ul class="cap-points">
+                  <li>Customer portals and back-office systems with role-based access</li>
+                  <li>ERP, payment gateway and government-platform integrations</li>
+                  <li>Arabic and English interfaces with right-to-left layouts</li>
+                </ul>
+                <p class="cap-stack mono">TypeScript · Go · PostgreSQL · Kafka</p>
+              </div>
+              <div class="svc-viz viz-code" aria-hidden="true">
+                <p class="viz-title mono">portal.tsx</p>
+                <pre class="code mono"><span class="c1">const</span> greeting = locale === <span class="c2">"ar"</span>
+  ? <span class="c2">"مرحبًا بكم"</span>
+  : <span class="c2">"Welcome"</span>;
+<span class="c3">// tests: 214 passed</span></pre>
+                <div class="bi-demo"><span class="bi-en">Welcome</span><span class="bi-ar" lang="ar" dir="rtl">مرحبًا بكم</span></div>
+              </div>
+            </article>
+
+            <article class="svc-panel" role="tabpanel" id="svc-p5" aria-labelledby="svc-t5" data-svc-panel hidden>
+              <div class="svc-copy">
+                <h3>Elifai Essentials for small and medium businesses</h3>
+                <p>Everything a 10 to 250 person company needs from IT, for one monthly fee per user. No server room, no full-time IT hire, and a helpdesk that answers on WhatsApp.</p>
+                <ul class="cap-points">
+                  <li>Microsoft 365 or Google Workspace set up, secured and supported</li>
+                  <li>Laptop and phone management, antivirus and daily cloud backups</li>
+                  <li>Office Wi-Fi and firewall, website and email hosting</li>
+                </ul>
+                <a class="btn btn-primary svc-cta" href="#contact" data-topic="Elifai Essentials (SMB)">Get an Essentials quote</a>
+              </div>
+              <div class="svc-viz viz-check" aria-hidden="true">
+                <p class="viz-title mono">new office, ready in 5 days</p>
+                <ul class="checks">
+                  <li style="--i:0">Email and Microsoft 365</li>
+                  <li style="--i:1">Laptops enrolled and encrypted</li>
+                  <li style="--i:2">Endpoint protection on every device</li>
+                  <li style="--i:3">Daily backups, tested monthly</li>
+                  <li style="--i:4">Wi-Fi and firewall configured</li>
+                  <li style="--i:5">WhatsApp helpdesk live</li>
+                </ul>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -386,11 +444,17 @@
           </div>
 
           <div class="app-body">
-            <ul class="app-nav" aria-hidden="true">
-              <li class="is-on">Overview</li><li>Estates</li><li>Linux fleet</li><li>Incidents</li><li>Changes</li><li>Cost</li><li>Reports</li>
-            </ul>
+            <div class="app-nav" role="tablist" aria-label="Console views" data-noc-nav>
+              <button type="button" role="tab" aria-selected="true" aria-controls="nv-overview" data-view="overview">Overview</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="nv-estates" data-view="estates" tabindex="-1">Estates</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="nv-fleet" data-view="fleet" tabindex="-1">Linux fleet</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="nv-incidents" data-view="incidents" tabindex="-1">Incidents</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="nv-changes" data-view="changes" tabindex="-1">Changes</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="nv-cost" data-view="cost" tabindex="-1">Cost</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="nv-reports" data-view="reports" tabindex="-1">Reports</button>
+            </div>
 
-            <div class="app-main">
+            <div class="app-main app-view is-on" id="nv-overview" role="tabpanel" data-noc-view="overview">
               <dl class="kpis">
                 <div class="kpi"><dt>Availability, 30 days</dt><dd class="mono">99.97<small>%</small></dd><span class="kpi-sub ok">SLO 99.95%</span></div>
                 <div class="kpi"><dt>Open incidents</dt><dd class="mono">2</dd><span class="kpi-sub">P3 · no P1 / P2</span></div>
@@ -445,6 +509,148 @@
                     <li><span class="sev sev-4">CHG</span><div><b>OKE 1.30 upgrade, node pool 2 of 3</b><span class="mono">Oracle OCI · approved by client CAB</span></div></li>
                   </ul>
                 </div>
+              </div>
+            </div>
+
+            <div class="app-main app-view" id="nv-estates" role="tabpanel" data-noc-view="estates" hidden>
+              <dl class="kpis">
+                <div class="kpi"><dt>Platforms</dt><dd class="mono">6</dd><span class="kpi-sub">4 clouds · 2 data centres</span></div>
+                <div class="kpi"><dt>Kubernetes nodes</dt><dd class="mono">104</dd><span class="kpi-sub ok">all ready</span></div>
+                <div class="kpi"><dt>Virtual machines</dt><dd class="mono">96</dd><span class="kpi-sub">VMware, migrating</span></div>
+                <div class="kpi"><dt>In-Kingdom data</dt><dd class="mono">100<small>%</small></dd><span class="kpi-sub ok">residency check passed</span></div>
+              </dl>
+              <div class="panel">
+                <p class="panel-title">All estates <span class="mono">sorted by load</span></p>
+                <div class="table-scroll">
+                  <table class="estates mono">
+                    <thead><tr><th scope="col">Platform</th><th scope="col">Region</th><th scope="col">Version</th><th scope="col">CPU</th><th scope="col">Backups</th><th scope="col">State</th></tr></thead>
+                    <tbody>
+                      <tr><td><span class="pf" style="--pf:#EE0000">OpenShift</span></td><td>Riyadh DC</td><td>4.18</td><td><span class="mini" style="--v:.72"></span>72%</td><td>02:00 ok</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                      <tr><td><span class="pf" style="--pf:#FF9900">AWS EKS</span></td><td>UAE</td><td>1.33</td><td><span class="mini" style="--v:.64"></span>64%</td><td>01:30 ok</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                      <tr><td><span class="pf" style="--pf:#C74634">Oracle OKE</span></td><td>Jeddah</td><td>1.30 → 1.31</td><td><span class="mini" style="--v:.58"></span>58%</td><td>03:00 ok</td><td><i class="st st-warn"></i>Upgrading</td></tr>
+                      <tr><td><span class="pf" style="--pf:#4285F4">Google GKE</span></td><td>Dammam</td><td>1.33</td><td><span class="mini" style="--v:.51"></span>51%</td><td>02:30 ok</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                      <tr><td><span class="pf" style="--pf:#8A9BB0">VMware</span></td><td>Dubai DC</td><td>vSphere 8</td><td><span class="mini" style="--v:.44"></span>44%</td><td>00:30 ok</td><td><i class="st st-warn"></i>Migrating</td></tr>
+                      <tr><td><span class="pf" style="--pf:#FF6A00">Alibaba ACK</span></td><td>Riyadh</td><td>1.32</td><td><span class="mini" style="--v:.38"></span>38%</td><td>04:00 ok</td><td><i class="st st-ok"></i>Healthy</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-main app-view" id="nv-fleet" role="tabpanel" data-noc-view="fleet" hidden>
+              <dl class="kpis">
+                <div class="kpi"><dt>Linux hosts</dt><dd class="mono">756</dd><span class="kpi-sub">RHEL 452 · Ubuntu 304</span></div>
+                <div class="kpi"><dt>Patched this cycle</dt><dd class="mono">98.4<small>%</small></dd><span class="kpi-sub ok">wave 3 of 4</span></div>
+                <div class="kpi"><dt>Critical CVEs open</dt><dd class="mono">0</dd><span class="kpi-sub ok">target: 0 after 7 days</span></div>
+                <div class="kpi"><dt>CIS benchmark score</dt><dd class="mono">96<small>%</small></dd><span class="kpi-sub">up 3 points</span></div>
+              </dl>
+              <div class="app-grid">
+                <div class="panel">
+                  <p class="panel-title">Patch waves <span class="mono">this month</span></p>
+                  <ol class="waves mono">
+                    <li class="done"><b>Wave 1</b><span>Dev and test · 180 hosts</span><em>done</em></li>
+                    <li class="done"><b>Wave 2</b><span>Staging · 160 hosts</span><em>done</em></li>
+                    <li class="now"><b>Wave 3</b><span>Production A · 220 hosts</span><em>running</em></li>
+                    <li><b>Wave 4</b><span>Production B · 196 hosts</span><em>Thursday 01:00</em></li>
+                  </ol>
+                </div>
+                <div class="panel">
+                  <p class="panel-title">By distribution</p>
+                  <ul class="fleet mono">
+                    <li style="--v:.99"><span class="os os-rh">RHEL 10</span><span class="bar"><i></i></span><span>96 · 99%</span></li>
+                    <li style="--v:.99"><span class="os os-rh">RHEL 9</span><span class="bar"><i></i></span><span>216 · 99%</span></li>
+                    <li style="--v:.96"><span class="os os-rh">RHEL 8</span><span class="bar"><i></i></span><span>140 · 96%</span></li>
+                    <li style="--v:.99"><span class="os os-ub">Ubuntu 24.04</span><span class="bar"><i></i></span><span>208 · 99%</span></li>
+                    <li style="--v:.95"><span class="os os-ub">Ubuntu 22.04</span><span class="bar"><i></i></span><span>96 · 95%</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-main app-view" id="nv-incidents" role="tabpanel" data-noc-view="incidents" hidden>
+              <dl class="kpis">
+                <div class="kpi"><dt>Mean time to acknowledge</dt><dd class="mono">4<small>min</small></dd><span class="kpi-sub ok">P1 target 15 min</span></div>
+                <div class="kpi"><dt>Mean time to restore</dt><dd class="mono">38<small>min</small></dd><span class="kpi-sub ok">down 22% this quarter</span></div>
+                <div class="kpi"><dt>Alerts per incident</dt><dd class="mono">1.4</dd><span class="kpi-sub">was 31 before AIOps</span></div>
+                <div class="kpi"><dt>Incidents, 30 days</dt><dd class="mono">17</dd><span class="kpi-sub">0 P1 · 2 P2 · 15 P3</span></div>
+              </dl>
+              <div class="panel">
+                <p class="panel-title">Live queue <span class="mono">updates every few seconds</span></p>
+                <ul class="feed" data-noc-feed>
+                  <li><span class="sev sev-3">P3</span><div><b>Disk 81% on erp-db-02</b><span class="mono">VMware · Imran Akhtar extending volume</span></div></li>
+                  <li><span class="sev sev-3">P3</span><div><b>Certificate expires in 12 days</b><span class="mono">AWS · Sana Khan · renewal CHG-2291 scheduled</span></div></li>
+                  <li><span class="sev sev-2">P2</span><div><b>Login latency above 800 ms</b><span class="mono">Keycloak · resolved by Ali Raza in 26 min</span></div></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="app-main app-view" id="nv-changes" role="tabpanel" data-noc-view="changes" hidden>
+              <dl class="kpis">
+                <div class="kpi"><dt>Changes this month</dt><dd class="mono">64</dd><span class="kpi-sub">all via pull request</span></div>
+                <div class="kpi"><dt>Change success rate</dt><dd class="mono">98.4<small>%</small></dd><span class="kpi-sub ok">1 rolled back cleanly</span></div>
+                <div class="kpi"><dt>Awaiting client approval</dt><dd class="mono">3</dd><span class="kpi-sub">CAB on Sunday</span></div>
+                <div class="kpi"><dt>Emergency changes</dt><dd class="mono">0</dd><span class="kpi-sub ok">this quarter</span></div>
+              </dl>
+              <div class="panel">
+                <p class="panel-title">Upcoming change windows <span class="mono">Riyadh time</span></p>
+                <div class="table-scroll">
+                  <table class="estates mono">
+                    <thead><tr><th scope="col">Change</th><th scope="col">What</th><th scope="col">Window</th><th scope="col">Approver</th><th scope="col">Status</th></tr></thead>
+                    <tbody>
+                      <tr><td>CHG-2288</td><td>OKE node pool 3 upgrade</td><td>Tue 01:00–03:00</td><td>Client CAB</td><td><i class="st st-ok"></i>Approved</td></tr>
+                      <tr><td>CHG-2291</td><td>TLS renewal, api.demo</td><td>Wed 22:00</td><td>Auto, low risk</td><td><i class="st st-ok"></i>Approved</td></tr>
+                      <tr><td>CHG-2294</td><td>VMware wave 4 cutover</td><td>Fri 00:00–04:00</td><td>Client CAB</td><td><i class="st st-warn"></i>Pending</td></tr>
+                      <tr><td>CHG-2297</td><td>RHEL patch wave 4</td><td>Thu 01:00</td><td>Client CAB</td><td><i class="st st-warn"></i>Pending</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-main app-view" id="nv-cost" role="tabpanel" data-noc-view="cost" hidden>
+              <dl class="kpis">
+                <div class="kpi"><dt>Spend this month</dt><dd class="mono">87<small>% of budget</small></dd><span class="kpi-sub">day 24 of 30</span></div>
+                <div class="kpi"><dt>Forecast</dt><dd class="mono">98<small>%</small></dd><span class="kpi-sub ok">within budget</span></div>
+                <div class="kpi"><dt>Savings found</dt><dd class="mono">14<small>%</small></dd><span class="kpi-sub ok">rightsizing and reservations</span></div>
+                <div class="kpi"><dt>Untagged resources</dt><dd class="mono">0</dd><span class="kpi-sub ok">every cost has an owner</span></div>
+              </dl>
+              <div class="app-grid">
+                <div class="panel">
+                  <p class="panel-title">Share of spend by platform</p>
+                  <ul class="fleet costbars mono">
+                    <li style="--v:.38"><span class="os" style="--c:#FF9900">AWS</span><span class="bar"><i></i></span><span>38%</span></li>
+                    <li style="--v:.24"><span class="os" style="--c:#C74634">Oracle OCI</span><span class="bar"><i></i></span><span>24%</span></li>
+                    <li style="--v:.18"><span class="os" style="--c:#4285F4">Google Cloud</span><span class="bar"><i></i></span><span>18%</span></li>
+                    <li style="--v:.12"><span class="os" style="--c:#8A9BB0">VMware</span><span class="bar"><i></i></span><span>12%</span></li>
+                    <li style="--v:.08"><span class="os" style="--c:#FF6A00">Alibaba</span><span class="bar"><i></i></span><span>8%</span></li>
+                  </ul>
+                </div>
+                <div class="panel">
+                  <p class="panel-title">Recommendations</p>
+                  <ul class="feed">
+                    <li><span class="sev sev-3">−6%</span><div><b>Rightsize 14 idle EKS nodes</b><span class="mono">AWS UAE · average CPU 9%</span></div></li>
+                    <li><span class="sev sev-3">−5%</span><div><b>Reserve OKE base capacity</b><span class="mono">Oracle Jeddah · 1-year commitment</span></div></li>
+                    <li><span class="sev sev-3">−3%</span><div><b>Retire 22 VMs after wave 4</b><span class="mono">VMware Dubai · licence saving</span></div></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-main app-view" id="nv-reports" role="tabpanel" data-noc-view="reports" hidden>
+              <div class="panel report">
+                <p class="panel-title">October 2026 service review <span class="mono">sent 1 Nov</span></p>
+                <dl class="kpis">
+                  <div class="kpi"><dt>Availability</dt><dd class="mono">99.98<small>%</small></dd><span class="kpi-sub ok">SLO met</span></div>
+                  <div class="kpi"><dt>P1 incidents</dt><dd class="mono">0</dd><span class="kpi-sub ok">third month running</span></div>
+                  <div class="kpi"><dt>Changes delivered</dt><dd class="mono">71</dd><span class="kpi-sub">1 rollback</span></div>
+                  <div class="kpi"><dt>Restore test</dt><dd class="mono">Pass</dd><span class="kpi-sub ok">core-pg, 42 min</span></div>
+                </dl>
+                <ul class="report-list">
+                  <li><b>Risks</b><span>VMware licences renew in March; wave 4 must finish first.</span></li>
+                  <li><b>Next month</b><span>OKE 1.31 everywhere, RHEL 8 to RHEL 9 for 40 hosts, quarterly DR test.</span></li>
+                  <li><b>Asks of you</b><span>Approve CHG-2294 and nominate a second on-call contact.</span></li>
+                </ul>
+                <a class="btn btn-ghost" href="#contact" data-topic="Executive briefing">Request a sample report</a>
               </div>
             </div>
           </div>
@@ -753,7 +959,8 @@
         </header>
 
         <div class="fp-layout" data-footprint>
-          <div class="fp-map glass">
+          <div class="fp-map glass" data-fp-map>
+            <p class="fp-status mono" data-fp-status aria-live="polite"></p>
             <svg viewBox="0 0 1000 337" role="img" aria-labelledby="fp-map-title">
               <title id="fp-map-title">World map: Islamabad headquarters with remote delivery to the Gulf, Europe, North America, Africa, South-East Asia and Australia</title>
               <defs>
@@ -774,6 +981,8 @@
               <g class="fp-region" data-region="world"><g class="fp-node" data-tz="Europe/London" data-city="London" transform="translate(485.3 58.5)"><title>London</title><circle r="7" class="halo"/><circle r="2.8"/><text x="-10" y="16" text-anchor="end">London</text></g><g class="fp-node" data-tz="America/Toronto" data-city="Toronto" transform="translate(258.9 81.0)"><title>Toronto</title><circle r="7" class="halo"/><circle r="2.8"/><text x="8" y="-8">Toronto</text></g><g class="fp-node" data-tz="Asia/Singapore" data-city="Singapore" transform="translate(782.3 201.9)"><title>Singapore</title><circle r="7" class="halo"/><circle r="2.8"/><text x="8" y="-8">Singapore</text></g><g class="fp-node" data-tz="Africa/Nairobi" data-city="Nairobi" transform="translate(590.9 209.4)"><title>Nairobi</title><circle r="7" class="halo"/><circle r="2.8"/><text x="8" y="-8">Nairobi</text></g><g class="fp-node" data-tz="Australia/Sydney" data-city="Sydney" transform="translate(917.7 302.5)"><title>Sydney</title><circle r="7" class="halo"/><circle r="2.8"/><text x="8" y="-8">Sydney</text></g></g>
               <g class="fp-callout" data-region="gcc"><path d="M630.0 132.9 L570.0 178.9"/><text x="566.0" y="182.9" text-anchor="end">GCC · 8 cities</text></g>
               <g class="fp-callout" data-region="eu"><path d="M508.6 51.4 L474.6 15.4"/><text x="470.6" y="19.4" text-anchor="end">Europe · 5 cities</text></g>
+              <g class="fp-pulses" data-fp-pulses aria-hidden="true"></g>
+              <g class="fp-packets" data-fp-packets aria-hidden="true"></g>
               <g class="fp-region" data-region="pk">
                 <g class="fp-hq" transform="translate(694.4 109.5)">
                   <circle r="20" class="halo-outer"/><circle r="10" class="halo"/><circle r="4.5"/>
@@ -1148,6 +1357,7 @@
                 <option value="Executive briefing">Executive briefing</option>
                 <option value="Proposal request">Proposal request</option>
                 <option value="Managed services">Managed services</option>
+                <option value="Elifai Essentials (SMB)">Elifai Essentials (SMB)</option>
                 <option value="AI for operations">AI for operations</option>
                 <option value="Cloud and Kubernetes">Cloud and Kubernetes</option>
                 <option value="Red Hat / Ubuntu">Red Hat / Ubuntu</option>

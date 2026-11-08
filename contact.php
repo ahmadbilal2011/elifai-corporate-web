@@ -35,7 +35,8 @@ function respond(bool $ok, string $message, int $code = 200, array $errors = [])
         if ($errors) { $out['errors'] = $errors; }
         echo json_encode($out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     } else {
-        header('Location: /?sent=' . ($ok ? '1' : '0') . '#contact', true, 303);
+        $base = (($_GET['lang'] ?? '') === 'ar') ? '/ar/' : '/';
+        header('Location: ' . $base . '?sent=' . ($ok ? '1' : '0') . '#contact', true, 303);
     }
     exit;
 }
@@ -92,7 +93,7 @@ $region  = clean_line((string) ($_POST['region'] ?? ''), 60);
 $message = trim(mb_substr((string) ($_POST['message'] ?? ''), 0, 5000, 'UTF-8'));
 $consent = ($_POST['consent'] ?? '') === 'yes';
 
-$topics  = ['Executive briefing', 'Proposal request', 'Managed services', 'AI for operations',
+$topics  = ['Executive briefing', 'Proposal request', 'Managed services', 'Elifai Essentials (SMB)', 'AI for operations',
             'Cloud and Kubernetes', 'Red Hat / Ubuntu', 'Custom software', 'Careers', 'Something else'];
 $regions = ['Pakistan', 'Saudi Arabia', 'UAE / other GCC', 'Europe / UK', 'Rest of world'];
 

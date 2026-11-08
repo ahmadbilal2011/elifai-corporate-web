@@ -49,14 +49,14 @@ elifai-corporate-web/
 
 1. Global header — Elifai mark, "by Sysnetrix, Islamabad", light/dark toggle, "Schedule executive briefing" CTA
 2. Hero — four-slide slider (Managed services, AIOps, Gulf multi-cloud, Red Hat & Ubuntu) with `[ 01 / 04 ]` counter, progress, pause, drag/swipe and arrow keys, plus a live topology canvas that reshapes per slide (the multi-cloud view shows AWS, Google Cloud, Oracle, Alibaba and VMware estates around the Islamabad NOC)
-3. NOC console — live-HTML operations console (demo tenant) showing estates across AWS, Google Cloud, OCI, OpenShift, Alibaba Cloud and VMware, Linux fleet patch status, latency SLO and incidents
+3. NOC console — clickable demo console with seven views (Overview, Estates, Linux fleet, Incidents with a live queue, Changes, Cost, Reports)
 4. Technology ticker — infinite, GPU-accelerated, pauses on hover
-4. Services — Managed services & remote operations, AI consultancy for operations, Cloud/Linux/Kubernetes engineering, Custom software
+4. Services — compact tabbed section (auto-rotating) with an animated visual per practice: Managed services (uptime bars), AI for operations (alert funnel), Cloud/Linux/Kubernetes (platform stack), Enterprise software (bilingual code), and Elifai Essentials for small and medium businesses (setup checklist)
 5. Vendor ecosystem — 38 vendor names grouped by category; selecting a name shows its latest model (and a live headline when the PHP proxy is running); a running latest-products bar
 5b. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
 6. AI operations — Assess → Pilot → Operate method and an illustrative incident replay
 7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
-8. Footprint — dot-matrix world map (Natural Earth, public domain) with Islamabad HQ and remote delivery to 8 Gulf cities, 5 European cities and London, Toronto, Singapore, Nairobi and Sydney; live PKT / AST / CET / UTC clocks
+8. Footprint — animated dot-matrix world map (packets travelling to and from Islamabad, HQ pulses, automatic region tour, live day/night line) (Natural Earth, public domain) with Islamabad HQ and remote delivery to 8 Gulf cities, 5 European cities and London, Toronto, Singapore, Nairobi and Sydney; live PKT / AST / CET / UTC clocks
 9. Engagements — market-by-market blueprint slider
 10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
 11. Team — six engineer cards with roles and skills (Atif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
@@ -161,7 +161,21 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 - `hreflang` links pair the English home page with the Arabic page at `/ar/`.
 - `sitemap.xml` lists the home, Arabic, insight and privacy pages. Submit it in Google Search Console and Bing Webmaster Tools after deploying.
 - To add an article, copy one file in `insights/`, change the text and the JSON-LD, add a card to the Insights section in `index.html`, and add the URL to `sitemap.xml`.
-- The Arabic page was written in Modern Standard Arabic; have a native speaker review it before launch.
+- The Arabic site at `/ar/` is the same page as the English one, translated (see below).
+
+## Arabic version
+
+`ar/index.html` is generated from `index.html`; do not edit it by hand.
+
+```bash
+python3 scripts/build-ar.py      # rebuild after any change to index.html
+```
+
+- Static text comes from `i18n/ar.json` (English string → Arabic). The build lists any new strings still in English; add them to the JSON and rebuild. Product names, code and console data stay in English on purpose.
+- Text written by JavaScript (form messages, shift and office status, menu labels) is translated in `assets/js/modules/i18n.js`.
+- Layout mirrors automatically (`dir="rtl"`); the RTL rules are at the end of `assets/css/main.css`.
+- The Arabic was written in Modern Standard Arabic; have a native speaker review it before launch.
+- Insight articles are English only; the Arabic cards say so.
 
 ## Live section touches
 

@@ -1,3 +1,4 @@
+import { t, isAr, locale } from "./i18n.js?v=11";
 /**
  * Light / dark theme.
  * Default: dark between 19:00 and 03:00 local time, light otherwise, re-checked
@@ -34,8 +35,8 @@ export function initTheme() {
   function sync(theme) {
     metas.forEach((m) => m.setAttribute("content", theme === "light" ? "#F6F7F9" : "#0C1219"));
     buttons.forEach((b) => {
-      b.setAttribute("aria-label", theme === "light" ? "Switch to dark mode" : "Switch to light mode");
-      b.title = manual() ? "Theme chosen for this visit" : "Theme follows the time of day: dark 7 pm to 3 am";
+      b.setAttribute("aria-label", theme === "light" ? t("Switch to dark mode") : t("Switch to light mode"));
+      b.title = manual() ? t("Theme chosen for this visit") : t("Theme follows the time of day: dark 7 pm to 3 am");
     });
   }
 

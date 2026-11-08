@@ -1,3 +1,4 @@
+import { t, isAr, locale } from "./i18n.js?v=11";
 /**
  * Executive inquiry form — client-side validation and AJAX submit to /contact.php.
  * Works without JavaScript too (plain POST; contact.php redirects back).
@@ -5,6 +6,8 @@
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const FALLBACK =
   'You can also email <a href="mailto:info@elifai.pk">info@elifai.pk</a> or message us on <a href="https://wa.me/966540952792" target="_blank" rel="noopener">WhatsApp</a>.';
+
+const FB = isAr ? t("FALLBACK") : FALLBACK;
 
 export function initContact() {
   const form = document.querySelector("[data-contact-form]");
@@ -28,15 +31,15 @@ export function initContact() {
   const params = new URLSearchParams(location.search);
   if (params.has("sent")) {
     setStatus(params.get("sent") === "1"
-      ? ["ok", "Thank you. Your enquiry has been sent and we will reply within one business day."]
-      : ["err", `Your enquiry could not be sent. ${FALLBACK}`]);
+      ? ["ok", t("Thank you. Your enquiry has been sent and we will reply within one business day.")]
+      : ["err", `${t("Your enquiry could not be sent.")} ${FB}`]);
   }
 
   const rules = {
-    name: (v) => (v.trim().length >= 2 ? "" : "Enter your full name."),
-    email: (v) => (EMAIL_RE.test(v.trim()) ? "" : "Enter an email address like name@company.com."),
-    message: (v) => (v.trim().length >= 20 ? "" : "Add a little more detail, at least 20 characters."),
-    consent: (_, el) => (el.checked ? "" : "Tick the box so we can use these details to reply."),
+    name: (v) => (v.trim().length >= 2 ? "" : t("Enter your full name.")),
+    email: (v) => (EMAIL_RE.test(v.trim()) ? "" : t("Enter an email address like name@company.com.")),
+    message: (v) => (v.trim().length >= 20 ? "" : t("Add a little more detail, at least 20 characters.")),
+    consent: (_, el) => (el.checked ? "" : t("Tick the box so we can use these details to reply.")),
   };
 
   function validateField(name) {
@@ -70,7 +73,7 @@ export function initContact() {
   function setLoading(on) {
     submit.disabled = on;
     submit.classList.toggle("is-loading", on);
-    submit.querySelector(".btn-label").textContent = on ? "Sending" : "Send enquiry";
+    submit.querySelector(".btn-label").textContent = on ? t("Sending") : t("Send enquiry");
   }
 
   form.addEventListener("submit", async (e) => {
@@ -79,12 +82,12 @@ export function initContact() {
     if (results.includes(false)) {
       const firstBad = form.querySelector('[aria-invalid="true"]');
       firstBad?.focus();
-      setStatus(["err", "Check the highlighted fields and try again."]);
+      setStatus(["err", t("Check the highlighted fields and try again.")]);
       return;
     }
 
     setLoading(true);
-    setStatus(["", "Sending your enquiry"]);
+    setStatus(["", t("Sending your enquiry")]);
 
     try {
       const res = await fetch(form.action, {
@@ -100,19 +103,19 @@ export function initContact() {
         form.reset();
         ts.value = String(Date.now());
         form.querySelectorAll(".has-error").forEach((f) => f.classList.remove("has-error"));
-        setStatus(["ok", data.message || "Thank you. Your enquiry has been sent."]);
+        setStatus(["ok", isAr ? t("Thank you. Your enquiry has been sent and we will reply within one business day.") : (data.message || "Thank you. Your enquiry has been sent.")]);
       } else if (data?.errors) {
         Object.entries(data.errors).forEach(([name, msg]) => {
           const el = form.elements[name];
           const err = el && form.querySelector(`#${el.id}-err`);
           if (err) { err.textContent = msg; el.closest(".field").classList.add("has-error"); }
         });
-        setStatus(["err", data.message || "Check the highlighted fields and try again."]);
+        setStatus(["err", isAr ? t("Check the highlighted fields and try again.") : (data.message || "Check the highlighted fields and try again.")]);
       } else {
-        setStatus(["err", `${data?.message || "The enquiry service did not respond."} ${FALLBACK}`]);
+        setStatus(["err", `${isAr ? t("The enquiry service did not respond.") : (data?.message || "The enquiry service did not respond.")} ${FB}`]);
       }
     } catch {
-      setStatus(["err", `No connection to the server. ${FALLBACK}`]);
+      setStatus(["err", `${t("No connection to the server.")} ${FB}`]);
     } finally {
       setLoading(false);
     }

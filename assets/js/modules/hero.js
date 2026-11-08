@@ -1,6 +1,7 @@
-import { createSlider, pad2 } from "./slider.js?v=9";
-import { createTopology, MODE_LABELS } from "./topology.js?v=9";
-import { initHud } from "./hud.js?v=9";
+import { t, isAr, locale } from "./i18n.js?v=11";
+import { createSlider, pad2 } from "./slider.js?v=11";
+import { createTopology, MODE_LABELS } from "./topology.js?v=11";
+import { initHud } from "./hud.js?v=11";
 
 export function initHero({ reducedMotion }) {
   const root = document.querySelector("[data-hero-slider]");
@@ -82,13 +83,13 @@ export function initHero({ reducedMotion }) {
 
   if (reducedMotion) {
     pauseBtn.setAttribute("aria-pressed", "true");
-    pauseBtn.setAttribute("aria-label", "Automatic rotation is off");
+    pauseBtn.setAttribute("aria-label", t("Automatic rotation is off"));
     pauseBtn.disabled = true;
   } else {
     pauseBtn.addEventListener("click", () => {
       const pressed = pauseBtn.getAttribute("aria-pressed") === "true";
       pauseBtn.setAttribute("aria-pressed", String(!pressed));
-      pauseBtn.setAttribute("aria-label", pressed ? "Pause animation" : "Resume animation");
+      pauseBtn.setAttribute("aria-label", pressed ? t("Pause animation") : t("Resume animation"));
       slider.setUserPaused(!pressed);
       topo?.setPaused(!pressed);
       hud?.setPaused(!pressed);

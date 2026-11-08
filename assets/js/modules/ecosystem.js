@@ -1,3 +1,4 @@
+import { t, isAr, locale } from "./i18n.js?v=11";
 /**
  * Vendor ecosystem: names only, latest model on click, and a running
  * "latest products" bar. The bar starts with the curated latest models and,
@@ -13,7 +14,7 @@ const fmtDate = (iso) => {
   if (days <= 0) return "today";
   if (days === 1) return "yesterday";
   if (days < 30) return `${days} days ago`;
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  return d.toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" });
 };
 
 function el(tag, cls, text) {
@@ -93,17 +94,17 @@ export function initEcosystem({ reducedMotion }) {
     box.replaceChildren();
     const name = el("p", "vd-name", chip.textContent);
     const model = el("p", "vd-model");
-    model.append(el("span", "vd-k mono", "Latest model"), el("b", null, chip.dataset.latest));
+    model.append(el("span", "vd-k mono", t("Latest model")), el("b", null, chip.dataset.latest));
     const link = el("a", "vd-site mono", host);
     link.href = chip.dataset.site; link.target = "_blank"; link.rel = "noopener";
-    const live = el("p", "vd-live mono", "Checking latest news");
+    const live = el("p", "vd-live mono", t("Checking latest news"));
     box.append(name, model, live, link);
     box.hidden = false;
 
     const item = await headline(chip.dataset.vendor);
     if (chip.getAttribute("aria-expanded") !== "true") return;
     if (item) {
-      live.replaceChildren(el("span", "vd-k", "In the news "));
+      live.replaceChildren(el("span", "vd-k", t("In the news ")));
       const a = el("a", null, item.title);
       a.href = item.link; a.target = "_blank"; a.rel = "noopener nofollow";
       live.append(a, el("span", "vd-date", item.date ? ` · ${fmtDate(item.date)}` : ""));

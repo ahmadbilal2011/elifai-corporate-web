@@ -1,3 +1,4 @@
+import { t } from "./i18n.js?v=11";
 /** Header blur on scroll, mobile menu, active-section nav, ticker, reveal, year. */
 export function initChrome({ reducedMotion }) {
   const header = document.querySelector("[data-header]");
@@ -13,7 +14,7 @@ export function initChrome({ reducedMotion }) {
   if (toggle && mobile) {
     const setOpen = (open) => {
       toggle.setAttribute("aria-expanded", String(open));
-      toggle.querySelector(".sr-only").textContent = open ? "Close menu" : "Open menu";
+      toggle.querySelector(".sr-only").textContent = open ? t("Close menu") : t("Open menu");
       mobile.hidden = !open;
       header.classList.toggle("is-scrolled", open || window.scrollY > 8);
     };

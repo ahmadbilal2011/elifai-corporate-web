@@ -1,3 +1,4 @@
+import { t, isAr, locale } from "./i18n.js?v=11";
 /**
  * Small "live" touches that make each section feel current:
  *  - P1 SLA clock replay (Managed services)
@@ -137,8 +138,8 @@ function initShifts() {
       const on = a < b ? h >= a && h < b : h >= a || h < b;
       el.classList.toggle("is-on", on);
       el.querySelector("[data-shift-text]").textContent = on
-        ? "On shift now"
-        : `Next shift ${String(a).padStart(2, "0")}:00 PKT`;
+        ? t("On shift now")
+        : `${t("Next shift")} ${String(a).padStart(2, "0")}:00 ${t("PKT")}`;
     });
   }
   update();
@@ -156,8 +157,8 @@ function initOffice() {
     el.replaceChildren();
     el.append(document.createElement("i"));
     el.append(document.createTextNode(open
-      ? `Open now · ${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")} in Riyadh`
-      : `Closed now · opens 09:00 Riyadh time, Sunday to Thursday`));
+      ? `${t("Open now")} · ${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")} ${t("in Riyadh")}`
+      : t("Closed now · opens 09:00 Riyadh time, Sunday to Thursday")));
   }
   update();
   setInterval(update, 60 * 1000);
