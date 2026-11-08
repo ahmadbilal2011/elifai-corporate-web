@@ -1,6 +1,6 @@
-import { createSlider, pad2 } from "./slider.js";
-import { createTopology, MODE_LABELS } from "./topology.js";
-import { initHud } from "./hud.js";
+import { createSlider, pad2 } from "./slider.js?v=7";
+import { createTopology, MODE_LABELS } from "./topology.js?v=7";
+import { initHud } from "./hud.js?v=7";
 
 export function initHero({ reducedMotion }) {
   const root = document.querySelector("[data-hero-slider]");
@@ -25,7 +25,8 @@ export function initHero({ reducedMotion }) {
     topo = createTopology(canvas, {
       reducedMotion,
       onIncident: (ev) => hud?.logIncident(ev),
-      onStats: ({ links, msgs, fixed }) => {
+      onStats: ({ links, msgs, fixed, mix }) => {
+        if (mix) canvas.dataset.mix = `${mix.ok}/${mix.warn}/${mix.bad}`;
         if (rFixed && fixed != null) rFixed.textContent = fixed;
         if (rLinks) rLinks.textContent = links;
         if (rMsgs) rMsgs.textContent = msgs;
@@ -68,7 +69,7 @@ export function initHero({ reducedMotion }) {
     count: slides.length,
     render,
     progress: root.querySelector("[data-progress]"),
-    interval: 7500,
+    interval: 6000,
     reducedMotion,
   });
 

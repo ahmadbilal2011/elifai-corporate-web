@@ -82,8 +82,8 @@ ErrorDocument 403 /404.html
 
 # --------------------------------------------------------------------------
 # 5. Browser caching
-#    HTML revalidates on every visit; CSS/JS for a week; images & fonts a year.
-#    When you change CSS/JS, bump ?v= in index.html or wait out the week.
+#    HTML, CSS and JS revalidate on every visit; images and fonts are cached for a year.
+#    scripts/bump-version.sh also changes the ?v= stamps after each release.
 # --------------------------------------------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
@@ -91,9 +91,9 @@ ErrorDocument 403 /404.html
   ExpiresByType text/html                     "access plus 0 seconds"
   ExpiresByType application/json              "access plus 0 seconds"
   ExpiresByType application/manifest+json     "access plus 1 week"
-  ExpiresByType text/css                      "access plus 1 week"
-  ExpiresByType text/javascript               "access plus 1 week"
-  ExpiresByType application/javascript        "access plus 1 week"
+  ExpiresByType text/css                      "access plus 0 seconds"
+  ExpiresByType text/javascript               "access plus 0 seconds"
+  ExpiresByType application/javascript        "access plus 0 seconds"
   ExpiresByType image/svg+xml                 "access plus 1 year"
   ExpiresByType image/png                     "access plus 1 year"
   ExpiresByType image/jpeg                    "access plus 1 year"
@@ -109,8 +109,10 @@ ErrorDocument 403 /404.html
   <FilesMatch "\.(html|php)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
-  <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "public, max-age=604800"
+  <FilesMatch "\.(css|js|json)$">
+    # Revalidate on every visit (cheap 304s via ETag), so a deploy is picked up at once,
+    # including ES modules imported by other modules.
+    Header set Cache-Control "no-cache"
   </FilesMatch>
   <FilesMatch "\.(svg|png|jpe?g|webp|avif|ico|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"

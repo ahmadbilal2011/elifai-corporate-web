@@ -1202,3 +1202,5 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .fp-card-cities { font-size: var(--fs-xs); color: var(--text-2); line-height: 1.7; }
 @media (max-width: 1000px) { .fp-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .fp-cards { grid-template-columns: 1fr; } .fp-map .fp-node text, .fp-callout text { font-size: 16px; } }
+.key-in { background: var(--text-2); }
+.key-out { background: none; border-top: 2px dashed var(--text-2); height: 0; }

@@ -72,8 +72,8 @@ export function initHud({ reducedMotion }) {
 
   /* ---------- state ---------- */
   const N = 64;
-  const seriesIn = Array.from({ length: N }, (_, i) => 0.55 + Math.sin(i / 6) * 0.12);
-  const seriesOut = Array.from({ length: N }, (_, i) => 0.35 + Math.cos(i / 7) * 0.1);
+  const seriesIn = Array.from({ length: N }, (_, i) => 0.4 + Math.sin(i / 6) * 0.14);
+  const seriesOut = Array.from({ length: N }, (_, i) => 0.25 + Math.cos(i / 7) * 0.08);
   let shift = 0; // 0..1 sub-step for smooth scrolling
   let rps = 12480, p95 = 184, err = 0.02, blocked = 18204, threats = 0;
   const blips = [];
@@ -146,20 +146,37 @@ export function initHud({ reducedMotion }) {
         i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
       });
     };
-    // area + line: inbound
+    // colour follows the value: green when low, orange in the middle, red when high
+    const top = 4, bottom = h - 4;
+    const valueGrad = (alpha) => {
+      const g = ctx.createLinearGradient(0, top, 0, bottom);
+      g.addColorStop(0, `rgba(${C.red.join(",")},${alpha})`);
+      g.addColorStop(0.3, `rgba(${C.red.join(",")},${alpha})`);
+      g.addColorStop(0.42, `rgba(${C.accent.join(",")},${alpha})`);
+      g.addColorStop(0.55, `rgba(${C.accent.join(",")},${alpha})`);
+      g.addColorStop(0.68, `rgba(${C.green.join(",")},${alpha})`);
+      g.addColorStop(1, `rgba(${C.green.join(",")},${alpha})`);
+      return g;
+    };
+    // threshold guides at the colour boundaries
+    ctx.setLineDash([2, 4]);
+    ctx.strokeStyle = `rgba(${C.red.join(",")},0.35)`;
+    ctx.beginPath(); ctx.moveTo(0, top + (bottom - top) * 0.36); ctx.lineTo(w, top + (bottom - top) * 0.36); ctx.stroke();
+    ctx.strokeStyle = `rgba(${C.accent.join(",")},0.35)`;
+    ctx.beginPath(); ctx.moveTo(0, top + (bottom - top) * 0.62); ctx.lineTo(w, top + (bottom - top) * 0.62); ctx.stroke();
+    ctx.setLineDash([]);
+
     path(seriesIn);
     ctx.lineTo(w + stepX, h); ctx.lineTo(-stepX, h); ctx.closePath();
-    const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, `rgba(${C.green.join(",")},0.26)`);
-    g.addColorStop(1, `rgba(${C.green.join(",")},0)`);
-    ctx.fillStyle = g; ctx.fill();
-    path(seriesIn); ctx.strokeStyle = `rgb(${C.green.join(",")})`; ctx.lineWidth = 1.6; ctx.stroke();
-    // outbound
-    path(seriesOut); ctx.strokeStyle = `rgba(${C.accent.join(",")},0.85)`; ctx.lineWidth = 1.3; ctx.stroke();
-    // head dot
-    const lastY = h - 4 - seriesIn[N - 2] * (h - 8);
-    ctx.fillStyle = `rgb(${C.green.join(",")})`;
-    ctx.beginPath(); ctx.arc((N - 2 - shift) * stepX, lastY, 2.6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = valueGrad(0.16); ctx.fill();
+    path(seriesIn); ctx.strokeStyle = valueGrad(1); ctx.lineWidth = 1.8; ctx.stroke();
+    path(seriesOut); ctx.strokeStyle = valueGrad(0.75); ctx.lineWidth = 1.2; ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([]);
+
+    const v = seriesIn[N - 2];
+    const lastY = h - 4 - v * (h - 8);
+    const headCol = v > 0.64 ? C.red : v > 0.38 ? C.accent : C.green;
+    ctx.fillStyle = `rgb(${headCol.join(",")})`;
+    ctx.beginPath(); ctx.arc((N - 2 - shift) * stepX, lastY, 3, 0, Math.PI * 2); ctx.fill();
   }
 
   function drawAll() { drawRadar(0); drawStream(); }
@@ -168,13 +185,14 @@ export function initHud({ reducedMotion }) {
   function updateBars() {
     bars.forEach((b, i) => {
       const prev = Number(b.dataset.v || 0.4 + Math.random() * 0.3);
-      let v = prev + (Math.random() - 0.5) * 0.18 + (0.55 - prev) * 0.15;
+      let v = prev + (Math.random() - 0.5) * 0.24 + (0.5 - prev) * 0.15;
       if (i === 5) v = Math.min(v, 0.5); // the VMware estate is being drained
       v = Math.max(0.15, Math.min(0.97, v));
       b.dataset.v = v.toFixed(3);
       b.style.setProperty("--v", v.toFixed(3));
-      b.classList.toggle("is-warm", v > 0.78 && v <= 0.9);
-      b.classList.toggle("is-hot", v > 0.9);
+      // low = green, medium = orange, high = red
+      b.classList.toggle("is-warm", v > 0.6 && v <= 0.8);
+      b.classList.toggle("is-hot", v > 0.8);
     });
   }
 
@@ -247,9 +265,9 @@ export function initHud({ reducedMotion }) {
     shift = Math.min(1, tPoint / 220);
     if (tPoint >= 220) {
       tPoint = 0; shift = 0;
-      const nIn = Math.max(0.12, Math.min(0.95, seriesIn[N - 1] + (Math.random() - 0.5) * 0.12 + (0.58 - seriesIn[N - 1]) * 0.08));
-      const nOut = Math.max(0.08, Math.min(0.8, seriesOut[N - 1] + (Math.random() - 0.5) * 0.1 + (0.36 - seriesOut[N - 1]) * 0.08));
-      seriesIn.shift(); seriesIn.push(Math.random() < 0.03 ? Math.min(0.97, nIn + 0.3) : nIn);
+      const nIn = Math.max(0.1, Math.min(0.95, seriesIn[N - 1] + (Math.random() - 0.5) * 0.14 + (0.4 - seriesIn[N - 1]) * 0.1));
+      const nOut = Math.max(0.06, Math.min(0.8, seriesOut[N - 1] + (Math.random() - 0.5) * 0.1 + (0.25 - seriesOut[N - 1]) * 0.1));
+      seriesIn.shift(); seriesIn.push(Math.random() < 0.05 ? Math.min(0.95, nIn + 0.35) : nIn);
       seriesOut.shift(); seriesOut.push(nOut);
     }
 

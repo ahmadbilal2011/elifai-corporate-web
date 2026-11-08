@@ -149,7 +149,7 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 | 500 Internal Server Error after upload | Rename `.htaccess` to `.htaccess.off`, reload. If the site appears, your host blocks a directive — re-enable sections one at a time. |
 | Redirect loop | Your host terminates SSL at a proxy without setting `X-Forwarded-Proto`. Comment out the "Force HTTPS" block and use cPanel → Domains → **Force HTTPS Redirect** instead. |
 | Form says "mail server did not accept" | `MAIL_FROM` must be an address on this cPanel account; check Email Deliverability. |
-| Old CSS after an update | Styles are cached for a week. Add `?v=2` to the `main.css` / `main.js` links in the HTML. |
+| Old design or animation after an update | CSS and JS now revalidate on every visit. If a browser still shows the old version, press Ctrl+F5 once. After each release run `bash scripts/bump-version.sh <n>` so every module URL changes. |
 | `/privacy` shows 404 | `mod_rewrite` is off; link to `/privacy.html` or ask the host to enable it. |
 
 ## Live vendor updates
@@ -182,7 +182,7 @@ Requirements: PHP with cURL (standard on cPanel) or `allow_url_fopen` on, and a 
 - **Colours, type and spacing** are tokens at the top of `assets/css/main.css`.
 - **Vendors:** product families are in `index.html` (Vendor ecosystem section) and `assets/data/vendors.json`; keep the two in step when you add or remove a vendor.
 - **Latest models:** curated in `assets/data/vendors.json` (`latest`) and mirrored in `index.html` (`data-latest` on each vendor button) as of November 2026; update both when a vendor launches a new flagship.
-- **Hero health mix:** the topology keeps roughly 70% of nodes healthy (green), 10% warning (orange) and 20% incidents (red); every incident shows an engineer's progress ring and is fixed within a few seconds. Shares are `SHARE_WARN` / `SHARE_BAD` in `topology.js`; engineer display names are in `AGENTS`.
+- **Hero health mix:** every view holds 70% of nodes green, 15% orange and 15% red; each red node immediately shows the engineer fixing it and turns green after 3–5 seconds (`FIX_MIN` / `FIX_MAX`). Shares are `SHARE_WARN` / `SHARE_BAD` in `topology.js`; engineer display names are in `AGENTS`.
 - **Hero ops wall:** all HUD figures (req/s, security events, cluster load) are simulated for the showcase; event IPs use the RFC 5737 documentation ranges.
 - **Canvas animation:** each hero slide has its own motion in `topology.js` (`animate()`): zones orbiting with self-healing alerts (Managed), an activation wave through the layers (AIOps), five clouds orbiting the Islamabad NOC (Multi-cloud), and a rolling patch wave across the Linux fleet. All of it stops under reduced motion and with the pause button.
 - **Team:** cards are in the `TEAM` section of `index.html`; initials avatars can be swapped for photos.

@@ -189,15 +189,16 @@ export const MODE_LABELS = {
 
 /* Engineers on the Islamabad NOC rota (display names for the showcase) */
 const AGENTS = [
-  "Ali Raza", "Sana Khan", "Hamza Sheikh", "Fatima Malik", "Imran Akhtar", "Noor Ahmed",
-  "Zeeshan Haider", "Ayesha Butt", "Usman Javed", "Mariam Siddiqui",
-  "Daniel Brooks", "Emma Clarke", "Lucas Meyer", "Sophie Laurent", "James Walker", "Olivia Bennett",
+  "Ali Raza", "Sana Khan", "Hamza Sheikh", "Fatima Malik", "Imran Akhtar",
+  "Noor Ahmed", "Zeeshan Haider", "Ayesha Butt", "Usman Javed", "Mariam Siddiqui",
+  "Daniel Brooks", "Emma Clarke",
 ];
 const ISSUES = ["disk pressure", "pod crash-loop", "cert expiring", "high latency", "failed patch", "memory leak", "SSH brute-force", "node not ready", "backup missed", "port flapping"];
 
-/* Target share of nodes by state: ~70% healthy, ~10% warning, ~20% incident being fixed */
-const SHARE_WARN = 0.1;
-const SHARE_BAD = 0.2;
+/* Node colour mix held constant in every view: 70% green, 15% orange, 15% red */
+const SHARE_WARN = 0.15;
+const SHARE_BAD = 0.15;
+const FIX_MIN = 3000, FIX_MAX = 5000;   // a red node turns green 3–5 s after the engineer picks it up
 
 export function createTopology(canvas, { reducedMotion = false, onStats, onIncident } = {}) {
   const ctx = canvas.getContext("2d", { alpha: true });
@@ -222,16 +223,16 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
   /* seed initial states so the first frame already shows the mix */
   function seedStates(now) {
     nodes.forEach((n) => { n.state = "ok"; n.agent = null; });
-    const pool = nodes.filter((n) => !n.hub).sort(() => r() - 0.5);
-    const nBad = Math.round(N * SHARE_BAD * 0.8), nWarn = Math.round(N * SHARE_WARN);
-    pool.slice(0, nBad).forEach((n, k) => startIncident(n, now - k * 400, true));
-    pool.slice(nBad, nBad + nWarn).forEach((n) => { n.state = "warn"; n.since = now; n.dur = 2500 + r() * 4000; });
+    const pool = nodes.slice().sort(() => r() - 0.5);
+    const nBad = Math.round(N * SHARE_BAD), nWarn = Math.round(N * SHARE_WARN);
+    pool.slice(0, nBad).forEach((n, k) => startIncident(n, now - k * 450, true));
+    pool.slice(nBad, nBad + nWarn).forEach((n, k) => { n.state = "warn"; n.since = now - k * 300; n.dur = 2500 + r() * 3000; });
   }
 
   function startIncident(n, now, quiet) {
     n.state = "bad";
     n.since = now;
-    n.dur = 2600 + r() * 2600;              // time to fix
+    n.dur = FIX_MIN + r() * (FIX_MAX - FIX_MIN);
     n.agent = AGENTS[agentIx++ % AGENTS.length];
     n.issue = ISSUES[Math.floor(r() * ISSUES.length)];
     if (!quiet && onIncident) onIncident({ type: "open", agent: n.agent, issue: n.issue });
@@ -246,19 +247,17 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
           if (onIncident) onIncident({ type: "fixed", agent: n.agent, issue: n.issue, total: fixedCount });
         } else bad++;
       } else if (n.state === "warn") {
-        if (now - n.since > n.dur) {
-          // most warnings clear on their own; a few escalate into an incident
-          if (r() < 0.3) startIncident(n, now); else n.state = "ok";
-        } else warn++;
+        if (now - n.since > n.dur) n.state = "ok"; else warn++;
       }
     }
-    if (now - lastState < 350) return;
+    // top the mix back up straight away so the ratio never drifts
+    const wantBad = Math.round(N * SHARE_BAD), wantWarn = Math.round(N * SHARE_WARN);
+    if (now - lastState < 120) return;
     lastState = now;
-    const candidates = nodes.filter((n) => !n.hub && n.state === "ok" && now - n.healedAt > 2500);
-    if (!candidates.length) return;
-    const pickOne = () => candidates.splice(Math.floor(r() * candidates.length), 1)[0];
-    if (bad < N * SHARE_BAD && candidates.length) startIncident(pickOne(), now);
-    if (warn < N * SHARE_WARN && candidates.length) { const n = pickOne(); n.state = "warn"; n.since = now; n.dur = 2500 + r() * 4000; }
+    const candidates = nodes.filter((n) => n.state === "ok" && now - n.healedAt > 1500);
+    const take = () => candidates.splice(Math.floor(r() * candidates.length), 1)[0];
+    if (bad < wantBad && candidates.length) startIncident(take(), now);
+    if (warn < wantWarn && candidates.length) { const n = take(); n.state = "warn"; n.since = now; n.dur = 2500 + r() * 3000; }
   }
 
   function resize() {
@@ -285,7 +284,6 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
       n.g = p.g ?? -1; n.dir = p.dir ?? 1; n.m = p.m ?? 0; n.act = 0; n.mx = 0; n.my = 0;
       n.delay = instant ? 0 : (i / N) * 380 + r() * 120;
       if (instant) { n.x = p.x; n.y = p.y; }
-      if (n.hub) n.state = "ok";
     });
   }
 
@@ -308,41 +306,41 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
 
   /* Calm, slow motion per mode (a full turn takes minutes, not seconds) */
   function animate(now, since) {
-    const t = now / 1000;
-    const k = Math.min(1, Math.max(0, (since - 900) / 1800));
+    const t = since / 1000; // time since this view opened, so angles start from zero
+    const k = Math.min(1, Math.max(0, (since - 700) / 1200));
     const cxp = px(0.5), cyp = py(0.5);
     for (const n of nodes) { n.mx = 0; n.my = 0; n.act = 0; }
 
     if (mode === "cloud") {
       for (const n of nodes) {
-        if (n.g === -1) [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.03 * k);
+        if (n.g === -1) [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.08 * k);
         else if (n.g >= 0 && !n.hub) {
           const H = nodes[n.g];
-          [n.mx, n.my] = rotateAbout(n, px(H.tx), py(H.ty), Math.sin(t * 0.12 + n.g) * 0.18 * n.dir * k);
+          [n.mx, n.my] = rotateAbout(n, px(H.tx), py(H.ty), t * 0.12 * n.dir * k);
         }
       }
     } else if (mode === "hybrid") {
-      const orbit = Math.sin(t * 0.05) * 0.12 * k; // gentle sway instead of spinning
+      const orbit = t * 0.025 * k; // slow, steady orbit round the NOC
       for (const n of nodes) {
-        if (n.g === -2) [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.04 * k);
+        if (n.g === -2) [n.mx, n.my] = rotateAbout(n, cxp, cyp, -t * 0.12 * k);
         else if (n.g >= 0) {
           const [ox, oy] = rotateAbout(n, cxp, cyp, orbit);
           let sx = 0, sy = 0;
-          if (!n.hub) { const H = nodes[n.g]; [sx, sy] = rotateAbout(n, px(H.tx), py(H.ty), Math.sin(t * 0.15 + n.g) * 0.15 * k); }
+          if (!n.hub) { const H = nodes[n.g]; [sx, sy] = rotateAbout(n, px(H.tx), py(H.ty), Math.sin(t * 0.3 + n.g) * 0.3 * k); }
           n.mx = ox + sx; n.my = oy + sy;
         }
       }
     } else if (mode === "ai") {
-      const wave = ((t * 0.18) % 1.35) - 0.18;
+      const wave = ((t * 0.3) % 1.35) - 0.18;
       for (const n of nodes) {
         const d = n.tx - wave;
         n.act = Math.exp(-(d * d) / 0.004) * k;
-        n.my = Math.sin(t * 0.6 + n.ty * 9) * 1.6 * k;
+        n.my = Math.sin(t * 1.1 + n.ty * 9) * 2.2 * k;
       }
     } else if (mode === "modules") {
-      scanX = ((t * 0.09) % 1.3) - 0.12;
+      scanX = ((t * 0.15) % 1.3) - 0.12;
       for (const n of nodes) {
-        n.my = Math.sin(t * 0.5 + n.m * 0.9) * 2 * k;
+        n.my = Math.sin(t * 0.9 + n.m * 0.9) * 2.6 * k;
         if (Math.abs(n.tx - scanX) < 0.02 && now - n.patchedAt > 4000) n.patchedAt = now;
       }
     }
@@ -379,7 +377,9 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
     delivered += before - packets.length;
 
     if (onStats && now - statsAt > 1000) {
-      onStats({ nodes: N, links: edges.length, msgs: delivered, fixed: fixedCount });
+      const mix = { ok: 0, warn: 0, bad: 0 };
+      nodes.forEach((n) => { mix[n.state]++; });
+      onStats({ nodes: N, links: edges.length, msgs: delivered, fixed: fixedCount, mix });
       delivered = 0; statsAt = now;
     }
   }
@@ -483,7 +483,7 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
         ctx.strokeStyle = rgba(C.ok, 0.45);
         ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.stroke();
       }
-      ctx.fillStyle = n.state === "ok" && !n.hub ? C.nodeFill : rgba(col, 1);
+      ctx.fillStyle = rgba(col, n.state === "ok" ? 0.9 : 1);
       ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = rgba(col, 0.95);
       ctx.lineWidth = 1.3;
@@ -511,27 +511,28 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
       ctx.globalAlpha = 1;
     }
 
-    // engineer callouts on the three most recent incidents
-    const open = nodes.filter((n) => n.state === "bad").sort((a, b) => b.since - a.since).slice(0, 3);
-    ctx.font = '500 10.5px "Red Hat Mono", ui-monospace, monospace';
+    // every red node shows who is fixing it, with a progress bar
+    const open = nodes.filter((n) => n.state === "bad").sort((a, b) => a.since - b.since);
+    ctx.font = '600 10.5px "Red Hat Mono", ui-monospace, monospace';
+    const placed = [];
+    const hit = (x, y, ww, hh) => placed.some((p) => x < p[0] + p[2] && x + ww > p[0] && y < p[1] + p[3] && y + hh > p[1]);
     for (const n of open) {
       const [x, y] = pos(n);
       const p = Math.min(1, (now - n.since) / n.dur);
-      const line1 = `${n.agent} fixing`;
-      const line2 = `${n.issue} · ${Math.round(p * 100)}%`;
-      const tw = Math.max(ctx.measureText(line1).width, ctx.measureText(line2).width) + 16;
-      let bx = x + 14, by = y - 34;
-      if (bx + tw > w - 6) bx = x - 14 - tw;
-      if (by < 6) by = y + 14;
-      ctx.globalAlpha = Math.min(1, (now - n.since) / 250);
+      const text = `${n.agent} fixing`;
+      const tw = ctx.measureText(text).width + 14, th = 20;
+      const spots = [[x + 10, y - th - 6], [x - 10 - tw, y - th - 6], [x + 10, y + 8], [x - 10 - tw, y + 8]];
+      let [bx, by] = spots.find(([sx, sy]) => sx > 2 && sx + tw < w - 2 && sy > 2 && sy + th < h - 2 && !hit(sx, sy, tw, th)) || spots[0];
+      bx = Math.max(2, Math.min(w - tw - 2, bx)); by = Math.max(2, Math.min(h - th - 2, by));
+      placed.push([bx, by, tw, th]);
+      ctx.globalAlpha = Math.min(1, (now - n.since) / 200);
       ctx.fillStyle = C.chip;
-      roundRect(bx, by, tw, 32, 6); ctx.fill();
-      ctx.strokeStyle = rgba(C.bad, 0.55); ctx.stroke();
+      roundRect(bx, by, tw, th, 5); ctx.fill();
+      ctx.strokeStyle = rgba(C.bad, 0.6); ctx.stroke();
       ctx.fillStyle = rgba(C.ok, 1);
-      ctx.fillRect(bx, by + 30, tw * p, 2);
-      ctx.textAlign = "left"; ctx.textBaseline = "top";
-      ctx.fillStyle = C.text; ctx.fillText(line1, bx + 8, by + 4);
-      ctx.fillStyle = C.label; ctx.fillText(line2, bx + 8, by + 17);
+      ctx.fillRect(bx + 2, by + th - 3, (tw - 4) * p, 2);
+      ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillStyle = C.text; ctx.fillText(text, bx + 7, by + th / 2 - 1);
       ctx.globalAlpha = 1;
     }
 
