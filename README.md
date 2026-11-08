@@ -53,11 +53,10 @@ elifai-corporate-web/
 7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
 8. Footprint — Islamabad HQ with remote links to all six GCC states, Europe and Asia-Pacific; live PKT / AST / UTC clocks
 9. Engagements — market-by-market blueprint slider
-10. Leadership
+10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
 11. Team — six engineer cards with roles and skills (Aatif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
-12. Contact — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
-11. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
-12. Footer — Sysnetrix Pvt Ltd copyright (Islamabad), market badges, contact links, privacy notice
+12. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
+13. Footer — Sysnetrix Pvt Ltd copyright (Islamabad), market badges, contact links, privacy notice
 
 ## Logo & themes
 
