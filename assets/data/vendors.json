@@ -1,0 +1,471 @@
+{
+  "updated": "2026-11-08",
+  "categories": [
+    {
+      "id": "compute",
+      "name": "Compute & storage",
+      "blurb": "Rack and blade builds, firmware lifecycle, the Linux or virtualisation layer on top, and the backup and DR behind it."
+    },
+    {
+      "id": "network",
+      "name": "Networking",
+      "blurb": "Data-centre and campus fabrics, Wi-Fi, structured cabling, monitoring and configuration kept in version control."
+    },
+    {
+      "id": "netsec",
+      "name": "Network security",
+      "blurb": "Firewall and SASE design, rule-base clean-ups, VPN and zero-trust access, and 24/7 alert handling."
+    },
+    {
+      "id": "endpoint",
+      "name": "Endpoint & XDR",
+      "blurb": "EDR rollout, policy tuning, threat-hunting playbooks and integration with your SIEM and ticketing."
+    },
+    {
+      "id": "platform",
+      "name": "Platforms & operating systems",
+      "blurb": "Directory, device and server platforms built, patched and automated alongside your Linux estate."
+    },
+    {
+      "id": "physical",
+      "name": "Physical security & video",
+      "blurb": "IP video and access-control networks segmented from IT, recorders monitored and firmware kept current."
+    }
+  ],
+  "vendors": [
+    {
+      "slug": "dell",
+      "name": "Dell Technologies",
+      "category": "compute",
+      "site": "https://www.dell.com",
+      "products": "PowerEdge servers, PowerStore and PowerScale storage, PowerProtect backup, APEX as-a-service",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:dell.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Dell+Technologies\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "hpe",
+      "name": "Hewlett Packard Enterprise (HPE)",
+      "category": "compute",
+      "site": "https://www.hpe.com",
+      "products": "ProLiant servers, Alletra storage, SimpliVity hyperconverged, GreenLake hybrid cloud",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:hpe.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Hewlett+Packard+Enterprise\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "lenovo",
+      "name": "Lenovo",
+      "category": "compute",
+      "site": "https://www.lenovo.com",
+      "products": "ThinkSystem servers, ThinkAgile hyperconverged, ThinkEdge edge servers, DE and DM storage",
+      "feeds": [
+        "https://news.lenovo.com/feed/",
+        "https://news.google.com/rss/search?q=site:lenovo.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Lenovo\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "ibm",
+      "name": "IBM",
+      "category": "compute",
+      "site": "https://www.ibm.com",
+      "products": "Power and IBM Z servers, FlashSystem storage, watsonx AI and data platform",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:ibm.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"IBM\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "huawei",
+      "name": "Huawei Enterprise",
+      "category": "compute",
+      "site": "https://e.huawei.com",
+      "products": "OceanStor storage, CloudEngine data-centre switches, AirEngine Wi-Fi, HiSecEngine firewalls",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:e.huawei.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Huawei+Enterprise\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "inspur",
+      "name": "Inspur",
+      "category": "compute",
+      "site": "https://www.inspur.com",
+      "products": "Rack and GPU servers for AI training and inference, enterprise storage",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:inspur.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Inspur\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "cisco",
+      "name": "Cisco Systems",
+      "category": "network",
+      "site": "https://www.cisco.com",
+      "products": "Catalyst campus switching, Nexus data-centre fabrics, Meraki cloud-managed networks, UCS compute",
+      "feeds": [
+        "https://blogs.cisco.com/feed",
+        "https://news.google.com/rss/search?q=site:cisco.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Cisco+Systems\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "juniper",
+      "name": "Juniper Networks",
+      "category": "network",
+      "site": "https://www.juniper.net",
+      "products": "Mist AI wired and wireless, EX and QFX switching, MX routing, SRX firewalls",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:juniper.net+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Juniper+Networks\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "arista",
+      "name": "Arista Networks",
+      "category": "network",
+      "site": "https://www.arista.com",
+      "products": "7000-series data-centre switches, CloudVision management, cognitive campus Wi-Fi",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:arista.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Arista+Networks\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "extreme",
+      "name": "Extreme Networks",
+      "category": "network",
+      "site": "https://www.extremenetworks.com",
+      "products": "ExtremeCloud IQ management, Fabric Connect, universal switches and Wi-Fi",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:extremenetworks.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Extreme+Networks\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "aruba",
+      "name": "Aruba Networks",
+      "category": "network",
+      "site": "https://www.arubanetworks.com",
+      "products": "CX switching, Wi-Fi access points, Central cloud management, ClearPass network access control",
+      "feeds": [
+        "https://news.google.com/rss/search?q=\"HPE+Aruba+Networking\"+when:30d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=site:arubanetworks.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Aruba+Networks\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "commscope",
+      "name": "CommScope",
+      "category": "network",
+      "site": "https://www.commscope.com",
+      "products": "Structured cabling, fibre connectivity and enterprise network infrastructure",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:commscope.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"CommScope\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "paloalto",
+      "name": "Palo Alto Networks",
+      "category": "netsec",
+      "site": "https://www.paloaltonetworks.com",
+      "products": "PA-Series and VM-Series firewalls, Prisma SASE, Cortex XDR and XSIAM security operations",
+      "feeds": [
+        "https://www.paloaltonetworks.com/blog/feed/",
+        "https://news.google.com/rss/search?q=site:paloaltonetworks.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Palo+Alto+Networks\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "fortinet",
+      "name": "Fortinet",
+      "category": "netsec",
+      "site": "https://www.fortinet.com",
+      "products": "FortiGate firewalls, FortiSASE, FortiManager and FortiAnalyzer, Security Fabric switching and Wi-Fi",
+      "feeds": [
+        "https://feeds.fortinet.com/fortinet/blog/threat-research",
+        "https://news.google.com/rss/search?q=site:fortinet.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Fortinet\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "checkpoint",
+      "name": "Check Point Software Technologies",
+      "category": "netsec",
+      "site": "https://www.checkpoint.com",
+      "products": "Quantum security gateways, Harmony endpoint and email, CloudGuard, Infinity platform",
+      "feeds": [
+        "https://blog.checkpoint.com/feed/",
+        "https://news.google.com/rss/search?q=site:checkpoint.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Check+Point+Software+Technologies\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "ciscosecure",
+      "name": "Cisco Secure",
+      "category": "netsec",
+      "site": "https://www.cisco.com",
+      "products": "Secure Firewall, Duo multi-factor authentication, Umbrella DNS security, Cisco XDR, Identity Services Engine",
+      "feeds": [
+        "https://blogs.cisco.com/security/feed",
+        "https://news.google.com/rss/search?q=site:cisco.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Cisco+Secure\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "sonicwall",
+      "name": "SonicWall",
+      "category": "netsec",
+      "site": "https://www.sonicwall.com",
+      "products": "TZ, NSa and NSsp firewalls, Capture Client endpoint, Cloud Secure Edge access",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:sonicwall.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"SonicWall\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "sophos",
+      "name": "Sophos",
+      "category": "netsec",
+      "site": "https://www.sophos.com",
+      "products": "Sophos Firewall, Intercept X endpoint, managed detection and response, zero-trust network access",
+      "feeds": [
+        "https://news.sophos.com/en-us/feed/",
+        "https://news.google.com/rss/search?q=site:sophos.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Sophos\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "watchguard",
+      "name": "WatchGuard Technologies",
+      "category": "netsec",
+      "site": "https://www.watchguard.com",
+      "products": "Firebox appliances, AuthPoint MFA, EPDR endpoint protection, unified security platform",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:watchguard.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"WatchGuard+Technologies\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "crowdstrike",
+      "name": "CrowdStrike",
+      "category": "endpoint",
+      "site": "https://www.crowdstrike.com",
+      "products": "Falcon platform: endpoint and XDR, identity protection, cloud security, managed threat hunting",
+      "feeds": [
+        "https://www.crowdstrike.com/en-us/blog/feed",
+        "https://news.google.com/rss/search?q=site:crowdstrike.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"CrowdStrike\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "sentinelone",
+      "name": "SentinelOne",
+      "category": "endpoint",
+      "site": "https://www.sentinelone.com",
+      "products": "Singularity platform for endpoint, cloud and identity, Purple AI security analyst",
+      "feeds": [
+        "https://www.sentinelone.com/blog/feed/",
+        "https://www.sentinelone.com/feed/",
+        "https://news.google.com/rss/search?q=site:sentinelone.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"SentinelOne\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "defender",
+      "name": "Microsoft Defender",
+      "category": "endpoint",
+      "site": "https://www.microsoft.com",
+      "products": "Defender for Endpoint, Defender XDR, Defender for Cloud, Sentinel SIEM",
+      "feeds": [
+        "https://www.microsoft.com/en-us/security/blog/feed/",
+        "https://news.google.com/rss/search?q=site:microsoft.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Microsoft+Defender\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "bitdefender",
+      "name": "Bitdefender",
+      "category": "endpoint",
+      "site": "https://www.bitdefender.com",
+      "products": "GravityZone platform, endpoint detection and response, XDR, managed detection and response",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:bitdefender.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Bitdefender\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "trendmicro",
+      "name": "Trend Micro",
+      "category": "endpoint",
+      "site": "https://www.trendmicro.com",
+      "products": "Vision One platform, server and cloud workload protection, TippingPoint intrusion prevention",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:trendmicro.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Trend+Micro\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "trellix",
+      "name": "Trellix",
+      "category": "endpoint",
+      "site": "https://www.trellix.com",
+      "products": "Endpoint security, XDR, network detection and response, email security",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:trellix.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Trellix\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "microsoft",
+      "name": "Microsoft",
+      "category": "platform",
+      "site": "https://www.microsoft.com",
+      "products": "Windows Server, Azure Local on-premise cloud, Entra ID, Intune, Microsoft 365",
+      "feeds": [
+        "https://news.microsoft.com/feed/",
+        "https://news.google.com/rss/search?q=site:microsoft.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Microsoft\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "apple",
+      "name": "Apple",
+      "category": "platform",
+      "site": "https://www.apple.com",
+      "products": "Mac and iPad fleets, Apple Business Manager, device enrolment with your MDM",
+      "feeds": [
+        "https://www.apple.com/newsroom/rss-feed.rss",
+        "https://news.google.com/rss/search?q=site:apple.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Apple\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "redhat",
+      "name": "Red Hat",
+      "category": "platform",
+      "site": "https://www.redhat.com",
+      "products": "Red Hat Enterprise Linux, OpenShift, Ansible Automation Platform, Satellite",
+      "feeds": [
+        "https://www.redhat.com/en/rss/blog",
+        "https://news.google.com/rss/search?q=site:redhat.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Red+Hat\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "canonical",
+      "name": "Canonical",
+      "category": "platform",
+      "site": "https://www.canonical.com",
+      "products": "Ubuntu Pro, Landscape fleet management, MAAS bare-metal provisioning, MicroCloud",
+      "feeds": [
+        "https://ubuntu.com/blog/feed",
+        "https://news.google.com/rss/search?q=site:canonical.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Canonical\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "oracle",
+      "name": "Oracle",
+      "category": "platform",
+      "site": "https://www.oracle.com",
+      "products": "Exadata, Oracle Database, Exadata Cloud@Customer, Oracle Linux",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:oracle.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Oracle\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "hikvision",
+      "name": "Hikvision",
+      "category": "physical",
+      "site": "https://www.hikvision.com",
+      "products": "IP cameras, network video recorders, HikCentral video management",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:hikvision.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Hikvision\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "axis",
+      "name": "Axis Communications",
+      "category": "physical",
+      "site": "https://www.axis.com",
+      "products": "Network cameras, AXIS Camera Station video management, network audio and access control",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:axis.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Axis+Communications\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "dahua",
+      "name": "Dahua Technology",
+      "category": "physical",
+      "site": "https://www.dahuasecurity.com",
+      "products": "IP cameras, network video recorders, DSS management platform",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:dahuasecurity.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Dahua+Technology\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "hanwha",
+      "name": "Hanwha Vision",
+      "category": "physical",
+      "site": "https://www.hanwhavision.com",
+      "products": "Wisenet AI cameras, Wisenet WAVE video management",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:hanwhavision.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Hanwha+Vision\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "bosch",
+      "name": "Bosch Security Systems",
+      "category": "physical",
+      "site": "https://www.boschsecurity.com",
+      "products": "Video systems, intrusion alarms, access control, public address and voice alarm",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:boschsecurity.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Bosch+Security+Systems\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "verkada",
+      "name": "Verkada",
+      "category": "physical",
+      "site": "https://www.verkada.com",
+      "products": "Cloud-managed cameras, access control, alarms and environmental sensors on one platform",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:verkada.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Verkada\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "avigilon",
+      "name": "Avigilon",
+      "category": "physical",
+      "site": "https://www.avigilon.com",
+      "products": "Avigilon Unity on-premise and Avigilon Alta cloud video and access control",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:avigilon.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"Avigilon\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "slug": "cpplus",
+      "name": "CP PLUS",
+      "category": "physical",
+      "site": "https://www.cpplusworld.com",
+      "products": "IP and HD cameras, network video recorders, video analytics",
+      "feeds": [
+        "https://news.google.com/rss/search?q=site:cpplusworld.com+when:90d&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=\"CP+PLUS\"+when:30d&hl=en-US&gl=US&ceid=US:en"
+      ]
+    }
+  ]
+}

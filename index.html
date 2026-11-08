@@ -30,8 +30,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700&amp;family=Red+Hat+Text:wght@400;500;600&amp;family=Red+Hat+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/assets/css/main.css?v=4">
-  <script type="module" src="/assets/js/main.js?v=4"></script>
+  <link rel="stylesheet" href="/assets/css/main.css?v=5">
+  <script type="module" src="/assets/js/main.js?v=5"></script>
 
   <script type="application/ld+json">
   {
@@ -72,9 +72,8 @@
       <nav class="nav" aria-label="Primary">
         <ul class="nav-list">
           <li><a href="#capabilities">Services</a></li>
-          <li><a href="#noc">NOC</a></li>
           <li><a href="#platforms">Platforms</a></li>
-          <li><a href="#aiops">AI operations</a></li>
+          <li><a href="#ecosystem">Vendors</a></li>
           <li><a href="#managed">Managed services</a></li>
           <li><a href="#team">Team</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -99,6 +98,7 @@
         <li><a href="#capabilities">Services</a></li>
         <li><a href="#noc">NOC</a></li>
           <li><a href="#platforms">Platforms</a></li>
+          <li><a href="#ecosystem">Vendors</a></li>
         <li><a href="#aiops">AI operations</a></li>
         <li><a href="#managed">Managed services</a></li>
         <li><a href="#team">Team</a></li>
@@ -196,20 +196,55 @@
           </div>
         </div>
 
-        <figure class="console glass" aria-label="Animated system topology for the selected service">
+        <figure class="console glass" aria-label="Live operations wall for the selected service" data-hud>
           <figcaption class="console-bar">
             <span class="console-lights" aria-hidden="true"><i></i><i></i><i></i></span>
             <span class="console-path">noc.isb://topology/<b data-console-mode>managed-estate</b></span>
             <span class="console-status"><span class="pulse" aria-hidden="true"></span>live</span>
           </figcaption>
+
           <div class="console-stage">
-            <canvas data-topology width="640" height="560" aria-hidden="true"></canvas>
+            <canvas data-topology width="640" height="420" aria-hidden="true"></canvas>
+            <div class="hud-corner hud-tl mono" aria-hidden="true">
+              <span>req/s <b data-h-rps>12,480</b></span>
+              <span>p95 <b data-h-p95>184</b> ms</span>
+              <span>err <b data-h-err>0.02</b>%</span>
+            </div>
+            <div class="hud-radar" aria-hidden="true">
+              <canvas data-radar width="132" height="132"></canvas>
+              <span class="hud-radar-label mono">threat scan <b data-h-threats>0</b></span>
+            </div>
+            <div class="hud-scan" aria-hidden="true"></div>
           </div>
+
+          <div class="hud-strip" aria-hidden="true">
+            <div class="hud-cell hud-stream">
+              <p class="hud-title mono">throughput <span><i class="key key-in"></i>in <i class="key key-out"></i>out</span></p>
+              <canvas data-stream width="300" height="90"></canvas>
+            </div>
+            <div class="hud-cell hud-bars">
+              <p class="hud-title mono">cluster load</p>
+              <ul class="bars" data-bars>
+                <li><i></i><span>eks</span></li><li><i></i><span>gke</span></li><li><i></i><span>oke</span></li><li><i></i><span>ocp</span></li>
+                <li><i></i><span>ack</span></li><li><i></i><span>vmw</span></li>
+              </ul>
+            </div>
+            <div class="hud-cell hud-log">
+              <p class="hud-title mono">security events <span class="hud-live">soc</span></p>
+              <ol class="seclog mono" data-seclog>
+                <li><span class="lv lv-block">WAF</span>SQLi probe blocked 203.0.113.47</li>
+                <li><span class="lv lv-ok">TLS</span>Cert rotated api.demo</li>
+                <li><span class="lv lv-block">IDS</span>SSH brute-force dropped</li>
+                <li><span class="lv lv-info">SIEM</span>14 events → 1 case</li>
+              </ol>
+            </div>
+          </div>
+
           <div class="console-readout" aria-hidden="true">
             <span>nodes <b data-r-nodes>48</b></span>
             <span>links <b data-r-links>0</b></span>
             <span>msgs/s <b data-r-msgs>0</b></span>
-            <span class="readout-hint">move your cursor over the graph</span>
+            <span>blocked today <b data-h-blocked>18,204</b></span>
           </div>
         </figure>
       </div>
@@ -467,8 +502,506 @@
       </div>
     </section>
 
+    <!-- ============ VENDOR ECOSYSTEM ============ -->
+    <section class="section section-alt" id="ecosystem" aria-labelledby="eco-heading">
+      <div class="wrap">
+        <header class="section-head section-head-split">
+          <div>
+            <h2 id="eco-heading" class="section-title">On-premise and security vendors we work with</h2>
+            <p class="section-lede">Servers in the data centre, firewalls at the edge, agents on every laptop and cameras on every gate. We design, integrate and run equipment from 38 vendors, with each one's latest announcements pulled live from public news feeds.</p>
+          </div>
+        </header>
+
+        <div class="vwire" data-vwire hidden>
+          <span class="vwire-label mono"><span class="pulse" aria-hidden="true"></span>vendor wire</span>
+          <div class="vwire-track"><ul class="vwire-list" data-vwire-list></ul></div>
+        </div>
+
+        <div class="vtools">
+          <div class="chip-group" role="group" aria-label="Filter vendors by category" data-vfilters>
+            <button type="button" aria-pressed="true" data-vcat="all">All 38</button><button type="button" aria-pressed="false" data-vcat="compute">Compute &amp; storage</button><button type="button" aria-pressed="false" data-vcat="network">Networking</button><button type="button" aria-pressed="false" data-vcat="netsec">Network security</button><button type="button" aria-pressed="false" data-vcat="endpoint">Endpoint &amp; XDR</button><button type="button" aria-pressed="false" data-vcat="platform">Platforms &amp; operating systems</button><button type="button" aria-pressed="false" data-vcat="physical">Physical security &amp; video</button>
+          </div>
+          <label class="vsearch">
+            <span class="sr-only">Search vendors and products</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input type="search" placeholder="Search vendors or products" data-vsearch autocomplete="off">
+          </label>
+        </div>
+        <p class="vempty" hidden data-vempty>No vendor or product matches that search. Try a brand such as Fortinet or a product such as PowerEdge.</p>
+
+        <div class="vgroups">
+        <section class="vgroup" data-cat="compute" aria-labelledby="vg-compute">
+          <header class="vgroup-head">
+            <h3 id="vg-compute" class="vgroup-title">Compute &amp; storage <span class="vgroup-count mono">6</span></h3>
+            <p class="vgroup-blurb">Rack and blade builds, firmware lifecycle, the Linux or virtualisation layer on top, and the backup and DR behind it.</p>
+          </header>
+          <ul class="vlist">
+            <li class="vendor" data-vendor="dell" data-name="dell technologies poweredge servers, powerstore and powerscale storage, powerprotect backup, apex as-a-service">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Dell Technologies</h4>
+                <p class="vendor-products">PowerEdge servers, PowerStore and PowerScale storage, PowerProtect backup, APEX as-a-service</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-dell" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.dell.com" target="_blank" rel="noopener">dell.com</a>
+              </div>
+              <div class="vendor-news" id="vn-dell" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="hpe" data-name="hewlett packard enterprise (hpe) proliant servers, alletra storage, simplivity hyperconverged, greenlake hybrid cloud">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Hewlett Packard Enterprise (HPE)</h4>
+                <p class="vendor-products">ProLiant servers, Alletra storage, SimpliVity hyperconverged, GreenLake hybrid cloud</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-hpe" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.hpe.com" target="_blank" rel="noopener">hpe.com</a>
+              </div>
+              <div class="vendor-news" id="vn-hpe" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="lenovo" data-name="lenovo thinksystem servers, thinkagile hyperconverged, thinkedge edge servers, de and dm storage">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Lenovo</h4>
+                <p class="vendor-products">ThinkSystem servers, ThinkAgile hyperconverged, ThinkEdge edge servers, DE and DM storage</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-lenovo" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.lenovo.com" target="_blank" rel="noopener">lenovo.com</a>
+              </div>
+              <div class="vendor-news" id="vn-lenovo" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="ibm" data-name="ibm power and ibm z servers, flashsystem storage, watsonx ai and data platform">
+              <div class="vendor-main">
+                <h4 class="vendor-name">IBM</h4>
+                <p class="vendor-products">Power and IBM Z servers, FlashSystem storage, watsonx AI and data platform</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-ibm" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.ibm.com" target="_blank" rel="noopener">ibm.com</a>
+              </div>
+              <div class="vendor-news" id="vn-ibm" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="huawei" data-name="huawei enterprise oceanstor storage, cloudengine data-centre switches, airengine wi-fi, hisecengine firewalls">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Huawei Enterprise</h4>
+                <p class="vendor-products">OceanStor storage, CloudEngine data-centre switches, AirEngine Wi-Fi, HiSecEngine firewalls</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-huawei" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://e.huawei.com" target="_blank" rel="noopener">e.huawei.com</a>
+              </div>
+              <div class="vendor-news" id="vn-huawei" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="inspur" data-name="inspur rack and gpu servers for ai training and inference, enterprise storage">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Inspur</h4>
+                <p class="vendor-products">Rack and GPU servers for AI training and inference, enterprise storage</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-inspur" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.inspur.com" target="_blank" rel="noopener">inspur.com</a>
+              </div>
+              <div class="vendor-news" id="vn-inspur" hidden data-news></div>
+            </li>
+          </ul>
+        </section>
+        <section class="vgroup" data-cat="network" aria-labelledby="vg-network">
+          <header class="vgroup-head">
+            <h3 id="vg-network" class="vgroup-title">Networking <span class="vgroup-count mono">6</span></h3>
+            <p class="vgroup-blurb">Data-centre and campus fabrics, Wi-Fi, structured cabling, monitoring and configuration kept in version control.</p>
+          </header>
+          <ul class="vlist">
+            <li class="vendor" data-vendor="cisco" data-name="cisco systems catalyst campus switching, nexus data-centre fabrics, meraki cloud-managed networks, ucs compute">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Cisco Systems</h4>
+                <p class="vendor-products">Catalyst campus switching, Nexus data-centre fabrics, Meraki cloud-managed networks, UCS compute</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-cisco" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.cisco.com" target="_blank" rel="noopener">cisco.com</a>
+              </div>
+              <div class="vendor-news" id="vn-cisco" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="juniper" data-name="juniper networks mist ai wired and wireless, ex and qfx switching, mx routing, srx firewalls">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Juniper Networks</h4>
+                <p class="vendor-products">Mist AI wired and wireless, EX and QFX switching, MX routing, SRX firewalls</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-juniper" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.juniper.net" target="_blank" rel="noopener">juniper.net</a>
+              </div>
+              <div class="vendor-news" id="vn-juniper" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="arista" data-name="arista networks 7000-series data-centre switches, cloudvision management, cognitive campus wi-fi">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Arista Networks</h4>
+                <p class="vendor-products">7000-series data-centre switches, CloudVision management, cognitive campus Wi-Fi</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-arista" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.arista.com" target="_blank" rel="noopener">arista.com</a>
+              </div>
+              <div class="vendor-news" id="vn-arista" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="extreme" data-name="extreme networks extremecloud iq management, fabric connect, universal switches and wi-fi">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Extreme Networks</h4>
+                <p class="vendor-products">ExtremeCloud IQ management, Fabric Connect, universal switches and Wi-Fi</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-extreme" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.extremenetworks.com" target="_blank" rel="noopener">extremenetworks.com</a>
+              </div>
+              <div class="vendor-news" id="vn-extreme" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="aruba" data-name="aruba networks cx switching, wi-fi access points, central cloud management, clearpass network access control">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Aruba Networks</h4>
+                <p class="vendor-products">CX switching, Wi-Fi access points, Central cloud management, ClearPass network access control</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-aruba" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.arubanetworks.com" target="_blank" rel="noopener">arubanetworks.com</a>
+              </div>
+              <div class="vendor-news" id="vn-aruba" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="commscope" data-name="commscope structured cabling, fibre connectivity and enterprise network infrastructure">
+              <div class="vendor-main">
+                <h4 class="vendor-name">CommScope</h4>
+                <p class="vendor-products">Structured cabling, fibre connectivity and enterprise network infrastructure</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-commscope" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.commscope.com" target="_blank" rel="noopener">commscope.com</a>
+              </div>
+              <div class="vendor-news" id="vn-commscope" hidden data-news></div>
+            </li>
+          </ul>
+        </section>
+        <section class="vgroup" data-cat="netsec" aria-labelledby="vg-netsec">
+          <header class="vgroup-head">
+            <h3 id="vg-netsec" class="vgroup-title">Network security <span class="vgroup-count mono">7</span></h3>
+            <p class="vgroup-blurb">Firewall and SASE design, rule-base clean-ups, VPN and zero-trust access, and 24/7 alert handling.</p>
+          </header>
+          <ul class="vlist">
+            <li class="vendor" data-vendor="paloalto" data-name="palo alto networks pa-series and vm-series firewalls, prisma sase, cortex xdr and xsiam security operations">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Palo Alto Networks</h4>
+                <p class="vendor-products">PA-Series and VM-Series firewalls, Prisma SASE, Cortex XDR and XSIAM security operations</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-paloalto" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.paloaltonetworks.com" target="_blank" rel="noopener">paloaltonetworks.com</a>
+              </div>
+              <div class="vendor-news" id="vn-paloalto" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="fortinet" data-name="fortinet fortigate firewalls, fortisase, fortimanager and fortianalyzer, security fabric switching and wi-fi">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Fortinet</h4>
+                <p class="vendor-products">FortiGate firewalls, FortiSASE, FortiManager and FortiAnalyzer, Security Fabric switching and Wi-Fi</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-fortinet" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.fortinet.com" target="_blank" rel="noopener">fortinet.com</a>
+              </div>
+              <div class="vendor-news" id="vn-fortinet" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="checkpoint" data-name="check point software technologies quantum security gateways, harmony endpoint and email, cloudguard, infinity platform">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Check Point Software Technologies</h4>
+                <p class="vendor-products">Quantum security gateways, Harmony endpoint and email, CloudGuard, Infinity platform</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-checkpoint" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.checkpoint.com" target="_blank" rel="noopener">checkpoint.com</a>
+              </div>
+              <div class="vendor-news" id="vn-checkpoint" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="ciscosecure" data-name="cisco secure secure firewall, duo multi-factor authentication, umbrella dns security, cisco xdr, identity services engine">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Cisco Secure</h4>
+                <p class="vendor-products">Secure Firewall, Duo multi-factor authentication, Umbrella DNS security, Cisco XDR, Identity Services Engine</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-ciscosecure" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.cisco.com" target="_blank" rel="noopener">cisco.com</a>
+              </div>
+              <div class="vendor-news" id="vn-ciscosecure" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="sonicwall" data-name="sonicwall tz, nsa and nssp firewalls, capture client endpoint, cloud secure edge access">
+              <div class="vendor-main">
+                <h4 class="vendor-name">SonicWall</h4>
+                <p class="vendor-products">TZ, NSa and NSsp firewalls, Capture Client endpoint, Cloud Secure Edge access</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-sonicwall" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.sonicwall.com" target="_blank" rel="noopener">sonicwall.com</a>
+              </div>
+              <div class="vendor-news" id="vn-sonicwall" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="sophos" data-name="sophos sophos firewall, intercept x endpoint, managed detection and response, zero-trust network access">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Sophos</h4>
+                <p class="vendor-products">Sophos Firewall, Intercept X endpoint, managed detection and response, zero-trust network access</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-sophos" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.sophos.com" target="_blank" rel="noopener">sophos.com</a>
+              </div>
+              <div class="vendor-news" id="vn-sophos" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="watchguard" data-name="watchguard technologies firebox appliances, authpoint mfa, epdr endpoint protection, unified security platform">
+              <div class="vendor-main">
+                <h4 class="vendor-name">WatchGuard Technologies</h4>
+                <p class="vendor-products">Firebox appliances, AuthPoint MFA, EPDR endpoint protection, unified security platform</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-watchguard" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.watchguard.com" target="_blank" rel="noopener">watchguard.com</a>
+              </div>
+              <div class="vendor-news" id="vn-watchguard" hidden data-news></div>
+            </li>
+          </ul>
+        </section>
+        <section class="vgroup" data-cat="endpoint" aria-labelledby="vg-endpoint">
+          <header class="vgroup-head">
+            <h3 id="vg-endpoint" class="vgroup-title">Endpoint &amp; XDR <span class="vgroup-count mono">6</span></h3>
+            <p class="vgroup-blurb">EDR rollout, policy tuning, threat-hunting playbooks and integration with your SIEM and ticketing.</p>
+          </header>
+          <ul class="vlist">
+            <li class="vendor" data-vendor="crowdstrike" data-name="crowdstrike falcon platform: endpoint and xdr, identity protection, cloud security, managed threat hunting">
+              <div class="vendor-main">
+                <h4 class="vendor-name">CrowdStrike</h4>
+                <p class="vendor-products">Falcon platform: endpoint and XDR, identity protection, cloud security, managed threat hunting</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-crowdstrike" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.crowdstrike.com" target="_blank" rel="noopener">crowdstrike.com</a>
+              </div>
+              <div class="vendor-news" id="vn-crowdstrike" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="sentinelone" data-name="sentinelone singularity platform for endpoint, cloud and identity, purple ai security analyst">
+              <div class="vendor-main">
+                <h4 class="vendor-name">SentinelOne</h4>
+                <p class="vendor-products">Singularity platform for endpoint, cloud and identity, Purple AI security analyst</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-sentinelone" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.sentinelone.com" target="_blank" rel="noopener">sentinelone.com</a>
+              </div>
+              <div class="vendor-news" id="vn-sentinelone" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="defender" data-name="microsoft defender defender for endpoint, defender xdr, defender for cloud, sentinel siem">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Microsoft Defender</h4>
+                <p class="vendor-products">Defender for Endpoint, Defender XDR, Defender for Cloud, Sentinel SIEM</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-defender" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.microsoft.com" target="_blank" rel="noopener">microsoft.com</a>
+              </div>
+              <div class="vendor-news" id="vn-defender" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="bitdefender" data-name="bitdefender gravityzone platform, endpoint detection and response, xdr, managed detection and response">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Bitdefender</h4>
+                <p class="vendor-products">GravityZone platform, endpoint detection and response, XDR, managed detection and response</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-bitdefender" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.bitdefender.com" target="_blank" rel="noopener">bitdefender.com</a>
+              </div>
+              <div class="vendor-news" id="vn-bitdefender" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="trendmicro" data-name="trend micro vision one platform, server and cloud workload protection, tippingpoint intrusion prevention">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Trend Micro</h4>
+                <p class="vendor-products">Vision One platform, server and cloud workload protection, TippingPoint intrusion prevention</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-trendmicro" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.trendmicro.com" target="_blank" rel="noopener">trendmicro.com</a>
+              </div>
+              <div class="vendor-news" id="vn-trendmicro" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="trellix" data-name="trellix endpoint security, xdr, network detection and response, email security">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Trellix</h4>
+                <p class="vendor-products">Endpoint security, XDR, network detection and response, email security</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-trellix" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.trellix.com" target="_blank" rel="noopener">trellix.com</a>
+              </div>
+              <div class="vendor-news" id="vn-trellix" hidden data-news></div>
+            </li>
+          </ul>
+        </section>
+        <section class="vgroup" data-cat="platform" aria-labelledby="vg-platform">
+          <header class="vgroup-head">
+            <h3 id="vg-platform" class="vgroup-title">Platforms &amp; operating systems <span class="vgroup-count mono">5</span></h3>
+            <p class="vgroup-blurb">Directory, device and server platforms built, patched and automated alongside your Linux estate.</p>
+          </header>
+          <ul class="vlist">
+            <li class="vendor" data-vendor="microsoft" data-name="microsoft windows server, azure local on-premise cloud, entra id, intune, microsoft 365">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Microsoft</h4>
+                <p class="vendor-products">Windows Server, Azure Local on-premise cloud, Entra ID, Intune, Microsoft 365</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-microsoft" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.microsoft.com" target="_blank" rel="noopener">microsoft.com</a>
+              </div>
+              <div class="vendor-news" id="vn-microsoft" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="apple" data-name="apple mac and ipad fleets, apple business manager, device enrolment with your mdm">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Apple</h4>
+                <p class="vendor-products">Mac and iPad fleets, Apple Business Manager, device enrolment with your MDM</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-apple" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.apple.com" target="_blank" rel="noopener">apple.com</a>
+              </div>
+              <div class="vendor-news" id="vn-apple" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="redhat" data-name="red hat red hat enterprise linux, openshift, ansible automation platform, satellite">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Red Hat</h4>
+                <p class="vendor-products">Red Hat Enterprise Linux, OpenShift, Ansible Automation Platform, Satellite</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-redhat" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.redhat.com" target="_blank" rel="noopener">redhat.com</a>
+              </div>
+              <div class="vendor-news" id="vn-redhat" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="canonical" data-name="canonical ubuntu pro, landscape fleet management, maas bare-metal provisioning, microcloud">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Canonical</h4>
+                <p class="vendor-products">Ubuntu Pro, Landscape fleet management, MAAS bare-metal provisioning, MicroCloud</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-canonical" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.canonical.com" target="_blank" rel="noopener">canonical.com</a>
+              </div>
+              <div class="vendor-news" id="vn-canonical" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="oracle" data-name="oracle exadata, oracle database, exadata cloud@customer, oracle linux">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Oracle</h4>
+                <p class="vendor-products">Exadata, Oracle Database, Exadata Cloud@Customer, Oracle Linux</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-oracle" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.oracle.com" target="_blank" rel="noopener">oracle.com</a>
+              </div>
+              <div class="vendor-news" id="vn-oracle" hidden data-news></div>
+            </li>
+          </ul>
+        </section>
+        <section class="vgroup" data-cat="physical" aria-labelledby="vg-physical">
+          <header class="vgroup-head">
+            <h3 id="vg-physical" class="vgroup-title">Physical security &amp; video <span class="vgroup-count mono">8</span></h3>
+            <p class="vgroup-blurb">IP video and access-control networks segmented from IT, recorders monitored and firmware kept current.</p>
+          </header>
+          <ul class="vlist">
+            <li class="vendor" data-vendor="hikvision" data-name="hikvision ip cameras, network video recorders, hikcentral video management">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Hikvision</h4>
+                <p class="vendor-products">IP cameras, network video recorders, HikCentral video management</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-hikvision" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.hikvision.com" target="_blank" rel="noopener">hikvision.com</a>
+              </div>
+              <div class="vendor-news" id="vn-hikvision" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="axis" data-name="axis communications network cameras, axis camera station video management, network audio and access control">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Axis Communications</h4>
+                <p class="vendor-products">Network cameras, AXIS Camera Station video management, network audio and access control</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-axis" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.axis.com" target="_blank" rel="noopener">axis.com</a>
+              </div>
+              <div class="vendor-news" id="vn-axis" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="dahua" data-name="dahua technology ip cameras, network video recorders, dss management platform">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Dahua Technology</h4>
+                <p class="vendor-products">IP cameras, network video recorders, DSS management platform</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-dahua" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.dahuasecurity.com" target="_blank" rel="noopener">dahuasecurity.com</a>
+              </div>
+              <div class="vendor-news" id="vn-dahua" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="hanwha" data-name="hanwha vision wisenet ai cameras, wisenet wave video management">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Hanwha Vision</h4>
+                <p class="vendor-products">Wisenet AI cameras, Wisenet WAVE video management</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-hanwha" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.hanwhavision.com" target="_blank" rel="noopener">hanwhavision.com</a>
+              </div>
+              <div class="vendor-news" id="vn-hanwha" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="bosch" data-name="bosch security systems video systems, intrusion alarms, access control, public address and voice alarm">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Bosch Security Systems</h4>
+                <p class="vendor-products">Video systems, intrusion alarms, access control, public address and voice alarm</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-bosch" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.boschsecurity.com" target="_blank" rel="noopener">boschsecurity.com</a>
+              </div>
+              <div class="vendor-news" id="vn-bosch" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="verkada" data-name="verkada cloud-managed cameras, access control, alarms and environmental sensors on one platform">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Verkada</h4>
+                <p class="vendor-products">Cloud-managed cameras, access control, alarms and environmental sensors on one platform</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-verkada" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.verkada.com" target="_blank" rel="noopener">verkada.com</a>
+              </div>
+              <div class="vendor-news" id="vn-verkada" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="avigilon" data-name="avigilon avigilon unity on-premise and avigilon alta cloud video and access control">
+              <div class="vendor-main">
+                <h4 class="vendor-name">Avigilon</h4>
+                <p class="vendor-products">Avigilon Unity on-premise and Avigilon Alta cloud video and access control</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-avigilon" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.avigilon.com" target="_blank" rel="noopener">avigilon.com</a>
+              </div>
+              <div class="vendor-news" id="vn-avigilon" hidden data-news></div>
+            </li>
+            <li class="vendor" data-vendor="cpplus" data-name="cp plus ip and hd cameras, network video recorders, video analytics">
+              <div class="vendor-main">
+                <h4 class="vendor-name">CP PLUS</h4>
+                <p class="vendor-products">IP and HD cameras, network video recorders, video analytics</p>
+              </div>
+              <div class="vendor-actions">
+                <button type="button" class="vendor-btn mono" aria-expanded="false" aria-controls="vn-cpplus" data-news-btn>Latest updates</button>
+                <a class="vendor-site mono" href="https://www.cpplusworld.com" target="_blank" rel="noopener">cpplusworld.com</a>
+              </div>
+              <div class="vendor-news" id="vn-cpplus" hidden data-news></div>
+            </li>
+          </ul>
+        </section>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ AI OPERATIONS ============ -->
-    <section class="section section-alt" id="aiops" aria-labelledby="ai-heading">
+    <section class="section" id="aiops" aria-labelledby="ai-heading">
       <div class="wrap aiops">
         <div class="aiops-copy">
           <h2 id="ai-heading" class="section-title">AI consultancy for operations teams</h2>
@@ -499,7 +1032,7 @@
     </section>
 
     <!-- ============ MANAGED SERVICES ============ -->
-    <section class="section" id="managed" aria-labelledby="ms-heading">
+    <section class="section section-alt" id="managed" aria-labelledby="ms-heading">
       <div class="wrap">
         <header class="section-head">
           <h2 id="ms-heading" class="section-title">Remote managed services, contracted like a utility</h2>
@@ -564,7 +1097,7 @@
     </section>
 
     <!-- ============ FOOTPRINT ============ -->
-    <section class="section section-alt" id="footprint" aria-labelledby="fp-heading">
+    <section class="section" id="footprint" aria-labelledby="fp-heading">
       <div class="wrap">
         <header class="section-head">
           <h2 id="fp-heading" class="section-title">Headquartered in Islamabad, working across the Gulf</h2>
@@ -651,7 +1184,7 @@
     </section>
 
     <!-- ============ ENGAGEMENTS SLIDER ============ -->
-    <section class="section" id="engagements" aria-labelledby="eng-heading">
+    <section class="section section-alt" id="engagements" aria-labelledby="eng-heading">
       <div class="wrap">
         <header class="section-head section-head-split">
           <div>
@@ -738,7 +1271,7 @@
     </section>
 
     <!-- ============ LEADERSHIP ============ -->
-    <section class="section section-alt" id="leadership" aria-labelledby="lead-heading">
+    <section class="section" id="leadership" aria-labelledby="lead-heading">
       <div class="wrap lead">
         <h2 id="lead-heading" class="sr-only">Leadership</h2>
         <figure class="lead-quote">
@@ -785,8 +1318,8 @@
     </section>
 
     <!-- ============ TEAM ============ -->
-    <!-- NOTE: apart from Aatif Nadeem these names are placeholders; replace them with real team members before launch. -->
-    <section class="section" id="team" aria-labelledby="team-heading">
+    <!-- NOTE: apart from Atif Nadeem these names are placeholders; replace them with real team members before launch. -->
+    <section class="section section-alt" id="team" aria-labelledby="team-heading">
       <div class="wrap">
         <header class="section-head">
           <h2 id="team-heading" class="section-title">The engineers you will work with</h2>
@@ -797,7 +1330,7 @@
             <div class="member-head">
               <span class="avatar" aria-hidden="true">AN</span>
               <div>
-                <h3 class="member-name">Aatif Nadeem</h3>
+                <h3 class="member-name">Atif Nadeem</h3>
                 <p class="member-role">Linux &amp; Cloud Engineer</p>
               </div>
             </div>
@@ -870,7 +1403,7 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section section-alt" id="contact" aria-labelledby="contact-heading">
+    <section class="section" id="contact" aria-labelledby="contact-heading">
       <div class="wrap contact">
         <div class="contact-intro">
           <h2 id="contact-heading" class="section-title">Tell us what has to stay up</h2>

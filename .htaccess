@@ -42,6 +42,7 @@ AddDefaultCharset utf-8
 
   # Block dotfiles and repo files that may be deployed by accident
   RewriteRule (^|/)\.(?!well-known/) - [F,L]
+  RewriteRule ^cache(/|$) - [F,L]
   RewriteRule ^(README\.md|LICENSE|package(-lock)?\.json|scripts/.*|.*\.sh|\.cpanel\.yml)$ - [F,L,NC]
 </IfModule>
 

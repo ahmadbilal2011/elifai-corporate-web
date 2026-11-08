@@ -16,11 +16,13 @@ elifai-corporate-web/
 ├── privacy.html               Privacy notice (served at /privacy)
 ├── 404.html                   Error page
 ├── contact.php                Contact form handler → emails info@elifai.pk
+├── vendor-news.php            Server-side vendor news proxy with cache (live headlines)
 ├── .htaccess                  HTTPS, clean URLs, Brotli/Gzip, caching, security headers
 ├── .cpanel.yml                Deploy tasks for cPanel Git Version Control
 ├── robots.txt · sitemap.xml · site.webmanifest
 ├── assets/
 │   ├── css/main.css           Design tokens + all styles
+│   ├── data/vendors.json      38 vendors: category, product families, site, feed sources
 │   ├── img/                   Favicon (follows OS light/dark), social image
 │   │   └── logo/              Elifai mark SVGs (currentColor, on-dark, on-light) + PNG lockups
 │   └── js/
@@ -28,6 +30,8 @@ elifai-corporate-web/
 │       ├── main.js            Entry module
 │       └── modules/
 │           ├── theme.js       Light / dark toggle
+│           ├── hud.js         Hero ops wall: radar, throughput graph, load bars, security log
+│           ├── ecosystem.js   Vendor filter, search, live headlines, vendor wire
 │           ├── platforms.js   Platform matrix filter
 │           ├── replay.js      AIOps incident replay
 │           ├── chrome.js      Header blur, mobile menu, active nav, ticker, reveal
@@ -48,13 +52,14 @@ elifai-corporate-web/
 3. NOC console — live-HTML operations console (demo tenant) showing estates across AWS, Google Cloud, OCI, OpenShift, Alibaba Cloud and VMware, Linux fleet patch status, latency SLO and incidents
 4. Technology ticker — infinite, GPU-accelerated, pauses on hover
 4. Services — Managed services & remote operations, AI consultancy for operations, Cloud/Linux/Kubernetes engineering, Custom software
-5. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
+5. Vendor ecosystem — 38 on-premise, network, security, platform and video vendors grouped by category, with search, product-family summaries, per-vendor live headlines and a scrolling vendor wire
+5b. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
 6. AI operations — Assess → Pilot → Operate method and an illustrative incident replay
 7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
 8. Footprint — Islamabad HQ with remote links to all six GCC states, Europe and Asia-Pacific; live PKT / AST / UTC clocks
 9. Engagements — market-by-market blueprint slider
 10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
-11. Team — six engineer cards with roles and skills (Aatif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
+11. Team — six engineer cards with roles and skills (Atif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
 12. Executive inquiry form — validated, AJAX, honeypot + timing trap + per-IP rate limit
 13. Footer — Sysnetrix Pvt Ltd copyright (Islamabad), market badges, contact links, privacy notice
 
@@ -147,6 +152,27 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 | Old CSS after an update | Styles are cached for a week. Add `?v=2` to the `main.css` / `main.js` links in the HTML. |
 | `/privacy` shows 404 | `mod_rewrite` is off; link to `/privacy.html` or ask the host to enable it. |
 
+## Live vendor updates
+
+`vendor-news.php` fetches each vendor's public news feed on the server, keeps only headlines (title, date, link, source) and caches them in `cache/` for 6 hours. The browser never contacts the vendors directly, and visitors cannot make the script fetch an arbitrary URL; every source is listed in `assets/data/vendors.json`.
+
+For each vendor the sources are tried in order and the first one that returns recent items wins:
+1. the vendor's own RSS/Atom feed, where one is listed;
+2. public news search limited to the vendor's own domain;
+3. public news search for the vendor's name.
+
+Set `ALLOW_NEWS_AGGREGATOR` to `false` at the top of `vendor-news.php` to use only the vendors' own feeds.
+
+**Check the feeds after deploying** (cPanel → Terminal, or SSH):
+
+```bash
+cd ~/public_html && php vendor-news.php --check
+```
+
+It prints every vendor with `official`, `news` or `FAILED`. Fix a failing vendor by adding its newsroom RSS address to the start of its `feeds` list in `vendors.json`. Optional: warm the cache every 6 hours with a cPanel **Cron Job**: `php ~/public_html/vendor-news.php > /dev/null`.
+
+Requirements: PHP with cURL (standard on cPanel) or `allow_url_fopen` on, and a writable `cache/` folder (created automatically; blocked from the web by `.htaccess`).
+
 ## Editing content
 
 - **Copy** lives directly in `index.html`; every section is marked with a comment banner.
@@ -154,6 +180,8 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 - **Cloud region notes** on the Platforms section reflect each provider's published Gulf regions as of November 2026. Review them when providers open new regions (for example the AWS Saudi Arabia region).
 - **SLA targets** in the Managed services section are standard targets; adjust them to match your contracts.
 - **Colours, type and spacing** are tokens at the top of `assets/css/main.css`.
+- **Vendors:** product families are in `index.html` (Vendor ecosystem section) and `assets/data/vendors.json`; keep the two in step when you add or remove a vendor.
+- **Hero ops wall:** all HUD figures (req/s, security events, cluster load) are simulated for the showcase; event IPs use the RFC 5737 documentation ranges.
 - **Canvas animation:** each hero slide has its own motion in `topology.js` (`animate()`): zones orbiting with self-healing alerts (Managed), an activation wave through the layers (AIOps), five clouds orbiting the Islamabad NOC (Multi-cloud), and a rolling patch wave across the Linux fleet. All of it stops under reduced motion and with the pause button.
 - **Team:** cards are in the `TEAM` section of `index.html`; initials avatars can be swapped for photos.
 - **Hero slides:** each `<article data-slide data-mode="…">` maps to a canvas layout in `topology.js` (`cloud`, `ai`, `pipeline`, `modules`).

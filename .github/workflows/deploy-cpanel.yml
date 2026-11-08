@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir -p public
           cp -R assets public/
-          cp .htaccess index.html privacy.html 404.html contact.php robots.txt sitemap.xml site.webmanifest public/
+          cp .htaccess index.html privacy.html 404.html contact.php vendor-news.php robots.txt sitemap.xml site.webmanifest public/
 
       - name: Upload via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

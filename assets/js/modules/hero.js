@@ -1,5 +1,6 @@
 import { createSlider, pad2 } from "./slider.js";
 import { createTopology, MODE_LABELS } from "./topology.js";
+import { initHud } from "./hud.js";
 
 export function initHero({ reducedMotion }) {
   const root = document.querySelector("[data-hero-slider]");
@@ -27,6 +28,8 @@ export function initHero({ reducedMotion }) {
       },
     });
   }
+
+  const hud = initHud({ reducedMotion });
 
   function render(next, prev) {
     const incoming = slides[next];
@@ -85,6 +88,7 @@ export function initHero({ reducedMotion }) {
       pauseBtn.setAttribute("aria-label", pressed ? "Pause animation" : "Resume animation");
       slider.setUserPaused(!pressed);
       topo?.setPaused(!pressed);
+      hud?.setPaused(!pressed);
     });
   }
 }
