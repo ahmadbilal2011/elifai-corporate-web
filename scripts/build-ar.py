@@ -129,8 +129,8 @@ def link_fixes(s: str) -> str:
     s = s.replace(
         '<a class="lang-link" href="/ar/" hreflang="ar" lang="ar" aria-label="النسخة العربية">عربي</a>',
         '<a class="lang-link" href="/" hreflang="en" lang="en" aria-label="English version">English</a>', 1)
-    s = s.replace('<li><a href="/ar/" hreflang="ar" lang="ar">العربية</a></li>',
-                  '<li><a href="/" hreflang="en" lang="en">English</a></li>', 1)
+    s = s.replace('<a class="lang-link" href="/ar/" hreflang="ar" lang="ar">العربية</a>',
+                  '<a class="lang-link" href="/" hreflang="en" lang="en">English</a>', 1)
     # keep the brand link on the Arabic home
     s = s.replace('<a class="brand" href="/"', '<a class="brand" href="/ar/"')
     # form posts back to the Arabic page when JavaScript is off

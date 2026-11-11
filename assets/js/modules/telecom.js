@@ -86,6 +86,12 @@ export function initTelecom({ reducedMotion }) {
       if (e.key === "End") { e.preventDefault(); pick(); show(tabs.length - 1, true); }
     });
   });
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-tel-open]");
+    if (!a) return;
+    userPicked = true; root.classList.add("is-picked");
+    show(Number(a.getAttribute("data-tel-open")));
+  });
   root.addEventListener("pointerenter", () => { hover = true; });
   root.addEventListener("pointerleave", () => { hover = false; });
 

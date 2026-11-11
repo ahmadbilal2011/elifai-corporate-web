@@ -1,4 +1,4 @@
-import { t, isAr, locale } from "./i18n.js?v=12";
+import { t, isAr, locale } from "./i18n.js?v=13";
 /** NOC console: clickable views, live clock, chart reveal, and a live incident queue. */
 const AGENTS = ["Ali Raza", "Sana Khan", "Hamza Sheikh", "Fatima Malik", "Imran Akhtar", "Noor Ahmed", "Zeeshan Haider", "Ayesha Butt", "Usman Javed", "Mariam Siddiqui", "Daniel Brooks", "Emma Clarke"];
 const ISSUES = [

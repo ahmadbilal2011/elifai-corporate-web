@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=12";
+import { t } from "./i18n.js?v=13";
 /** Header blur on scroll, mobile menu, active-section nav, ticker, reveal, year. */
 export function initChrome({ reducedMotion }) {
   const header = document.querySelector("[data-header]");
@@ -26,17 +26,57 @@ export function initChrome({ reducedMotion }) {
     window.matchMedia("(min-width: 961px)").addEventListener("change", (m) => { if (m.matches) setOpen(false); });
   }
 
-  // Highlight the nav link for the section in view
-  const links = [...document.querySelectorAll(".nav-list a[href^='#']")];
-  const sections = links.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
-  if (sections.length) {
+  // Mega menu: click or hover opens a panel; Escape, outside click or a link closes it
+  const triggers = [...document.querySelectorAll("[data-mm-trigger]")];
+  const hoverable = window.matchMedia("(hover: hover) and (pointer: fine)");
+  let openTrigger = null, hoverTimer = 0, openedAt = 0;
+  const panelOf = (tr) => document.getElementById(tr.getAttribute("aria-controls"));
+  const closeAll = () => {
+    triggers.forEach((tr) => { tr.setAttribute("aria-expanded", "false"); panelOf(tr).hidden = true; });
+    openTrigger = null;
+  };
+  const openMenu = (tr) => {
+    if (openTrigger === tr) return;
+    closeAll();
+    tr.setAttribute("aria-expanded", "true");
+    panelOf(tr).hidden = false;
+    openTrigger = tr;
+    openedAt = performance.now();
+    header?.classList.add("is-scrolled");
+  };
+  triggers.forEach((tr) => {
+    const item = tr.closest(".mm-item");
+    tr.addEventListener("click", () => {
+      // a click right after hover-open keeps the menu open instead of toggling it shut
+      if (openTrigger === tr && performance.now() - openedAt > 500) { closeAll(); onScroll(); } else openMenu(tr);
+    });
+    tr.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") { e.preventDefault(); openMenu(tr); panelOf(tr).querySelector("a")?.focus(); }
+    });
+    item.addEventListener("pointerenter", () => { if (!hoverable.matches) return; clearTimeout(hoverTimer); hoverTimer = setTimeout(() => openMenu(tr), openTrigger ? 0 : 120); });
+    item.addEventListener("pointerleave", () => { if (!hoverable.matches) return; clearTimeout(hoverTimer); hoverTimer = setTimeout(() => { if (openTrigger === tr) { closeAll(); onScroll(); } }, 220); });
+    panelOf(tr).addEventListener("click", (e) => { if (e.target.closest("a")) { closeAll(); onScroll(); } });
+  });
+  document.addEventListener("click", (e) => { if (openTrigger && !e.target.closest(".mm-item")) { closeAll(); onScroll(); } });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && openTrigger) { const tr = openTrigger; closeAll(); onScroll(); tr.focus(); }
+  });
+  window.addEventListener("scroll", () => { if (openTrigger && !hoverable.matches) { closeAll(); onScroll(); } }, { passive: true });
+
+  // Highlight the top-level item whose sections are in view
+  const groups = [
+    ...triggers.map((tr) => ({ el: tr, ids: tr.dataset.sections.split(" ") })),
+    ...[...document.querySelectorAll(".nav-link[href^='#']")].map((a) => ({ el: a, ids: [a.getAttribute("href").slice(1)] })),
+  ];
+  const watched = groups.flatMap((g) => g.ids).map((id) => document.getElementById(id)).filter(Boolean);
+  if (watched.length) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        links.forEach((a) => a.setAttribute("aria-current", String(a.getAttribute("href") === `#${entry.target.id}`)));
+        groups.forEach((g) => g.el.setAttribute("aria-current", String(g.ids.includes(entry.target.id))));
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    sections.forEach((s) => io.observe(s));
+    watched.forEach((s) => io.observe(s));
   }
 
   // Ticker: duplicate the list once so translate(-50%) loops seamlessly

@@ -35,8 +35,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700&amp;family=Red+Hat+Text:wght@400;500;600&amp;family=Red+Hat+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/assets/css/main.css?v=12">
-  <script type="module" src="/assets/js/main.js?v=12"></script>
+  <link rel="stylesheet" href="/assets/css/main.css?v=13">
+  <script type="module" src="/assets/js/main.js?v=13"></script>
 
   <script type="application/ld+json">
   {
@@ -82,16 +82,62 @@
         </span>
       </a>
 
-      <nav class="nav" aria-label="Primary">
+      <nav class="nav" aria-label="Primary" data-mm>
         <ul class="nav-list">
-          <li><a href="#capabilities">Services</a></li>
-          <li><a href="#platforms">Platforms</a></li>
-          <li><a href="#ecosystem">Vendors</a></li>
-          <li><a href="#telecom">Telecom</a></li>
-          <li><a href="#managed">Managed</a></li>
-          <li><a href="#team">Team</a></li>
-          <li><a href="#insights">Insights</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li class="mm-item">
+            <button type="button" class="mm-trigger" aria-expanded="false" aria-controls="mm-services" data-mm-trigger data-sections="capabilities telecom">Services<svg class="mm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <div class="mm-panel" id="mm-services" hidden data-mm-panel>
+              <div class="mm-inner">
+                <div class="mm-col">
+                  <p class="mm-head mono">What we do</p>
+                  <ul class="mm-grid"><li><a href="#capabilities" data-svc-open="0"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span class="mm-txt"><span class="mm-title">Managed services</span><span class="mm-sub">24/7 remote operations</span></span></a></li><li><a href="#capabilities" data-svc-open="1"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span class="mm-txt"><span class="mm-title">AI for operations</span><span class="mm-sub">AIOps consultancy</span></span></a></li><li><a href="#capabilities" data-svc-open="2"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18Z"/></svg></span><span class="mm-txt"><span class="mm-title">Cloud, Linux and Kubernetes</span><span class="mm-sub">Build and migrate</span></span></a></li><li><a href="#capabilities" data-svc-open="3"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 6l-2 12"/></svg></span><span class="mm-txt"><span class="mm-title">Enterprise software</span><span class="mm-sub">Bilingual platforms</span></span></a></li><li><a href="#capabilities" data-svc-open="4"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></span><span class="mm-txt"><span class="mm-title">Elifai Essentials <span class="mm-badge mono">SMB</span></span><span class="mm-sub">IT for small and medium businesses</span></span></a></li><li><a href="#telecom"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18c4-8 14-8 18-12"/><circle cx="3" cy="18" r="1.6"/><circle cx="21" cy="6" r="1.6"/></svg></span><span class="mm-txt"><span class="mm-title">Telecom and fibre <span class="mm-badge mono">New</span></span><span class="mm-sub">Fibre, DWDM, cabling and networks</span></span></a></li></ul>
+                </div>
+                <aside class="mm-promo">
+                  <span class="mm-fiber" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <p class="mm-promo-k mono">New service</p>
+                  <p class="mm-promo-t">Telecom and fibre</p>
+                  <p class="mm-promo-s">Fibre installation, DWDM ultra-high bandwidth transport, structured cabling and networks, tested before handover.</p>
+                  <a class="mm-promo-a" href="#telecom">See telecom services <span aria-hidden="true">→</span></a>
+                </aside>
+              </div>
+            </div>
+          </li>
+          <li class="mm-item">
+            <button type="button" class="mm-trigger" aria-expanded="false" aria-controls="mm-ops" data-mm-trigger data-sections="noc aiops managed platforms ecosystem">Operations<svg class="mm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <div class="mm-panel" id="mm-ops" hidden data-mm-panel>
+              <div class="mm-inner">
+                <div class="mm-col">
+                  <p class="mm-head mono">How we run it</p>
+                  <ul class="mm-grid"><li><a href="#noc"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3zM8 20h8M12 16v4M6 12l3-3 2 2 4-4 3 3"/></svg></span><span class="mm-txt"><span class="mm-title">NOC console</span><span class="mm-sub">One console for the whole estate</span></span></a></li><li><a href="#aiops"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span class="mm-txt"><span class="mm-title">AI operations</span><span class="mm-sub">How AI reads the alerts</span></span></a></li><li><a href="#managed"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="mm-txt"><span class="mm-title">Managed services and SLAs</span><span class="mm-sub">Response targets and models</span></span></a></li><li><a href="#platforms"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5"/></svg></span><span class="mm-txt"><span class="mm-title">Platforms</span><span class="mm-sub">Clouds, Linux and Kubernetes</span></span></a></li><li><a href="#ecosystem"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></span><span class="mm-txt"><span class="mm-title">Vendors</span><span class="mm-sub">On-premise and security vendors</span></span></a></li></ul>
+                </div>
+                <aside class="mm-promo">
+                  <p class="mm-promo-k mono"><span class="live-dot" aria-hidden="true"></span> Operations centre</p>
+                  <p class="mm-promo-t">Open 24/7</p>
+                  <span class="mm-bars" aria-hidden="true"><i style="--h:42%"></i><i style="--h:58%"></i><i style="--h:36%"></i><i style="--h:71%"></i><i style="--h:49%"></i><i style="--h:63%"></i><i style="--h:40%"></i><i style="--h:55%"></i></span>
+                  <p class="mm-promo-s">P1 response target of 15 minutes, every hour of every day.</p>
+                  <a class="mm-promo-a" href="#noc">Open the console <span aria-hidden="true">→</span></a>
+                </aside>
+              </div>
+            </div>
+          </li>
+          <li class="mm-item">
+            <button type="button" class="mm-trigger" aria-expanded="false" aria-controls="mm-company" data-mm-trigger data-sections="footprint engagements leadership team faq contact">Company<svg class="mm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <div class="mm-panel" id="mm-company" hidden data-mm-panel>
+              <div class="mm-inner">
+                <div class="mm-col">
+                  <p class="mm-head mono">Sysnetrix Pvt Ltd</p>
+                  <ul class="mm-grid"><li><a href="#leadership"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></span><span class="mm-txt"><span class="mm-title">Leadership</span><span class="mm-sub">A message from the CEO</span></span></a></li><li><a href="#team"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg></span><span class="mm-txt"><span class="mm-title">Team</span><span class="mm-sub">The engineers you will work with</span></span></a></li><li><a href="#footprint"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span class="mm-txt"><span class="mm-title">Global footprint</span><span class="mm-sub">Islamabad HQ, remote worldwide</span></span></a></li><li><a href="#engagements"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></span><span class="mm-txt"><span class="mm-title">How we engage</span><span class="mm-sub">Blueprints for each market</span></span></a></li><li><a href="#faq"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5M12 17h.01"/></svg></span><span class="mm-txt"><span class="mm-title">FAQ</span><span class="mm-sub">Questions Gulf clients ask first</span></span></a></li><li><a href="#contact"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg></span><span class="mm-txt"><span class="mm-title">Contact</span><span class="mm-sub">Talk to a senior engineer</span></span></a></li></ul>
+                </div>
+                <aside class="mm-promo">
+                  <p class="mm-promo-k mono">Headquarters</p>
+                  <p class="mm-promo-t">Islamabad, Pakistan</p>
+                  <p class="mm-promo-s">Remote delivery to Saudi Arabia, the Gulf, Europe and worldwide.</p>
+                  <a class="mm-promo-a" href="https://wa.me/966540952792" rel="noopener">WhatsApp +966 54 095 2792 <span aria-hidden="true">→</span></a>
+                </aside>
+              </div>
+            </div>
+          </li>
+          <li><a class="nav-link" href="#insights">Insights</a></li>
         </ul>
       </nav>
 
@@ -110,21 +156,8 @@
     </div>
 
     <div class="mobile-nav" id="mobile-nav" hidden data-mobile-nav>
-      <ul>
-        <li><a href="#capabilities">Services</a></li>
-        <li><a href="#noc">NOC</a></li>
-        <li><a href="#platforms">Platforms</a></li>
-        <li><a href="#ecosystem">Vendors</a></li>
-        <li><a href="#telecom">Telecom and fibre</a></li>
-        <li><a href="#aiops">AI operations</a></li>
-        <li><a href="#managed">Managed services</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#insights">Insights</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="/ar/" hreflang="ar" lang="ar">العربية</a></li>
-      </ul>
-      <a class="btn btn-primary" href="#contact" data-topic="Executive briefing">Schedule executive briefing</a>
+<p class="mnav-head mono">Services</p><ul class="mnav-grid"><li><a href="#capabilities" data-svc-open="0"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span>Managed services</span></a></li><li><a href="#capabilities" data-svc-open="1"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span>AI for operations</span></a></li><li><a href="#capabilities" data-svc-open="2"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18Z"/></svg></span><span>Cloud, Linux and Kubernetes</span></a></li><li><a href="#capabilities" data-svc-open="3"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 6l-2 12"/></svg></span><span>Enterprise software</span></a></li><li><a href="#capabilities" data-svc-open="4"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></span><span>Elifai Essentials</span></a></li><li><a href="#telecom"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18c4-8 14-8 18-12"/><circle cx="3" cy="18" r="1.6"/><circle cx="21" cy="6" r="1.6"/></svg></span><span>Telecom and fibre</span></a></li></ul><p class="mnav-head mono">Operations</p><ul class="mnav-grid"><li><a href="#noc"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3zM8 20h8M12 16v4M6 12l3-3 2 2 4-4 3 3"/></svg></span><span>NOC console</span></a></li><li><a href="#aiops"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span>AI operations</span></a></li><li><a href="#managed"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>Managed services and SLAs</span></a></li><li><a href="#platforms"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5"/></svg></span><span>Platforms</span></a></li><li><a href="#ecosystem"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></span><span>Vendors</span></a></li></ul><p class="mnav-head mono">Company</p><ul class="mnav-grid"><li><a href="#leadership"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></span><span>Leadership</span></a></li><li><a href="#team"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg></span><span>Team</span></a></li><li><a href="#footprint"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span>Global footprint</span></a></li><li><a href="#engagements"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></span><span>How we engage</span></a></li><li><a href="#faq"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5M12 17h.01"/></svg></span><span>FAQ</span></a></li><li><a href="#contact"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg></span><span>Contact</span></a></li><li><a href="#insights"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5"/></svg></span><span>Insights</span></a></li></ul>
+      <div class="mnav-foot"><a class="lang-link" href="/ar/" hreflang="ar" lang="ar">العربية</a><a class="btn btn-primary" href="#contact" data-topic="Executive briefing">Schedule executive briefing</a></div>
     </div>
   </header>
 
@@ -852,7 +885,7 @@
             </button>
             <button type="button" role="tab" id="tel-t2" aria-controls="tel-p2" aria-selected="false" tabindex="-1" data-tel-tab="1">
               <span class="tel-tab-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 6h6l4 6-4 6H2M22 6h-6l-4 6 4 6h6"/></svg></span>
-              <span><span class="tel-tab-title">DWDM and optical transport</span><span class="tel-tab-sub">100G and 400G wavelengths</span></span>
+              <span><span class="tel-tab-title">DWDM and optical transport</span><span class="tel-tab-sub">Ultra-high bandwidth technology</span></span>
               <span class="tel-tab-bar" aria-hidden="true"><i></i></span>
             </button>
             <button type="button" role="tab" id="tel-t3" aria-controls="tel-p3" aria-selected="false" tabindex="-1" data-tel-tab="2">
@@ -908,17 +941,17 @@
             <article class="tel-panel" role="tabpanel" id="tel-p2" aria-labelledby="tel-t2" data-tel-panel hidden>
               <div class="tel-copy">
                 <h3>DWDM and optical transport</h3>
-                <p>Wavelength networks that carry many 100G and 400G channels over one fibre pair, between cities, data centres and carrier points of presence.</p>
+                <p>DWDM ultra-high bandwidth technology: many wavelengths of light share one fibre pair, carrying traffic between cities, data centres and carrier points of presence.</p>
                 <ul class="cap-points">
                   <li>Link budget, OSNR and dispersion design before anything is ordered</li>
                   <li>ROADM, multiplexer and amplifier installation and commissioning</li>
                   <li>Channel turn-up, bit-error-rate testing and alarms into your NOC</li>
                   <li>Capacity upgrades planned without service interruption</li>
                 </ul>
-                <p class="cap-stack mono">C-band · ROADM · EDFA · OTN · 100G / 400G coherent</p>
+                <p class="cap-stack mono">C-band · ROADM · EDFA · OTN · coherent optics</p>
               </div>
               <figure class="tel-viz" aria-hidden="true">
-                <p class="viz-title mono">site A → site B · 80 km <b>6 × 100G</b></p>
+                <p class="viz-title mono">site A → site B · 80 km <b>6 wavelengths</b></p>
                 <svg class="tel-dwdm" viewBox="0 0 400 230">
                   <g class="lambdas-in">
                     <path style="--c:#7C5CFF" d="M18 40 C70 40 80 100 120 108"/>

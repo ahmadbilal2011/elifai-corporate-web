@@ -35,8 +35,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Red+Hat+Display:wght@500;600;700&amp;family=Red+Hat+Text:wght@400;500;600&amp;family=Red+Hat+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/assets/css/main.css?v=12">
-  <script type="module" src="/assets/js/main.js?v=12"></script>
+  <link rel="stylesheet" href="/assets/css/main.css?v=13">
+  <script type="module" src="/assets/js/main.js?v=13"></script>
 
   <script type="application/ld+json">
   {"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Elifai", "url": "https://elifai.pk/ar/", "logo": "https://elifai.pk/assets/img/logo-mark.svg", "email": "info@elifai.pk", "telephone": "+966540952792", "address": {"@type": "PostalAddress", "addressLocality": "Islamabad", "addressCountry": "PK"}, "parentOrganization": {"@type": "Organization", "name": "Sysnetrix Pvt Ltd", "address": {"@type": "PostalAddress", "addressLocality": "Islamabad", "addressCountry": "PK"}}, "areaServed": ["Saudi Arabia", "United Arab Emirates", "Qatar", "Bahrain", "Kuwait", "Oman", "Pakistan", "Worldwide"], "slogan": "Managed cloud and AI operations for Saudi Arabia and the Gulf", "knowsAbout": ["Managed IT services", "AIOps", "Red Hat Enterprise Linux", "Ubuntu", "Red Hat OpenShift", "Kubernetes", "AWS", "Google Cloud", "Oracle Cloud Infrastructure", "Alibaba Cloud", "VMware"], "founder": {"@type": "Person", "name": "Ahmad Bilal", "jobTitle": "Chief Executive Officer", "sameAs": "https://www.linkedin.com/in/ahmadbilal2011/"}, "inLanguage": "ar"}
@@ -61,16 +61,62 @@
         </span>
       </a>
 
-      <nav class="nav" aria-label="التنقل الرئيسي">
+      <nav class="nav" aria-label="التنقل الرئيسي" data-mm>
         <ul class="nav-list">
-          <li><a href="#capabilities">الخدمات</a></li>
-          <li><a href="#platforms">المنصات</a></li>
-          <li><a href="#ecosystem">الموردون</a></li>
-          <li><a href="#telecom">الاتصالات</a></li>
-          <li><a href="#managed">الخدمات المُدارة</a></li>
-          <li><a href="#team">الفريق</a></li>
-          <li><a href="#insights">رؤى</a></li>
-          <li><a href="#contact">تواصل معنا</a></li>
+          <li class="mm-item">
+            <button type="button" class="mm-trigger" aria-expanded="false" aria-controls="mm-services" data-mm-trigger data-sections="capabilities telecom">الخدمات<svg class="mm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <div class="mm-panel" id="mm-services" hidden data-mm-panel>
+              <div class="mm-inner">
+                <div class="mm-col">
+                  <p class="mm-head mono">ما نقدّمه</p>
+                  <ul class="mm-grid"><li><a href="#capabilities" data-svc-open="0"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span class="mm-txt"><span class="mm-title">الخدمات المُدارة</span><span class="mm-sub">عمليات عن بُعد على مدار الساعة</span></span></a></li><li><a href="#capabilities" data-svc-open="1"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span class="mm-txt"><span class="mm-title">الذكاء الاصطناعي للعمليات</span><span class="mm-sub">استشارات AIOps</span></span></a></li><li><a href="#capabilities" data-svc-open="2"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18Z"/></svg></span><span class="mm-txt"><span class="mm-title">السحابة ولينكس وكوبرنيتس</span><span class="mm-sub">البناء والترحيل</span></span></a></li><li><a href="#capabilities" data-svc-open="3"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 6l-2 12"/></svg></span><span class="mm-txt"><span class="mm-title">البرمجيات المؤسسية</span><span class="mm-sub">منصات ثنائية اللغة</span></span></a></li><li><a href="#capabilities" data-svc-open="4"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></span><span class="mm-txt"><span class="mm-title">إليفاي الأساسية <span class="mm-badge mono">للشركات</span></span><span class="mm-sub">تقنية المعلومات للشركات الصغيرة والمتوسطة</span></span></a></li><li><a href="#telecom"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18c4-8 14-8 18-12"/><circle cx="3" cy="18" r="1.6"/><circle cx="21" cy="6" r="1.6"/></svg></span><span class="mm-txt"><span class="mm-title">الاتصالات والألياف <span class="mm-badge mono">جديد</span></span><span class="mm-sub">الألياف وDWDM والكابلات والشبكات</span></span></a></li></ul>
+                </div>
+                <aside class="mm-promo">
+                  <span class="mm-fiber" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <p class="mm-promo-k mono">خدمة جديدة</p>
+                  <p class="mm-promo-t">الاتصالات والألياف</p>
+                  <p class="mm-promo-s">تركيب الألياف، ونقل DWDM فائق النطاق الترددي، والكابلات المهيكلة والشبكات، مع الاختبار قبل التسليم.</p>
+                  <a class="mm-promo-a" href="#telecom">اطّلع على خدمات الاتصالات <span aria-hidden="true">→</span></a>
+                </aside>
+              </div>
+            </div>
+          </li>
+          <li class="mm-item">
+            <button type="button" class="mm-trigger" aria-expanded="false" aria-controls="mm-ops" data-mm-trigger data-sections="noc aiops managed platforms ecosystem">العمليات<svg class="mm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <div class="mm-panel" id="mm-ops" hidden data-mm-panel>
+              <div class="mm-inner">
+                <div class="mm-col">
+                  <p class="mm-head mono">كيف نُشغّلها</p>
+                  <ul class="mm-grid"><li><a href="#noc"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3zM8 20h8M12 16v4M6 12l3-3 2 2 4-4 3 3"/></svg></span><span class="mm-txt"><span class="mm-title">لوحة مركز العمليات</span><span class="mm-sub">لوحة واحدة لكامل البيئة</span></span></a></li><li><a href="#aiops"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span class="mm-txt"><span class="mm-title">عمليات الذكاء الاصطناعي</span><span class="mm-sub">كيف يقرأ الذكاء الاصطناعي التنبيهات</span></span></a></li><li><a href="#managed"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="mm-txt"><span class="mm-title">الخدمات المُدارة واتفاقيات مستوى الخدمة</span><span class="mm-sub">أهداف الاستجابة ونماذج العمل</span></span></a></li><li><a href="#platforms"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5"/></svg></span><span class="mm-txt"><span class="mm-title">المنصات</span><span class="mm-sub">السحابات ولينكس وكوبرنيتس</span></span></a></li><li><a href="#ecosystem"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></span><span class="mm-txt"><span class="mm-title">الموردون</span><span class="mm-sub">موردو الأنظمة المحلية والأمن</span></span></a></li></ul>
+                </div>
+                <aside class="mm-promo">
+                  <p class="mm-promo-k mono"><span class="live-dot" aria-hidden="true"></span> مركز العمليات</p>
+                  <p class="mm-promo-t">يعمل على مدار الساعة</p>
+                  <span class="mm-bars" aria-hidden="true"><i style="--h:42%"></i><i style="--h:58%"></i><i style="--h:36%"></i><i style="--h:71%"></i><i style="--h:49%"></i><i style="--h:63%"></i><i style="--h:40%"></i><i style="--h:55%"></i></span>
+                  <p class="mm-promo-s">هدف استجابة ١٥ دقيقة لحوادث P1، في كل ساعة من كل يوم.</p>
+                  <a class="mm-promo-a" href="#noc">افتح اللوحة <span aria-hidden="true">→</span></a>
+                </aside>
+              </div>
+            </div>
+          </li>
+          <li class="mm-item">
+            <button type="button" class="mm-trigger" aria-expanded="false" aria-controls="mm-company" data-mm-trigger data-sections="footprint engagements leadership team faq contact">الشركة<svg class="mm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <div class="mm-panel" id="mm-company" hidden data-mm-panel>
+              <div class="mm-inner">
+                <div class="mm-col">
+                  <p class="mm-head mono">سيسنتريكس المحدودة</p>
+                  <ul class="mm-grid"><li><a href="#leadership"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></span><span class="mm-txt"><span class="mm-title">القيادة</span><span class="mm-sub">رسالة من الرئيس التنفيذي</span></span></a></li><li><a href="#team"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg></span><span class="mm-txt"><span class="mm-title">الفريق</span><span class="mm-sub">المهندسون الذين ستعملون معهم</span></span></a></li><li><a href="#footprint"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span class="mm-txt"><span class="mm-title">الانتشار العالمي</span><span class="mm-sub">المقر في إسلام آباد، وخدمة عن بُعد حول العالم</span></span></a></li><li><a href="#engagements"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></span><span class="mm-txt"><span class="mm-title">كيف نعمل معكم</span><span class="mm-sub">نماذج لكل سوق</span></span></a></li><li><a href="#faq"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5M12 17h.01"/></svg></span><span class="mm-txt"><span class="mm-title">الأسئلة الشائعة</span><span class="mm-sub">أسئلة يطرحها عملاء الخليج أولًا</span></span></a></li><li><a href="#contact"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg></span><span class="mm-txt"><span class="mm-title">تواصل معنا</span><span class="mm-sub">تحدّث مع مهندس أول</span></span></a></li></ul>
+                </div>
+                <aside class="mm-promo">
+                  <p class="mm-promo-k mono">المقر الرئيسي</p>
+                  <p class="mm-promo-t">إسلام آباد، باكستان</p>
+                  <p class="mm-promo-s">خدمة عن بُعد للمملكة العربية السعودية والخليج وأوروبا وحول العالم.</p>
+                  <a class="mm-promo-a" href="https://wa.me/966540952792" rel="noopener">واتساب ‎+966 54 095 2792 <span aria-hidden="true">→</span></a>
+                </aside>
+              </div>
+            </div>
+          </li>
+          <li><a class="nav-link" href="#insights">رؤى</a></li>
         </ul>
       </nav>
 
@@ -89,21 +135,8 @@
     </div>
 
     <div class="mobile-nav" id="mobile-nav" hidden data-mobile-nav>
-      <ul>
-        <li><a href="#capabilities">الخدمات</a></li>
-        <li><a href="#noc">مركز العمليات</a></li>
-        <li><a href="#platforms">المنصات</a></li>
-        <li><a href="#ecosystem">الموردون</a></li>
-        <li><a href="#telecom">الاتصالات والألياف</a></li>
-        <li><a href="#aiops">عمليات الذكاء الاصطناعي</a></li>
-        <li><a href="#managed">الخدمات المُدارة</a></li>
-        <li><a href="#team">الفريق</a></li>
-        <li><a href="#insights">رؤى</a></li>
-        <li><a href="#faq">الأسئلة الشائعة</a></li>
-        <li><a href="#contact">تواصل معنا</a></li>
-        <li><a href="/" hreflang="en" lang="en">English</a></li>
-      </ul>
-      <a class="btn btn-primary" href="#contact" data-topic="Executive briefing">احجز اجتماعًا تنفيذيًا</a>
+<p class="mnav-head mono">الخدمات</p><ul class="mnav-grid"><li><a href="#capabilities" data-svc-open="0"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span>الخدمات المُدارة</span></a></li><li><a href="#capabilities" data-svc-open="1"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span>الذكاء الاصطناعي للعمليات</span></a></li><li><a href="#capabilities" data-svc-open="2"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18Z"/></svg></span><span>السحابة ولينكس وكوبرنيتس</span></a></li><li><a href="#capabilities" data-svc-open="3"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 6l-2 12"/></svg></span><span>البرمجيات المؤسسية</span></a></li><li><a href="#capabilities" data-svc-open="4"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></span><span>إليفاي الأساسية</span></a></li><li><a href="#telecom"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18c4-8 14-8 18-12"/><circle cx="3" cy="18" r="1.6"/><circle cx="21" cy="6" r="1.6"/></svg></span><span>الاتصالات والألياف</span></a></li></ul><p class="mnav-head mono">العمليات</p><ul class="mnav-grid"><li><a href="#noc"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3zM8 20h8M12 16v4M6 12l3-3 2 2 4-4 3 3"/></svg></span><span>لوحة مركز العمليات</span></a></li><li><a href="#aiops"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span>عمليات الذكاء الاصطناعي</span></a></li><li><a href="#managed"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>الخدمات المُدارة واتفاقيات مستوى الخدمة</span></a></li><li><a href="#platforms"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5"/></svg></span><span>المنصات</span></a></li><li><a href="#ecosystem"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></span><span>الموردون</span></a></li></ul><p class="mnav-head mono">الشركة</p><ul class="mnav-grid"><li><a href="#leadership"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></span><span>القيادة</span></a></li><li><a href="#team"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg></span><span>الفريق</span></a></li><li><a href="#footprint"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span>الانتشار العالمي</span></a></li><li><a href="#engagements"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></span><span>كيف نعمل معكم</span></a></li><li><a href="#faq"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5M12 17h.01"/></svg></span><span>الأسئلة الشائعة</span></a></li><li><a href="#contact"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg></span><span>تواصل معنا</span></a></li><li><a href="#insights"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5"/></svg></span><span>رؤى</span></a></li></ul>
+      <div class="mnav-foot"><a class="lang-link" href="/" hreflang="en" lang="en">English</a><a class="btn btn-primary" href="#contact" data-topic="Executive briefing">احجز اجتماعًا تنفيذيًا</a></div>
     </div>
   </header>
 
@@ -831,7 +864,7 @@
             </button>
             <button type="button" role="tab" id="tel-t2" aria-controls="tel-p2" aria-selected="false" tabindex="-1" data-tel-tab="1">
               <span class="tel-tab-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 6h6l4 6-4 6H2M22 6h-6l-4 6 4 6h6"/></svg></span>
-              <span><span class="tel-tab-title">DWDM والنقل الضوئي</span><span class="tel-tab-sub">أطوال موجية 100G و400G</span></span>
+              <span><span class="tel-tab-title">DWDM والنقل الضوئي</span><span class="tel-tab-sub">تقنية فائقة النطاق الترددي</span></span>
               <span class="tel-tab-bar" aria-hidden="true"><i></i></span>
             </button>
             <button type="button" role="tab" id="tel-t3" aria-controls="tel-p3" aria-selected="false" tabindex="-1" data-tel-tab="2">
@@ -887,17 +920,17 @@
             <article class="tel-panel" role="tabpanel" id="tel-p2" aria-labelledby="tel-t2" data-tel-panel hidden>
               <div class="tel-copy">
                 <h3>DWDM والنقل الضوئي</h3>
-                <p>شبكات أطوال موجية تحمل قنوات عديدة بسرعة 100G و400G على زوج ألياف واحد، بين المدن ومراكز البيانات ونقاط تواجد المشغّلين.</p>
+                <p>تقنية DWDM فائقة النطاق الترددي: أطوال موجية عديدة من الضوء تتشارك زوج ألياف واحدًا، وتنقل البيانات بين المدن ومراكز البيانات ونقاط تواجد المشغّلين.</p>
                 <ul class="cap-points">
                   <li>تصميم ميزانية الوصلة وOSNR والتشتت قبل طلب أي معدات</li>
                   <li>تركيب وتشغيل ROADM والمُجمِّعات والمضخِّمات</li>
                   <li>تفعيل القنوات، واختبار معدل الأخطاء، وربط الإنذارات بمركز عملياتكم</li>
                   <li>ترقيات سعة مخططة دون انقطاع الخدمة</li>
                 </ul>
-                <p class="cap-stack mono">C-band · ROADM · EDFA · OTN · 100G / 400G coherent</p>
+                <p class="cap-stack mono">C-band · ROADM · EDFA · OTN · coherent optics</p>
               </div>
               <figure class="tel-viz" aria-hidden="true">
-                <p class="viz-title mono">الموقع A ← الموقع B · ٨٠ كم <b>6 × 100G</b></p>
+                <p class="viz-title mono">الموقع A ← الموقع B · ٨٠ كم <b>٦ أطوال موجية</b></p>
                 <svg class="tel-dwdm" viewBox="0 0 400 230">
                   <g class="lambdas-in">
                     <path style="--c:#7C5CFF" d="M18 40 C70 40 80 100 120 108"/>
