@@ -4,12 +4,12 @@
     {
       "id": "compute",
       "name": "Compute & storage",
-      "blurb": "Rack and blade builds, firmware lifecycle, the Linux or virtualisation layer on top, and the backup and DR behind it."
+      "blurb": "Rack and blade builds, firmware lifecycle, the Linux or virtualization layer on top, and the backup and DR behind it."
     },
     {
       "id": "network",
       "name": "Networking",
-      "blurb": "Data-centre and campus fabrics, Wi-Fi, structured cabling, monitoring and configuration kept in version control."
+      "blurb": "Data-center and campus fabrics, Wi-Fi, structured cabling, monitoring and configuration kept in version control."
     },
     {
       "id": "netsec",
@@ -87,7 +87,7 @@
       "name": "Huawei Enterprise",
       "category": "compute",
       "site": "https://e.huawei.com",
-      "products": "OceanStor storage, CloudEngine data-centre switches, AirEngine Wi-Fi, HiSecEngine firewalls",
+      "products": "OceanStor storage, CloudEngine data-center switches, AirEngine Wi-Fi, HiSecEngine firewalls",
       "feeds": [
         "https://news.google.com/rss/search?q=site:e.huawei.com+when:90d&hl=en-US&gl=US&ceid=US:en",
         "https://news.google.com/rss/search?q=\"Huawei+Enterprise\"+when:30d&hl=en-US&gl=US&ceid=US:en"
@@ -111,7 +111,7 @@
       "name": "Cisco Systems",
       "category": "network",
       "site": "https://www.cisco.com",
-      "products": "Catalyst campus switching, Nexus data-centre fabrics, Meraki cloud-managed networks, UCS compute",
+      "products": "Catalyst campus switching, Nexus data-center fabrics, Meraki cloud-managed networks, UCS compute",
       "feeds": [
         "https://blogs.cisco.com/feed",
         "https://news.google.com/rss/search?q=site:cisco.com+when:90d&hl=en-US&gl=US&ceid=US:en",
@@ -136,7 +136,7 @@
       "name": "Arista Networks",
       "category": "network",
       "site": "https://www.arista.com",
-      "products": "7000-series data-centre switches, CloudVision management, cognitive campus Wi-Fi",
+      "products": "7000-series data-center switches, CloudVision management, cognitive campus Wi-Fi",
       "feeds": [
         "https://news.google.com/rss/search?q=site:arista.com+when:90d&hl=en-US&gl=US&ceid=US:en",
         "https://news.google.com/rss/search?q=\"Arista+Networks\"+when:30d&hl=en-US&gl=US&ceid=US:en"
@@ -173,12 +173,12 @@
       "name": "CommScope",
       "category": "network",
       "site": "https://www.commscope.com",
-      "products": "Structured cabling, fibre connectivity and enterprise network infrastructure",
+      "products": "Structured cabling, fiber connectivity and enterprise network infrastructure",
       "feeds": [
         "https://news.google.com/rss/search?q=site:commscope.com+when:90d&hl=en-US&gl=US&ceid=US:en",
         "https://news.google.com/rss/search?q=\"CommScope\"+when:30d&hl=en-US&gl=US&ceid=US:en"
       ],
-      "latest": "SYSTIMAX Propel fibre platform"
+      "latest": "SYSTIMAX Propel fiber platform"
     },
     {
       "slug": "paloalto",
@@ -363,7 +363,7 @@
       "name": "Apple",
       "category": "platform",
       "site": "https://www.apple.com",
-      "products": "Mac and iPad fleets, Apple Business Manager, device enrolment with your MDM",
+      "products": "Mac and iPad fleets, Apple Business Manager, device enrollment with your MDM",
       "feeds": [
         "https://www.apple.com/newsroom/rss-feed.rss",
         "https://news.google.com/rss/search?q=site:apple.com+when:90d&hl=en-US&gl=US&ceid=US:en",

@@ -42,7 +42,7 @@ const AR = {
   "Gulf": "الخليج",
   "Europe": "أوروبا",
   "Worldwide": "حول العالم",
-  "Islamabad HQ · operations centre staffed 24/7": "المقر في إسلام آباد · مركز العمليات يعمل على مدار الساعة",
+  "Islamabad HQ · operations center staffed 24/7": "المقر في إسلام آباد · مركز العمليات يعمل على مدار الساعة",
   "cities": "مدن",
   "in business hours now": "ضمن ساعات العمل الآن",
   "on it": "يتابعها",

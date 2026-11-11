@@ -1,4 +1,4 @@
-import { t, isAr, locale } from "./i18n.js?v=13";
+import { t, isAr, locale } from "./i18n.js?v=14";
 /**
  * Vendor ecosystem: names only, latest model on click, and a running
  * "latest products" bar. The bar starts with the curated latest models and,

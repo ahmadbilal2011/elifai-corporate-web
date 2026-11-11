@@ -1,4 +1,4 @@
-import { t, isAr, locale } from "./i18n.js?v=13";
+import { t, isAr, locale } from "./i18n.js?v=14";
 /**
  * Footprint map: region cards highlight the map, an automatic tour cycles
  * through the regions, packets travel along each link to and from the
@@ -32,7 +32,7 @@ export function initFootprint({ reducedMotion } = {}) {
     cards.forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.target === region)));
     if (!status) return;
     if (!region) { status.textContent = ""; return; }
-    if (region === "pk") { status.textContent = t("Islamabad HQ · operations centre staffed 24/7"); return; }
+    if (region === "pk") { status.textContent = t("Islamabad HQ · operations center staffed 24/7"); return; }
     const c = openCount(region);
     status.textContent = c ? `${t(LABELS[region])} · ${c.all} ${t("cities")} · ${c.open} ${t("in business hours now")}` : t(LABELS[region]);
   }
@@ -58,7 +58,7 @@ export function initFootprint({ reducedMotion } = {}) {
   function startTour() { if (!tourTimer && !pinned) { stepTour(); tourTimer = setInterval(stepTour, 4500); } }
   function stopTour() { clearInterval(tourTimer); tourTimer = 0; }
 
-  /* packets travelling along the links */
+  /* packets traveling along the links */
   const layer = svg.querySelector("[data-fp-packets]");
   const pulses = svg.querySelector("[data-fp-pulses]");
   const links = [...svg.querySelectorAll(".fp-link")].map((path) => ({

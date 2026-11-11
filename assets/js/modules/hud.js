@@ -146,7 +146,7 @@ export function initHud({ reducedMotion }) {
         i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
       });
     };
-    // colour follows the value: green when low, orange in the middle, red when high
+    // color follows the value: green when low, orange in the middle, red when high
     const top = 4, bottom = h - 4;
     const valueGrad = (alpha) => {
       const g = ctx.createLinearGradient(0, top, 0, bottom);
@@ -158,7 +158,7 @@ export function initHud({ reducedMotion }) {
       g.addColorStop(1, `rgba(${C.green.join(",")},${alpha})`);
       return g;
     };
-    // threshold guides at the colour boundaries
+    // threshold guides at the color boundaries
     ctx.setLineDash([2, 4]);
     ctx.strokeStyle = `rgba(${C.red.join(",")},0.35)`;
     ctx.beginPath(); ctx.moveTo(0, top + (bottom - top) * 0.36); ctx.lineTo(w, top + (bottom - top) * 0.36); ctx.stroke();

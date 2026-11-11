@@ -6,7 +6,7 @@
 
 const N = 48;
 
-/* Colours follow the active theme's CSS custom properties */
+/* Colors follow the active theme's CSS custom properties */
 function hexToRgb(v, fallback) {
   const m = (v || "").trim().match(/^#?([0-9a-f]{6})$/i);
   if (!m) return fallback;
@@ -72,7 +72,7 @@ const LAYOUTS = {
   },
 
   hybrid(aspect) {
-    // Islamabad NOC ring in the centre, five cloud estates around it
+    // Islamabad NOC ring in the center, five cloud estates around it
     const pts = [];
     const edges = [];
     const cx = 0.5, cy = 0.5;
@@ -212,7 +212,7 @@ WORKLOADS.forEach(([name, ext]) => {
 });
 const BADGE_R = 16;
 
-/* Node colour mix held constant in every view: 70% green, 15% orange, 15% red */
+/* Node color mix held constant in every view: 70% green, 15% orange, 15% red */
 const SHARE_WARN = 0.15;
 const SHARE_BAD = 0.15;
 const FIX_MIN = 3000, FIX_MAX = 5000;   // a red node turns green 3–5 s after the engineer picks it up
@@ -511,7 +511,7 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
       }
       const img = n.logo && logos[n.logo];
       if (img) {
-        // logo badge: white disc in both themes so every logo reads; ring colour = health
+        // logo badge: white disc in both themes so every logo reads; ring color = health
         const R = BADGE_R + n.act * 2;
         ctx.fillStyle = "#FFFFFF";
         ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
@@ -573,7 +573,7 @@ export function createTopology(canvas, { reducedMotion = false, onStats, onIncid
       ];
       const fits = ([sx, sy]) => sx > 2 && sx + tw < w - 2 && sy > 2 && sy + th < h - 2 && !hit(sx, sy, tw, th, n);
       let spot = spots.find(fits);
-      // crowded corner: stack the label clear of its neighbours
+      // crowded corner: stack the label clear of its neighbors
       for (let k = 1; !spot && k <= 6; k++) {
         spot = [[spots[0][0], spots[0][1] - k * (th + 3)], [spots[2][0], spots[2][1] + k * (th + 3)]].find(fits);
       }

@@ -84,8 +84,8 @@ def head_fixes(s: str) -> str:
     s = s.replace('<html lang="en" dir="ltr"', '<html lang="ar" dir="rtl"', 1)
     s = s.replace('<link rel="canonical" href="https://elifai.pk/">', '<link rel="canonical" href="https://elifai.pk/ar/">', 1)
     s = s.replace('<meta property="og:url" content="https://elifai.pk/">', '<meta property="og:url" content="https://elifai.pk/ar/">', 1)
-    s = s.replace('<meta property="og:locale" content="en_GB">', '<meta property="og:locale" content="ar_SA">', 1)
-    s = s.replace('<meta property="og:locale:alternate" content="ar_SA">', '<meta property="og:locale:alternate" content="en_GB">', 1)
+    s = s.replace('<meta property="og:locale" content="en_US">', '<meta property="og:locale" content="ar_SA">', 1)
+    s = s.replace('<meta property="og:locale:alternate" content="ar_SA">', '<meta property="og:locale:alternate" content="en_US">', 1)
     # meta content strings
     for prop in ('name="description"', 'property="og:title"', 'property="og:description"'):
         m = re.search(r'<meta ' + re.escape(prop) + r' content="([^"]*)">', s)

@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700&amp;family=Red+Hat+Text:wght@400;500;600&amp;family=Red+Hat+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/assets/css/main.css?v=13">
-  <script type="module" src="/assets/js/main.js?v=13"></script>
+  <link rel="stylesheet" href="/assets/css/main.css?v=14">
+  <script type="module" src="/assets/js/main.js?v=14"></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Mapping NCA cybersecurity controls to Kubernetes", "description": "A practical approach to turning Saudi NCA Essential Cybersecurity Controls (ECC-2:2024) and Cloud Cybersecurity Controls (CCC-2:2024) into Kubernetes and OpenShift settings, pipelines and audit evidence.", "datePublished": "2026-11-08", "dateModified": "2026-11-08", "inLanguage": "en", "mainEntityOfPage": "https://elifai.pk/insights/nca-ecc-kubernetes", "image": "https://elifai.pk/assets/img/og-image.png", "author": {"@type": "Organization", "name": "Elifai engineering team", "url": "https://elifai.pk/"}, "publisher": {"@type": "Organization", "name": "Elifai by Sysnetrix", "logo": {"@type": "ImageObject", "url": "https://elifai.pk/assets/img/logo-mark.svg"}}}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://elifai.pk/"}, {"@type": "ListItem", "position": 2, "name": "Insights", "item": "https://elifai.pk/#insights"}, {"@type": "ListItem", "position": 3, "name": "Mapping NCA cybersecurity controls to Kubernetes", "item": "https://elifai.pk/insights/nca-ecc-kubernetes"}]}</script>
 </head>
@@ -55,7 +55,7 @@
 <p class="lede">Most Saudi compliance teams know the NCA control documents well. Most platform teams know Kubernetes well. The gap is in between: which cluster setting proves which control, and where the evidence comes from. This guide shows how we close that gap on OpenShift, GKE, EKS and OKE.</p>
 
 <h2>Start from the control domains, not the tools</h2>
-<p>The Essential Cybersecurity Controls (ECC-2:2024) are organised into domains covering governance, defence, resilience, third-party and cloud security, and industrial systems. The Cloud Cybersecurity Controls (CCC-2:2024) add requirements for cloud providers and for organisations that use them. Rather than starting with a list of Kubernetes features, we start with the domains that touch a platform and ask, for each one, what an auditor will ask to see.</p>
+<p>The Essential Cybersecurity Controls (ECC-2:2024) are organized into domains covering governance, defense, resilience, third-party and cloud security, and industrial systems. The Cloud Cybersecurity Controls (CCC-2:2024) add requirements for cloud providers and for organizations that use them. Rather than starting with a list of Kubernetes features, we start with the domains that touch a platform and ask, for each one, what an auditor will ask to see.</p>
 
 <h2>A working map</h2>
 <div class="table-scroll"><table>
@@ -64,7 +64,7 @@
 <tr><td>Identity and access management</td><td>SSO to the cluster through your identity provider, role-based access per namespace, no shared admin accounts, short-lived credentials</td><td>RBAC export, access review records, login audit logs</td></tr>
 <tr><td>Data protection and cryptography</td><td>Encryption at rest with customer-managed keys, TLS everywhere, secrets in Vault or a cloud KMS rather than plain Kubernetes secrets</td><td>Key policy, certificate inventory, secret-store configuration</td></tr>
 <tr><td>Vulnerability and patch management</td><td>Image scanning in the pipeline, signed images only, scheduled node and OS patching for RHEL or Ubuntu workers</td><td>Scan reports, admission-policy logs, patch compliance dashboard</td></tr>
-<tr><td>Event logging and monitoring</td><td>API server audit logging, central log retention in-Kingdom, alerting into a staffed operations centre</td><td>Retention settings, sample alerts, incident tickets</td></tr>
+<tr><td>Event logging and monitoring</td><td>API server audit logging, central log retention in-Kingdom, alerting into a staffed operations center</td><td>Retention settings, sample alerts, incident tickets</td></tr>
 <tr><td>Configuration and change management</td><td>All cluster state in Git, changes through pull requests, policy-as-code (OPA Gatekeeper or Kyverno) blocking unsafe workloads</td><td>Git history, approval records, policy reports</td></tr>
 <tr><td>Resilience and backup</td><td>Multi-zone control plane, Velero or native backups stored in-Kingdom, restore tests on a schedule</td><td>Backup job history, signed restore-test results</td></tr>
 <tr><td>Third-party and cloud security</td><td>Documented shared-responsibility split with the cloud provider and with us as managed-service partner</td><td>Responsibility matrix, provider attestations</td></tr>
@@ -87,8 +87,8 @@
 <p class="note">This article is general guidance, not legal advice. Always confirm requirements with your compliance function and the current NCA publications.</p>
 
       <aside class="article-cta">
-        <h2 style="margin-top:0">Need this done for your organisation?</h2>
-        <p>Elifai by Sysnetrix designs, secures and runs cloud, Linux and AI platforms for organisations in Saudi Arabia and across the Gulf, with 24/7 remote support.</p>
+        <h2 style="margin-top:0">Need this done for your organization?</h2>
+        <p>Elifai by Sysnetrix designs, secures and runs cloud, Linux and AI platforms for organizations in Saudi Arabia and across the Gulf, with 24/7 remote support.</p>
         <a class="btn btn-primary" href="/#contact" data-topic="Executive briefing">Schedule an executive briefing</a>
       </aside>
       <h2>Sources</h2>

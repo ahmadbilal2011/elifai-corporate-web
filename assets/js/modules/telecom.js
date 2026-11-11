@@ -1,5 +1,5 @@
 /**
- * Telecom section: four tabs with animated visuals (fibre route, DWDM,
+ * Telecom section: four tabs with animated visuals (fiber route, DWDM,
  * rack certification, campus network), plus OTDR, cable and tracker cards.
  * Tabs rotate every 8 s while in view and stop once the visitor picks one.
  */
@@ -95,7 +95,7 @@ export function initTelecom({ reducedMotion }) {
   root.addEventListener("pointerenter", () => { hover = true; });
   root.addEventListener("pointerleave", () => { hover = false; });
 
-  /* cable cross-section: 12 colour-coded tubes of fibres */
+  /* cable cross-section: 12 color-coded tubes of fibers */
   const cable = section.querySelector("[data-tel-cable]");
   if (cable) {
     const ns = "http://www.w3.org/2000/svg";

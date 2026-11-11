@@ -54,11 +54,11 @@ elifai-corporate-web/
 4. Technology ticker — infinite, GPU-accelerated, pauses on hover
 4. Services — compact tabbed section (auto-rotating) with an animated visual per practice: Managed services (uptime bars), AI for operations (alert funnel), Cloud/Linux/Kubernetes (platform stack), Enterprise software (bilingual code), and Elifai Essentials for small and medium businesses (setup checklist)
 5. Vendor ecosystem — 38 vendor names grouped by category; selecting a name shows its latest model (and a live headline when the PHP proxy is running); a running latest-products bar
-   - Telecom and physical infrastructure — fibre optic installation, DWDM and optical transport, structured cabling and data centres, networking services; animated route build, wavelength mux, rack certification and campus network visuals, OTDR trace, colour-coded cable, project tracker and a six-step delivery flow
+   - Telecom and physical infrastructure — fiber optic installation, DWDM and optical transport, structured cabling and data centers, networking services; animated route build, wavelength mux, rack certification and campus network visuals, OTDR trace, color-coded cable, project tracker and a six-step delivery flow
 5b. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
 6. AI operations — Assess → Pilot → Operate method and an illustrative incident replay
 7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
-8. Footprint — animated dot-matrix world map (packets travelling to and from Islamabad, HQ pulses, automatic region tour, live day/night line) (Natural Earth, public domain) with Islamabad HQ and remote delivery to 8 Gulf cities, 5 European cities and London, Toronto, Singapore, Nairobi and Sydney; live PKT / AST / CET / UTC clocks
+8. Footprint — animated dot-matrix world map (packets traveling to and from Islamabad, HQ pulses, automatic region tour, live day/night line) (Natural Earth, public domain) with Islamabad HQ and remote delivery to 8 Gulf cities, 5 European cities and London, Toronto, Singapore, Nairobi and Sydney; live PKT / AST / CET / UTC clocks
 9. Engagements — market-by-market blueprint slider
 10. Leadership — CEO statement by Ahmad Bilal with LinkedIn, WhatsApp, phone and email
 11. Team — six engineer cards with roles and skills (Atif Nadeem plus five placeholder profiles; replace the placeholders with real staff before launch)
@@ -69,11 +69,11 @@ elifai-corporate-web/
 
 ## Logo & themes
 
-- The mark lives in `assets/img/logo/`. `elifai-mark.svg` uses `currentColor`, so it takes the text colour of wherever it is placed; `-on-dark` and `-on-light` have fixed colours for documents and slides.
+- The mark lives in `assets/img/logo/`. `elifai-mark.svg` uses `currentColor`, so it takes the text color of wherever it is placed; `-on-dark` and `-on-light` have fixed colors for documents and slides.
 - **Palette:** AWS "squid ink" navy ground, Red Hat red (`--red`) for primary buttons and brand marks, AWS orange (`--accent`) for signals, links and data highlights, green only for healthy states. Every text pair meets WCAG AA 4.5:1 in both themes.
 - **Type:** Red Hat Display (headings), Red Hat Text (body), Red Hat Mono (data), all open-source via Google Fonts.
 - **Theme by time of day:** the site opens in dark mode between 19:00 and 03:00 (visitor's local time) and in light mode the rest of the day; an open tab switches over at the boundary. The sun/moon button overrides this for the current browser session. The hours live in `assets/js/theme-init.js` and `assets/js/modules/theme.js`.
-- All colours are tokens at the top of `assets/css/main.css`; the light palette is under `:root[data-theme="light"]`.
+- All colors are tokens at the top of `assets/css/main.css`; the light palette is under `:root[data-theme="light"]`.
 
 ## Run locally
 
@@ -210,10 +210,10 @@ Requirements: PHP with cURL (standard on cPanel) or `allow_url_fopen` on, and a 
 - **Engagement blueprints** are written as representative scenarios. Replace them with named case studies once clients approve publication.
 - **Cloud region notes** on the Platforms section reflect each provider's published Gulf regions as of November 2026. Review them when providers open new regions (for example the AWS Saudi Arabia region).
 - **SLA targets** in the Managed services section are standard targets; adjust them to match your contracts.
-- **Colours, type and spacing** are tokens at the top of `assets/css/main.css`.
+- **Colors, type and spacing** are tokens at the top of `assets/css/main.css`.
 - **Vendors:** product families are in `index.html` (Vendor ecosystem section) and `assets/data/vendors.json`; keep the two in step when you add or remove a vendor.
 - **Latest models:** curated in `assets/data/vendors.json` (`latest`) and mirrored in `index.html` (`data-latest` on each vendor button) as of November 2026; update both when a vendor launches a new flagship.
-- **Workload logos (hero):** eight nodes per view show a logo badge (white disc, ring colour = health). Files live in `assets/img/workloads/` (Red Hat, Ubuntu, Oracle, MySQL, MongoDB, Redis, Apache, Grafana, supplied by Elifai). To add one, put `name.svg` (or `.png`) in that folder and add `["name", "svg"]` to `WORKLOADS` in `assets/js/modules/topology.js`. Logos are trademarks of their owners and appear only to show the software Elifai operates.
+- **Workload logos (hero):** eight nodes per view show a logo badge (white disc, ring color = health). Files live in `assets/img/workloads/` (Red Hat, Ubuntu, Oracle, MySQL, MongoDB, Redis, Apache, Grafana, supplied by Elifai). To add one, put `name.svg` (or `.png`) in that folder and add `["name", "svg"]` to `WORKLOADS` in `assets/js/modules/topology.js`. Logos are trademarks of their owners and appear only to show the software Elifai operates.
 - **Hero health mix:** every view holds 70% of nodes green, 15% orange and 15% red; each red node immediately shows the engineer fixing it and turns green after 3–5 seconds (`FIX_MIN` / `FIX_MAX`). Shares are `SHARE_WARN` / `SHARE_BAD` in `topology.js`; engineer display names are in `AGENTS`.
 - **Hero ops wall:** all HUD figures (req/s, security events, cluster load) are simulated for the showcase; event IPs use the RFC 5737 documentation ranges.
 - **Canvas animation:** each hero slide has its own motion in `topology.js` (`animate()`): zones orbiting with self-healing alerts (Managed), an activation wave through the layers (AIOps), five clouds orbiting the Islamabad NOC (Multi-cloud), and a rolling patch wave across the Linux fleet. All of it stops under reduced motion and with the pause button.
@@ -223,7 +223,7 @@ Requirements: PHP with cURL (standard on cPanel) or `allow_url_fopen` on, and a 
 
 ## Accessibility & performance
 
-- WCAG 2.2 AA colour contrast on all text, visible focus rings, skip link, labelled controls
+- WCAG 2.2 AA color contrast on all text, visible focus rings, skip link, labeled controls
 - Sliders: keyboard arrows, pause control, autoplay stops on hover/focus, `aria-live` updates
 - `prefers-reduced-motion` turns off autoplay, the canvas loop, the ticker and all entrance animation
 - Canvas renders only while on screen and while the tab is visible
