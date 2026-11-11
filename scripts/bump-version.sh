@@ -4,7 +4,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 V="${1:?usage: bump-version.sh <number>}"
-sed -i -E "s#(main\.(css|js))\?v=[0-9]+#\1?v=$V#g" index.html privacy.html 404.html
-sed -i -E "s#(from \"\./modules/[a-z-]+\.js)(\?v=[0-9]+)?\"#\1?v=$V\"#g" assets/js/main.js
-sed -i -E "s#(from \"\./[a-z-]+\.js)(\?v=[0-9]+)?\"#\1?v=$V\"#g" assets/js/modules/*.js
+sed -i -E "s#(main\.(css|js))\?v=[0-9]+#\1?v=$V#g" index.html privacy.html 404.html insights/*.html
+sed -i -E "s#(from \"\./modules/[a-z0-9-]+\.js)(\?v=[0-9]+)?\"#\1?v=$V\"#g" assets/js/main.js
+sed -i -E "s#(from \"\./[a-z0-9-]+\.js)(\?v=[0-9]+)?\"#\1?v=$V\"#g" assets/js/modules/*.js
 echo "Version stamps set to v=$V"

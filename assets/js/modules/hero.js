@@ -1,7 +1,7 @@
-import { t, isAr, locale } from "./i18n.js?v=11";
-import { createSlider, pad2 } from "./slider.js?v=11";
-import { createTopology, MODE_LABELS } from "./topology.js?v=11";
-import { initHud } from "./hud.js?v=11";
+import { t, isAr, locale } from "./i18n.js?v=12";
+import { createSlider, pad2 } from "./slider.js?v=12";
+import { createTopology, MODE_LABELS } from "./topology.js?v=12";
+import { initHud } from "./hud.js?v=12";
 
 export function initHero({ reducedMotion }) {
   const root = document.querySelector("[data-hero-slider]");

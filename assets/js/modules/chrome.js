@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=11";
+import { t } from "./i18n.js?v=12";
 /** Header blur on scroll, mobile menu, active-section nav, ticker, reveal, year. */
 export function initChrome({ reducedMotion }) {
   const header = document.querySelector("[data-header]");

@@ -32,6 +32,7 @@ elifai-corporate-web/
 │           ├── theme.js       Light / dark toggle
 │           ├── hud.js         Hero ops wall: radar, throughput graph, load bars, security log
 │           ├── ecosystem.js   Vendor filter, search, live headlines, vendor wire
+│           ├── telecom.js     Telecom tabs, rack certification, cable cross-section, OTDR and tracker cards
 │           ├── platforms.js   Platform matrix filter
 │           ├── replay.js      AIOps incident replay
 │           ├── chrome.js      Header blur, mobile menu, active nav, ticker, reveal
@@ -53,6 +54,7 @@ elifai-corporate-web/
 4. Technology ticker — infinite, GPU-accelerated, pauses on hover
 4. Services — compact tabbed section (auto-rotating) with an animated visual per practice: Managed services (uptime bars), AI for operations (alert funnel), Cloud/Linux/Kubernetes (platform stack), Enterprise software (bilingual code), and Elifai Essentials for small and medium businesses (setup checklist)
 5. Vendor ecosystem — 38 vendor names grouped by category; selecting a name shows its latest model (and a live headline when the PHP proxy is running); a running latest-products bar
+   - Telecom and physical infrastructure — fibre optic installation, DWDM and optical transport, structured cabling and data centres, networking services; animated route build, wavelength mux, rack certification and campus network visuals, OTDR trace, colour-coded cable, project tracker and a six-step delivery flow
 5b. Platforms — filterable matrix of RHEL, Ubuntu, OpenShift, AWS, Google Cloud, OCI, Alibaba Cloud and VMware with Gulf region notes
 6. AI operations — Assess → Pilot → Operate method and an illustrative incident replay
 7. Managed services — Advisory / Co-managed / Fully managed tiers, P1–P4 response targets, access and data controls
