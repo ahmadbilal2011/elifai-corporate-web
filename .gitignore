@@ -15,3 +15,10 @@ dist/
 
 # Vendor news cache (created on the server)
 cache/
+
+# runtime data (never commit)
+data/
+uploads/*
+!uploads/.htaccess
+!uploads/.gitkeep
+scripts/__pycache__/

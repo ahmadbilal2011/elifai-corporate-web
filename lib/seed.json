@@ -1,0 +1,313 @@
+{
+ "articles": [
+  {
+   "slug": "openshift-4-22-platform-teams",
+   "title": "OpenShift 4.22: what platform teams should plan for",
+   "category": "OpenShift",
+   "date": "2026-11-12",
+   "summary": "Red Hat OpenShift 4.22 moves to Kubernetes 1.35, makes cross-cluster VM live migration generally available and refreshes GitOps, Service Mesh and Pipelines. Here is what changes for teams running production clusters in the Gulf.",
+   "body": "## What is in the release\n\nOpenShift Container Platform 4.22 is based on Kubernetes 1.35 and CRI-O 1.35. The changes that matter most for teams running production clusters:\n\n- **JobSet controller (generally available).** Run a group of related jobs, such as a distributed training or batch run, as one unit with one status.\n- **Lazy image pulling in CRI-O.** Containers can start before a large image has finished downloading, which helps AI and data images that run to many gigabytes.\n- **Dynamic Resource Allocation for partitionable devices (Technology Preview).** Hand out slices of an accelerator instead of a whole device.\n- **OpenShift Virtualization.** Cross-cluster live migration of virtual machines is now generally available, alongside single-stack IPv6 and MIG vGPU attachment.\n- **OpenShift GitOps 1.21.** Ships Argo CD 3.4; the Argo CD CLI and image updater are now generally available.\n- **OpenShift Service Mesh 3.4.** Based on Istio 1.30, with FIPS 140-3 support for both sidecar and ambient modes.\n- **OpenShift Pipelines 1.22 and Serverless 1.38.** Fleet-wide PipelineRuns and serverless functions as MCP servers arrive as previews.\n\n## Three things to check before you upgrade\n\n1. **Console plug-ins and operators.** Dynamic console plug-ins must move to newer core libraries, and PatternFly 5 is no longer supported. Rebuild and test custom plug-ins on a non-production cluster first, and confirm every operator you run supports 4.22.\n2. **Your upgrade path.** OpenShift moves one minor version at a time unless you use the EUS-to-EUS path between Extended Update Support releases. Open the life cycle page, confirm the support dates for your current release and write the path down before you book a window.\n3. **How you will use the VM features.** Cross-cluster live migration is useful for data center moves and site maintenance. Try it with non-critical virtual machines and confirm storage and network compatibility between the two clusters.\n\n## What it means for teams in the Gulf\n\n- **Maintenance without leaving the Kingdom.** Moving running virtual machines between two in-country clusters lets you patch or rebuild a site while data stays where your regulator expects it.\n- **Better use of expensive accelerators.** Lazy pulling and device partitioning help large AI images start faster and let several workloads share a GPU.\n- **Easier compliance conversations.** FIPS 140-3 support in Service Mesh helps when a regulator or customer asks for validated cryptography between services.\n\n## How Elifai helps\n\nWe rehearse the upgrade on a copy of your cluster configuration, check every operator and plug-in, and run the production upgrade in an agreed window with a written rollback plan. Our operations center watches the cluster for the following days.",
+   "sources": "- [What's new for developers in Red Hat OpenShift 4.22 (Red Hat Developer)](https://developers.redhat.com/articles/2026/07/14/whats-new-developers-red-hat-openshift-4-22)\n- [OpenShift Container Platform 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes)\n- [OpenShift Container Platform life cycle policy](https://access.redhat.com/support/policy/updates/openshift)"
+  },
+  {
+   "slug": "rhel-10-2-admin-guide",
+   "title": "RHEL 10.2: post-quantum SSH, kernel livepatching and a better image mode",
+   "category": "Red Hat Enterprise Linux",
+   "date": "2026-11-11",
+   "summary": "Red Hat Enterprise Linux 10.2 and 9.8 arrived in May 2026 with post-quantum key exchange for SSH, reboot-free kernel fixes and practical improvements to image mode. Here is what matters for administrators.",
+   "body": "## The release at a glance\n\nRHEL 10.2 and RHEL 9.8 were released together in May 2026. RHEL 10.2 is built on the Linux 6.12 long-term support kernel. Three areas deserve attention from operations teams: cryptography, patching and image mode.\n\n## Post-quantum SSH\n\nOpenSSH in RHEL 10.2 supports ML-KEM post-quantum key exchange combined with elliptic curves, including in FIPS mode, and libssh adds hybrid ML-KEM and ECDH methods. The FUTURE system-wide crypto policy now allows only hybrid ML-KEM key exchange.\n\nBefore switching policies across a fleet, test with the clients that connect to your servers: older SSH clients, network devices, backup agents and automation tools. Start with a small group:\n\n```bash\nsudo update-crypto-policies --show\nsudo update-crypto-policies --set FUTURE\n# reconnect from every client type you support, then decide\n```\n\n## Kernel livepatching\n\nSelected kernel fixes can now be applied without rebooting supported systems. For servers that are hard to restart, such as databases and telecom or payment systems, this narrows the gap between a security advisory and a protected server. Keep scheduled reboots in the plan for cumulative updates.\n\n## Image mode improvements\n\nImage mode manages the operating system as a bootable container image. In 10.2:\n\n- A `--download-only` switch pre-downloads operating system updates, so the maintenance window is spent applying, not downloading.\n- Sealed images, in Technology Preview, add cryptographic integrity protection to the image.\n- `bcvk`, the bootable containers and virtualization kit, starts short-lived test VMs from an image so you can check a build before rolling it out.\n\n## For developers on the same servers\n\nRHEL 10.2 brings Python 3.14, Go 1.26, OpenJDK 25, Rust 1.92, LLVM 21, PostgreSQL 18, MariaDB 11.8 and PHP 8.4. The Red Hat build of Podman Desktop is available, and an optional AI assistant called goose is offered in the Extensions repository, while the supported RHEL command-line assistant stays in AppStream.\n\n## A rollout plan we use with clients\n\n1. **Pilot** RHEL 10.2 on non-production servers and record what breaks.\n2. **Test cryptography** with the FUTURE policy on a few hosts and every client type.\n3. **Turn on livepatching** for the servers that are hardest to reboot.\n4. **Use image mode** for new, repeatable builds such as edge or appliance-style servers.\n5. **Roll out in waves** with Ansible and a written rollback for each wave.",
+   "sources": "- [Red Hat Enterprise Linux 10.2 and 9.8: top features for developers (Red Hat Developer)](https://developers.redhat.com/articles/2026/05/20/rhel-10-2-and-9-8-top-features-developers)\n- [RHEL 10.2 released with post-quantum SSH and kernel livepatching (Linuxiac)](https://linuxiac.com/rhel-10-2-released-with-post-quantum-ssh-and-kernel-livepatching/)\n- [Red Hat Enterprise Linux release dates](https://access.redhat.com/articles/red-hat-enterprise-linux-release-dates)"
+  },
+  {
+   "slug": "private-llm-it-operations",
+   "title": "A practical guide to private LLMs for IT operations",
+   "category": "AI for operations",
+   "date": "2026-11-10",
+   "summary": "How to go from a laptop experiment to a governed, in-region model service for your operations team: Ollama to try ideas, vLLM to serve, retrieval over your runbooks, and Kubernetes when you need to scale.",
+   "body": "## Start with the job, not the model\n\nPick one task your engineers repeat every week, such as summarizing an incident, drafting a post-incident review or answering questions from runbooks. Write down how you will measure it before you choose a model: minutes to triage, how much an engineer has to edit, or how often the answer cites the right runbook.\n\n## Step 1: try ideas on a laptop with Ollama\n\nOllama runs open models locally with one command. It is the fastest way to test prompts on sample, non-sensitive data.\n\n```bash\nollama run llama3.2\n```\n\nKeep a small set of real questions and the answers you expect. You will reuse it at every step.\n\n## Step 2: serve a model with vLLM\n\nWhen more than one person needs the model, serve it. vLLM is an open-source inference engine with an OpenAI-compatible API, so most tools can talk to it without changes.\n\n```bash\npip install vllm\nvllm serve Qwen/Qwen2.5-7B-Instruct --port 8000\n```\n\n```bash\ncurl http://localhost:8000/v1/chat/completions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\": \"Qwen/Qwen2.5-7B-Instruct\", \"messages\": [{\"role\": \"user\", \"content\": \"Summarize this alert: disk 92% on db-01\"}]}'\n```\n\nRun it on a GPU server in your own data center or in a cloud region inside the country, so prompts and logs never leave it.\n\n## Step 3: ground answers in your runbooks\n\nRetrieval-augmented generation (RAG) searches your own documents and hands the relevant passages to the model with the question. For operations this means answers that quote your runbook, not the internet. Index runbooks, past incident reviews and architecture notes, and ask the model to cite which document it used.\n\n## Step 4: scale and govern on Kubernetes\n\nFor many teams and models, move serving onto your platform. Red Hat AI 3, released in October 2025, brought distributed inference built on the open-source llm-d project and vLLM to Red Hat OpenShift AI. At Red Hat Summit in May 2026, Red Hat announced Red Hat AI 3.4 with governed model access, agent operations and built-in safety controls. llm-d itself is an open project you can study on GitHub.\n\n## Guardrails that matter in operations\n\n- **Suggest, do not act.** The model proposes; an engineer approves any change to production.\n- **Log everything.** Keep every prompt, retrieved document and answer for audit.\n- **Keep data in region.** Serve models where your data is allowed to be.\n- **Measure against a baseline.** Run in shadow mode next to your normal process, and stop if it does not help.\n\n## A six-week plan\n\n1. **Weeks 1–2:** choose one use case, collect 50 real examples and agree how to score them.\n2. **Weeks 3–4:** serve a model with vLLM, add retrieval over runbooks and run in shadow mode.\n3. **Weeks 5–6:** compare against the baseline and decide whether to scale, change the model or stop.\n\nOur learning hub has a free course that follows these steps with videos and GitHub projects.",
+   "sources": "- [Ollama on GitHub](https://github.com/ollama/ollama)\n- [vLLM documentation](https://docs.vllm.ai/en/latest/)\n- [Getting started with llm-d for distributed AI inference (Red Hat Developer)](https://developers.redhat.com/articles/2025/08/19/getting-started-llm-d-distributed-ai-inference)\n- [Red Hat brings distributed AI inference to production AI workloads with Red Hat AI 3](https://www.redhat.com/en/about/press-releases/red-hat-brings-distributed-ai-inference-production-ai-workloads-red-hat-ai-3)\n- [Red Hat Summit 2026: AI, virtualization and Ansible updates (CRN Asia)](https://www.crnasia.com/news-network/2026/red-hat-summit-2026-ai-virtualization-ansible-updates-signal-partner-opportunity)"
+  },
+  {
+   "slug": "saudi-cloud-regions",
+   "title": "Choosing a cloud region in Saudi Arabia in 2026",
+   "category": "Cloud strategy",
+   "date": "2026-11-08",
+   "summary": "Two years ago a Saudi organization that needed in-Kingdom hosting had a short list. By the end of 2026 almost every major provider will run a region inside the country. More choice is good news, but it also makes the decision harder. This guide sets out what is available, what the regulations actually ask for, and how we help clients choose.",
+   "body": "## Who runs a region in the Kingdom\n\n<table>\n<thead><tr><th scope=\"col\">Provider</th><th scope=\"col\">Saudi location</th><th scope=\"col\">Status, November 2026</th></tr></thead>\n<tbody>\n<tr><td>Google Cloud</td><td>Dammam</td><td>Generally available</td></tr>\n<tr><td>Oracle Cloud Infrastructure</td><td>Jeddah, Riyadh</td><td>Generally available</td></tr>\n<tr><td>Alibaba Cloud</td><td>Riyadh, operated with Saudi Cloud Computing Company</td><td>Generally available</td></tr>\n<tr><td>Amazon Web Services</td><td>Saudi Arabia region</td><td>Announced for launch by December 2026</td></tr>\n<tr><td>Microsoft Azure</td><td>Saudi Arabia region</td><td>Announced for the fourth quarter of 2026</td></tr>\n</tbody></table>\n\nAvailability changes quickly, and not every service launches in every region on day one. Before committing, check the provider's own region page for the specific services you need, such as managed Kubernetes, GPU instances or a particular database engine.\n\n## What the rules actually require\n\nThree sets of requirements usually shape the decision:\n\n- **The Personal Data Protection Law (PDPL)**, enforceable since September 2024 and overseen by SDAIA, governs how personal data is processed and when it may be transferred outside the Kingdom.\n- **The National Cybersecurity Authority's controls**, in particular the Essential Cybersecurity Controls (ECC-2:2024) and the Cloud Cybersecurity Controls (CCC-2:2024), set expectations for how systems are secured, including those run by cloud providers and managed-service partners.\n- **Sector rules** from regulators such as SAMA for financial services, which can be stricter than the national baseline.\n\nIn practice, most of our Saudi clients choose to keep production data and its backups in-Kingdom by default, and document any exception. That removes a whole class of questions from every audit.\n\n## Four questions that decide the region\n\n1. **Where must the data live?** If the answer is \"in the Kingdom, including backups and logs\", rule out any design that ships telemetry or snapshots to another region by default.\n2. **Which services do you actually need?** A region that lacks your database engine or GPU type forces workarounds that cost more than a slightly higher unit price elsewhere.\n3. **What do you already run?** An existing Oracle estate often lands best on OCI; a team fluent in Kubernetes can move between GKE, EKS and OKE with little friction.\n4. **How will you recover?** Check whether the provider offers more than one Saudi region or zone, and plan disaster recovery inside the Kingdom if your rules require it.\n\n## Keeping multi-cloud manageable\n\nMany Gulf organizations end up with two clouds and a private VMware or OpenShift estate. That is fine if the operating model is shared. We standardize on infrastructure as code with Terraform, GitOps delivery with Argo CD, one observability stack built on OpenTelemetry, Prometheus and Grafana, and one set of runbooks. The result is that an engineer on call does not need to remember which console a workload lives in.\n\n## How Elifai helps\n\nWe run region-selection workshops for Saudi organizations, build landing zones in the chosen region, map the design to NCA and PDPL requirements, and then operate the platform around the clock with named engineers and written service levels.",
+   "sources": "- [AWS: launch of the Saudi Arabia region](https://www.aboutamazon.com/news/aws/aws-cloud-region-saudi-arabia)\n- [Microsoft Saudi Arabia datacenter region, Q4 2026](https://www.crnasia.com/news/2026/data-center/microsoft-sets-2026-launch-window-for-saudi-data-center-regi)\n- [Google Cloud Dammam region](https://www.googlecloudpresscorner.com/2023-11-15-Google-Cloud-Expands-Regional-Presence-with-Opening-of-Dammam-Cloud-Region-Forecast-to-Boost-Economy-by-USD-109-Billion-by-2030?linkId=9203308)\n- [PDPL becomes enforceable (Clyde & Co)](https://www.clydeco.com/en/insights/2024/09/saudi-arabia-s-personal-data-protection-law-become)\n- [NCA Cloud Cybersecurity Controls CCC-2:2024 (PDF)](https://cdn.nca.gov.sa/api/files/public/upload/6d5408a3-d8e6-4e96-963b-2c7198e5b7c2_CCC-2-2024-EN-.pdf)"
+  },
+  {
+   "slug": "nca-ecc-kubernetes",
+   "title": "Mapping NCA cybersecurity controls to Kubernetes",
+   "category": "Compliance",
+   "date": "2026-11-08",
+   "summary": "Most Saudi compliance teams know the NCA control documents well. Most platform teams know Kubernetes well. The gap is in between: which cluster setting proves which control, and where the evidence comes from. This guide shows how we close that gap on OpenShift, GKE, EKS and OKE.",
+   "body": "## Start from the control domains, not the tools\n\nThe Essential Cybersecurity Controls (ECC-2:2024) are organized into domains covering governance, defense, resilience, third-party and cloud security, and industrial systems. The Cloud Cybersecurity Controls (CCC-2:2024) add requirements for cloud providers and for organizations that use them. Rather than starting with a list of Kubernetes features, we start with the domains that touch a platform and ask, for each one, what an auditor will ask to see.\n\n## A working map\n\n<table>\n<thead><tr><th scope=\"col\">Control area</th><th scope=\"col\">What we configure</th><th scope=\"col\">Evidence we hand over</th></tr></thead>\n<tbody>\n<tr><td>Identity and access management</td><td>SSO to the cluster through your identity provider, role-based access per namespace, no shared admin accounts, short-lived credentials</td><td>RBAC export, access review records, login audit logs</td></tr>\n<tr><td>Data protection and cryptography</td><td>Encryption at rest with customer-managed keys, TLS everywhere, secrets in Vault or a cloud KMS rather than plain Kubernetes secrets</td><td>Key policy, certificate inventory, secret-store configuration</td></tr>\n<tr><td>Vulnerability and patch management</td><td>Image scanning in the pipeline, signed images only, scheduled node and OS patching for RHEL or Ubuntu workers</td><td>Scan reports, admission-policy logs, patch compliance dashboard</td></tr>\n<tr><td>Event logging and monitoring</td><td>API server audit logging, central log retention in-Kingdom, alerting into a staffed operations center</td><td>Retention settings, sample alerts, incident tickets</td></tr>\n<tr><td>Configuration and change management</td><td>All cluster state in Git, changes through pull requests, policy-as-code (OPA Gatekeeper or Kyverno) blocking unsafe workloads</td><td>Git history, approval records, policy reports</td></tr>\n<tr><td>Resilience and backup</td><td>Multi-zone control plane, Velero or native backups stored in-Kingdom, restore tests on a schedule</td><td>Backup job history, signed restore-test results</td></tr>\n<tr><td>Third-party and cloud security</td><td>Documented shared-responsibility split with the cloud provider and with us as managed-service partner</td><td>Responsibility matrix, provider attestations</td></tr>\n</tbody></table>\n\nExact control numbers differ between document versions and between ECC and CCC, so we keep the mapping in a spreadsheet tied to the version your regulator expects, and update it when NCA publishes a revision.\n\n## Make the evidence automatic\n\nThe expensive part of compliance is collecting evidence by hand before every audit. We avoid that by producing evidence as a side effect of running the platform: policy reports from the admission controller, patch status from the fleet dashboard, backup and restore results from scheduled jobs, and access reviews from the identity provider. A quarterly export then becomes a pack your compliance team can submit as it is.\n\n## Common gaps we find\n\n- Cluster-admin rights shared by a whole team, with no record of who did what.\n- Audit logs enabled but shipped to a region outside the Kingdom by default.\n- Backups that exist but have never been restored.\n- Kubernetes secrets stored in Git with base64 encoding mistaken for encryption.\n\n## How Elifai helps\n\nWe run a two-week gap assessment against the control versions you are measured on, fix what we find, and then operate the platform with the evidence pipeline in place, so every quarter's audit pack is ready before anyone asks for it.\n\nThis article is general guidance, not legal advice. Always confirm requirements with your compliance function and the current NCA publications.",
+   "sources": "- [NCA Cloud Cybersecurity Controls CCC-2:2024 (PDF)](https://cdn.nca.gov.sa/api/files/public/upload/6d5408a3-d8e6-4e96-963b-2c7198e5b7c2_CCC-2-2024-EN-.pdf)\n- [What NCA regulations mean for your business (Uniqus)](https://uniqus.com/what-nca-regulations-mean-for-your-business/)"
+  },
+  {
+   "slug": "aiops-gulf-enterprises",
+   "title": "AIOps for Gulf enterprises: where to start",
+   "category": "AI for operations",
+   "date": "2026-11-08",
+   "summary": "Every operations team in the Gulf is being asked what it is doing with AI. The honest answer for most is \"not much yet\", and that is a reasonable place to start. AIOps works best when it begins small, with a clear before-and-after measure, and with people in charge of every change to production.",
+   "body": "## Two use cases that pay back first\n\n### 1. Alert correlation\n\nA single failing database can trigger hundreds of alerts across the services that depend on it. Correlation groups them into one incident with a likely cause, so the on-call engineer starts from the problem rather than from the noise. This is usually the fastest win because the data already exists in your monitoring tools.\n\n### 2. Incident summaries and ticket triage\n\nLarge language models are good at reading timelines, logs and chat threads and turning them into a clear summary. Used for incident reviews and for routing tickets to the right team, they save hours each week without making any change to production systems.\n\n## A safe six-week pilot\n\n1. **Weeks 1 and 2, baseline.** Measure what happens today: alerts per incident, time to acknowledge, time to restore, and hours spent writing incident reviews.\n2. **Weeks 3 and 4, shadow mode.** Run the AI alongside your team on real incidents. It suggests, people decide, and every suggestion is scored.\n3. **Weeks 5 and 6, decide.** Compare against the baseline. Keep what clearly helped, drop what did not, and agree which actions may ever be automated.\n\n## What to measure\n\n- Alerts per incident, before and after correlation.\n- Mean time to acknowledge and mean time to restore.\n- Share of AI suggestions engineers accepted.\n- Cost per incident handled, including model usage.\n\n## Guardrails for regulated environments\n\nFor Saudi and Gulf organizations subject to PDPL, NCA controls or sector rules, keep three guardrails from day one: run models where your data is allowed to be, which may mean a private model in-Kingdom; log every prompt and response used in an incident; and require a named engineer to approve any action that changes production.\n\n## How Elifai helps\n\nWe run AIOps readiness assessments, build the correlation and summary pipelines on top of the telemetry you already have, and operate them alongside our 24/7 managed service, so the AI and the people who act on it are the same team.",
+   "sources": ""
+  }
+ ],
+ "courses": [
+  {
+   "slug": "openshift-foundations",
+   "title": "OpenShift foundations",
+   "track": "OpenShift",
+   "level": "Beginner",
+   "duration": "About 3 hours",
+   "sort": 1,
+   "summary": "Understand what Red Hat OpenShift adds to Kubernetes, get a free cluster to practice on, and learn what changed in the latest release.",
+   "lessons": [
+    {
+     "kind": "video",
+     "title": "What is OpenShift?",
+     "url": "https://www.youtube.com/watch?v=KTN_QBuDplo",
+     "note": "A short explainer of how OpenShift builds on Kubernetes."
+    },
+    {
+     "kind": "video",
+     "title": "OpenShift in five minutes",
+     "url": "https://www.youtube.com/watch?v=Ut2IA4bA-g8",
+     "note": "A quick tour of the main parts of the platform."
+    },
+    {
+     "kind": "docs",
+     "title": "Practice for free in the Developer Sandbox",
+     "url": "https://developers.redhat.com/developer-sandbox",
+     "note": "A no-cost OpenShift cluster in your browser for hands-on labs."
+    },
+    {
+     "kind": "github",
+     "title": "Run OpenShift Local on your laptop",
+     "url": "https://github.com/crc-org/crc",
+     "note": "OpenShift Local (CRC) gives you a single-node cluster for offline practice."
+    },
+    {
+     "kind": "article",
+     "title": "What's new for developers in OpenShift 4.22",
+     "url": "https://developers.redhat.com/articles/2026/07/14/whats-new-developers-red-hat-openshift-4-22",
+     "note": "The highlights of the current release from Red Hat Developer."
+    },
+    {
+     "kind": "docs",
+     "title": "OpenShift 4.22 release notes",
+     "url": "https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes",
+     "note": "The official list of features, changes and known issues."
+    },
+    {
+     "kind": "article",
+     "title": "Elifai guide: planning an OpenShift 4.22 upgrade",
+     "url": "/insights/openshift-4-22-platform-teams",
+     "note": "Three checks to make before you book an upgrade window."
+    }
+   ]
+  },
+  {
+   "slug": "practical-ai-for-it-operations",
+   "title": "Practical AI for IT operations",
+   "track": "AI for operations",
+   "level": "Beginner",
+   "duration": "About 4 hours",
+   "sort": 2,
+   "summary": "Go from a laptop experiment to a private, in-region model service: run models with Ollama, serve them with vLLM, add retrieval over runbooks and scale on Kubernetes.",
+   "lessons": [
+    {
+     "kind": "video",
+     "title": "What is retrieval-augmented generation (RAG)?",
+     "url": "https://www.youtube.com/watch?v=T-D1OfcDW1M",
+     "note": "Why grounding answers in your own documents matters."
+    },
+    {
+     "kind": "github",
+     "title": "Try models on your laptop with Ollama",
+     "url": "https://github.com/ollama/ollama",
+     "note": "Install it, run one model and test your prompts on sample data."
+    },
+    {
+     "kind": "video",
+     "title": "Optimize, deploy and benchmark an open-source LLM with vLLM",
+     "url": "https://www.youtube.com/watch?v=a9T9kWwpaNg",
+     "note": "How a model is served efficiently on a GPU."
+    },
+    {
+     "kind": "github",
+     "title": "vLLM inference engine",
+     "url": "https://github.com/vllm-project/vllm",
+     "note": "The open-source server with an OpenAI-compatible API."
+    },
+    {
+     "kind": "docs",
+     "title": "vLLM documentation",
+     "url": "https://docs.vllm.ai/en/latest/",
+     "note": "Installation, supported models and serving options."
+    },
+    {
+     "kind": "video",
+     "title": "vLLM vs llm-d: Red Hat's approach to distributed AI serving",
+     "url": "https://www.youtube.com/watch?v=Ru7VqKVwYB4",
+     "note": "When one server is not enough."
+    },
+    {
+     "kind": "article",
+     "title": "Getting started with llm-d for distributed AI inference",
+     "url": "https://developers.redhat.com/articles/2025/08/19/getting-started-llm-d-distributed-ai-inference",
+     "note": "A walkthrough from Red Hat Developer."
+    },
+    {
+     "kind": "github",
+     "title": "llm-d: Kubernetes-native distributed inference",
+     "url": "https://github.com/llm-d/llm-d",
+     "note": "The open project behind distributed inference on Kubernetes."
+    },
+    {
+     "kind": "article",
+     "title": "Elifai guide: private LLMs for IT operations",
+     "url": "/insights/private-llm-it-operations",
+     "note": "Our six-week plan, guardrails and what to measure."
+    }
+   ]
+  },
+  {
+   "slug": "rhel-10-for-administrators",
+   "title": "RHEL 10 for administrators",
+   "track": "Red Hat Enterprise Linux",
+   "level": "Intermediate",
+   "duration": "About 3 hours",
+   "sort": 3,
+   "summary": "Learn image mode, bootable containers and the RHEL 10.2 changes that affect patching and security, with a free RHEL subscription to practice on.",
+   "lessons": [
+    {
+     "kind": "video",
+     "title": "What is image mode for RHEL?",
+     "url": "https://www.youtube.com/watch?v=ZJ4ujLQkeMw",
+     "note": "Managing the operating system as a container image."
+    },
+    {
+     "kind": "video",
+     "title": "Image mode for Red Hat Enterprise Linux",
+     "url": "https://www.youtube.com/watch?v=Rby_0yF9b5Y",
+     "note": "A longer walkthrough with a demo."
+    },
+    {
+     "kind": "video",
+     "title": "What are bootc and bootable containers?",
+     "url": "https://www.youtube.com/watch?v=1p1pCoHFkP0",
+     "note": "The open-source technology underneath image mode."
+    },
+    {
+     "kind": "github",
+     "title": "bootc project on GitHub",
+     "url": "https://github.com/containers/bootc",
+     "note": "Source, examples and issues for bootable containers."
+    },
+    {
+     "kind": "docs",
+     "title": "Get RHEL at no cost for development",
+     "url": "https://developers.redhat.com/products/rhel/download",
+     "note": "A free developer subscription for your lab machines."
+    },
+    {
+     "kind": "article",
+     "title": "RHEL 10.2 and 9.8: top features for developers",
+     "url": "https://developers.redhat.com/articles/2026/05/20/rhel-10-2-and-9-8-top-features-developers",
+     "note": "Toolchains, image mode switches and new tools."
+    },
+    {
+     "kind": "article",
+     "title": "Elifai guide: RHEL 10.2 for administrators",
+     "url": "/insights/rhel-10-2-admin-guide",
+     "note": "Post-quantum SSH, livepatching and a rollout plan."
+    }
+   ]
+  },
+  {
+   "slug": "openshift-gitops-argo-cd",
+   "title": "GitOps on OpenShift with Argo CD",
+   "track": "OpenShift",
+   "level": "Intermediate",
+   "duration": "About 2 hours",
+   "sort": 4,
+   "summary": "Deliver applications and cluster configuration from Git with Red Hat OpenShift GitOps, the supported Argo CD for OpenShift.",
+   "lessons": [
+    {
+     "kind": "video",
+     "title": "Deploying an application using Red Hat OpenShift GitOps (Argo CD)",
+     "url": "https://www.youtube.com/watch?v=i_uoJwKYGZE",
+     "note": "From a Git repository to a running application."
+    },
+    {
+     "kind": "video",
+     "title": "Red Hat OpenShift GitOps (Argo CD)",
+     "url": "https://www.youtube.com/watch?v=pOGMSOotSn0",
+     "note": "How OpenShift GitOps is installed and used."
+    },
+    {
+     "kind": "github",
+     "title": "Argo CD example applications",
+     "url": "https://github.com/argoproj/argocd-example-apps",
+     "note": "Small apps to practice syncing from Git."
+    },
+    {
+     "kind": "github",
+     "title": "Argo CD source code",
+     "url": "https://github.com/argoproj/argo-cd",
+     "note": "The upstream project behind OpenShift GitOps."
+    },
+    {
+     "kind": "docs",
+     "title": "Argo CD documentation",
+     "url": "https://argo-cd.readthedocs.io/en/stable/",
+     "note": "Concepts, sync options and best practices."
+    }
+   ]
+  },
+  {
+   "slug": "ansible-automation-basics",
+   "title": "Automate Linux with Ansible",
+   "track": "Automation",
+   "level": "Beginner",
+   "duration": "About 2 hours",
+   "sort": 5,
+   "summary": "Write your first playbooks, understand inventories and modules, and see how Red Hat Ansible Automation Platform runs automation at team scale.",
+   "lessons": [
+    {
+     "kind": "video",
+     "title": "Introduction to Ansible playbooks (with a demo)",
+     "url": "https://www.youtube.com/watch?v=ZAdJ7CdN7DY",
+     "note": "How a playbook describes the state you want."
+    },
+    {
+     "kind": "video",
+     "title": "Intro to Red Hat Ansible Automation Platform",
+     "url": "https://www.youtube.com/watch?v=83vBAxs9oaw",
+     "note": "Running automation for a whole team."
+    },
+    {
+     "kind": "docs",
+     "title": "Getting started with Ansible",
+     "url": "https://docs.ansible.com/ansible/latest/getting_started/index.html",
+     "note": "Install Ansible and run your first commands."
+    },
+    {
+     "kind": "github",
+     "title": "Ansible on GitHub",
+     "url": "https://github.com/ansible/ansible",
+     "note": "Source code and release notes."
+    },
+    {
+     "kind": "github",
+     "title": "Ansible examples",
+     "url": "https://github.com/ansible/ansible-examples",
+     "note": "Sample playbooks for common Linux tasks."
+    }
+   ]
+  }
+ ]
+}

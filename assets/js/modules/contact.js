@@ -1,4 +1,4 @@
-import { t, isAr, locale } from "./i18n.js?v=15";
+import { t, isAr, locale } from "./i18n.js?v=16";
 /**
  * Executive inquiry form — client-side validation and AJAX submit to /contact.php.
  * Works without JavaScript too (plain POST; contact.php redirects back).

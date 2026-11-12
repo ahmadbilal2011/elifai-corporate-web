@@ -26,6 +26,18 @@ AddDefaultCharset utf-8
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
   # ------------------------------------------------------------------------
+  # 1b. Insights, learning hub and sitemap are served by PHP (lib/ + SQLite)
+  # ------------------------------------------------------------------------
+  RewriteRule ^(lib|data)(/|$) - [F,L]
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+  RewriteRule ^insights/feed\.json$ insights/feed.php?format=json [L]
+  RewriteRule ^insights/feed\.xml$ insights/feed.php?format=rss [L]
+  RewriteRule ^insights/?$ insights/index.php [L]
+  RewriteRule ^insights/([a-z0-9-]+)/?$ insights/article.php?slug=$1 [L,QSA]
+  RewriteRule ^learning/?$ learning/index.php [L]
+  RewriteRule ^learning/([a-z0-9-]+)/?$ learning/course.php?slug=$1 [L,QSA]
+
+  # ------------------------------------------------------------------------
   # 2. Clean URLs: /privacy serves privacy.html, /privacy.html → /privacy
   # ------------------------------------------------------------------------
   RewriteCond %{THE_REQUEST} \s/+([^?\s]+?)\.html[\s?] [NC]
@@ -128,7 +140,7 @@ ErrorDocument 403 /404.html
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
   Header always set Cross-Origin-Opener-Policy "same-origin"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com; frame-src https://www.youtube-nocookie.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
 
   Header unset X-Powered-By
   Header always unset X-Powered-By

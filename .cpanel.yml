@@ -6,7 +6,10 @@ deployment:
   tasks:
     - export DEPLOYPATH=$HOME/public_html/
     - /bin/mkdir -p $DEPLOYPATH
-    - /bin/cp -R assets ar insights $DEPLOYPATH
+    - /bin/cp -R assets ar insights learning admin lib $DEPLOYPATH
+    - /bin/mkdir -p $DEPLOYPATH/uploads
+    - /bin/cp uploads/.htaccess $DEPLOYPATH/uploads/
     - /bin/cp index.html privacy.html 404.html contact.php vendor-news.php $DEPLOYPATH
-    - /bin/cp robots.txt sitemap.xml site.webmanifest $DEPLOYPATH
+    - /bin/cp robots.txt sitemap.php site.webmanifest $DEPLOYPATH
+    - /bin/rm -f $DEPLOYPATH/sitemap.xml $DEPLOYPATH/insights/saudi-cloud-regions.html $DEPLOYPATH/insights/nca-ecc-kubernetes.html $DEPLOYPATH/insights/aiops-gulf-enterprises.html
     - /bin/cp .htaccess $DEPLOYPATH

@@ -706,5 +706,20 @@
   "uptime · last 30 days": "وقت التشغيل · آخر ٣٠ يومًا",
   "alerts →": "تنبيه ←",
   "incident": "حادثة",
-  "in-region cloud": "سحابة داخل المنطقة"
+  "in-region cloud": "سحابة داخل المنطقة",
+  "Resources": "الموارد",
+  "Learn with Elifai": "تعلّم مع Elifai",
+  "Learning hub": "مركز التعلّم",
+  "Guides for Gulf technology leaders": "أدلة لقادة التقنية في الخليج",
+  "Free courses with videos and labs": "دورات مجانية بالفيديو والمختبرات العملية",
+  "Practical AI for IT operations": "الذكاء الاصطناعي العملي لعمليات تقنية المعلومات",
+  "Ollama, vLLM, RAG and llm-d": "Ollama وvLLM وRAG وllm-d",
+  "OpenShift foundations": "أساسيات OpenShift",
+  "Videos, sandbox and GitHub labs": "فيديوهات وبيئة تجريبية ومختبرات GitHub",
+  "Latest insight": "أحدث مقال",
+  "OpenShift 4.22: what platform teams should plan for": "OpenShift 4.22: ما يجب أن تخطط له فرق المنصات",
+  "Kubernetes 1.35, cross-cluster VM live migration and three checks before you upgrade.": "كوبرنيتس 1.35، والترحيل المباشر للأجهزة الافتراضية بين العناقيد، وثلاث نقاط تُفحص قبل الترقية.",
+  "Read the article": "اقرأ المقال",
+  "All insights": "كل المقالات",
+  "Free learning hub": "مركز التعلّم المجاني"
 }

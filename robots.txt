@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /contact.php
 Disallow: /vendor-news.php
+Disallow: /admin/
 
 Sitemap: https://elifai.pk/sitemap.xml

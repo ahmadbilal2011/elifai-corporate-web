@@ -1,0 +1,5 @@
+# Helpers that are included by the admin pages, never requested directly
+<FilesMatch "^_">
+  Require all denied
+</FilesMatch>
+Header always set X-Robots-Tag "noindex, nofollow"

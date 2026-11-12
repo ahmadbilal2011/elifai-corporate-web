@@ -19,7 +19,13 @@ elifai-corporate-web/
 ├── vendor-news.php            Server-side vendor news proxy with cache (live headlines)
 ├── .htaccess                  HTTPS, clean URLs, Brotli/Gzip, caching, security headers
 ├── .cpanel.yml                Deploy tasks for cPanel Git Version Control
-├── robots.txt · sitemap.xml · site.webmanifest
+├── robots.txt · site.webmanifest
+├── sitemap.php                Served as /sitemap.xml; lists pages, articles and courses
+├── insights/                  /insights list, /insights/<slug> articles, feed.json + RSS (PHP)
+├── learning/                  /learning hub and /learning/<slug> course pages (PHP)
+├── admin/                     Admin panel: sign in, articles, courses, settings
+├── lib/                       PHP core (blocked from the web): SQLite, auth, Markdown, layout, seed.json
+├── uploads/                   Images uploaded from the admin (scripts can never run here)
 ├── assets/
 │   ├── css/main.css           Design tokens + all styles
 │   ├── data/vendors.json      38 vendors: category, product families, site, feed sources
@@ -28,6 +34,7 @@ elifai-corporate-web/
 │   └── js/
 │       ├── theme-init.js      Applies saved light/dark theme before first paint
 │       ├── main.js            Entry module
+│       ├── admin.js           Admin editor: Markdown toolbar, preview, image upload, lesson list
 │       └── modules/
 │           ├── theme.js       Light / dark toggle
 │           ├── hud.js         Hero ops wall: radar, throughput graph, load bars, security log
@@ -144,7 +151,18 @@ If elifai.pk is an addon domain, edit `DEPLOYPATH` in `.cpanel.yml` to that doma
 - [ ] **Deliverability:** cPanel → **Email Deliverability** → fix any SPF / DKIM warnings for elifai.pk.
 - [ ] **PHP version:** cPanel → **MultiPHP Manager** → PHP 8.1 or newer.
 - [ ] **Test the form** from the live site and confirm the email arrives (check spam the first time).
+- [ ] **Admin account:** open `https://elifai.pk/admin/` straight away and create the first admin (this screen only appears while no admin exists).
 - [ ] **Search:** submit `https://elifai.pk/sitemap.xml` in Google Search Console.
+
+## Admin panel, Insights and Learning hub
+
+- **Sign in:** `https://elifai.pk/admin/`. The first visit after deploying shows a one-time *Create the first admin account* form; after that it is a normal sign-in page. Passwords are hashed, sessions expire after two hours idle, every form is CSRF-protected and an address is locked out for 15 minutes after five wrong passwords. Add or remove admins under **Settings**.
+- **Articles** (`/insights`): write in Markdown with a live preview, upload a cover and inline images, save as draft or publish. Published articles appear on `/insights`, on the home page (the three newest), in `/insights/feed.xml` (RSS) and in the sitemap automatically. Drafts are visible only to signed-in admins.
+- **Courses** (`/learning`): give each course a track and level, then add lessons as YouTube videos, GitHub repositories, documentation or article links (a page on this site such as `/insights/...` works too). YouTube lessons play inside the page through the privacy-enhanced `youtube-nocookie.com` player, only after the visitor presses play. Visitors can tick lessons as done; progress is kept in their own browser.
+- **Data:** everything is stored in one SQLite file, `~/elifai-data/elifai.sqlite`, one level above `public_html` so it can never be downloaded. Back up that folder and `public_html/uploads/` with cPanel's backup. If PHP cannot create `~/elifai-data`, it falls back to `public_html/data/`, which `.htaccess` blocks.
+- **Starter content:** on the very first request the database is filled from `lib/seed.json` (6 articles and 5 courses). After that the admin panel is the source of truth; editing `seed.json` has no effect on a live site.
+- **Requirements:** PHP 7.4 or newer with `pdo_sqlite` (on by default in cPanel's PHP).
+- **Arabic:** the Insights and Learning pages are in English; the Arabic home page links to them.
 
 ## Troubleshooting
 
