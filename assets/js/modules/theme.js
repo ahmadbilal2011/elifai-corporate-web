@@ -1,4 +1,4 @@
-import { t, isAr, locale } from "./i18n.js?v=14";
+import { t, isAr, locale } from "./i18n.js?v=15";
 /**
  * Light / dark theme.
  * Default: dark between 19:00 and 03:00 local time, light otherwise, re-checked

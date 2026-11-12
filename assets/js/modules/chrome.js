@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=14";
+import { t } from "./i18n.js?v=15";
 /** Header blur on scroll, mobile menu, active-section nav, ticker, reveal, year. */
 export function initChrome({ reducedMotion }) {
   const header = document.querySelector("[data-header]");
@@ -56,6 +56,28 @@ export function initChrome({ reducedMotion }) {
     item.addEventListener("pointerenter", () => { if (!hoverable.matches) return; clearTimeout(hoverTimer); hoverTimer = setTimeout(() => openMenu(tr), openTrigger ? 0 : 120); });
     item.addEventListener("pointerleave", () => { if (!hoverable.matches) return; clearTimeout(hoverTimer); hoverTimer = setTimeout(() => { if (openTrigger === tr) { closeAll(); onScroll(); } }, 220); });
     panelOf(tr).addEventListener("click", (e) => { if (e.target.closest("a")) { closeAll(); onScroll(); } });
+  });
+  // Live preview: hovering or focusing a service swaps the side panel to that service
+  document.querySelectorAll("[data-pv-pane]").forEach((pane) => {
+    const panel = pane.closest("[data-mm-panel]");
+    const views = [...pane.querySelectorAll("[data-pv-for]")];
+    const fallback = views.find((v) => v.classList.contains("is-on"))?.dataset.pvFor;
+    let current = fallback;
+    const showPv = (key) => {
+      if (!key || key === current) return;
+      current = key;
+      panel.querySelectorAll("[data-pv]").forEach((a) => a.classList.toggle("is-pv", a.dataset.pv === key && key !== fallback));
+      views.forEach((v) => {
+        const on = v.dataset.pvFor === key;
+        v.hidden = !on;
+        v.classList.toggle("is-on", on);
+      });
+    };
+    panel.querySelectorAll("[data-pv]").forEach((a) => {
+      a.addEventListener("pointerenter", () => showPv(a.dataset.pv));
+      a.addEventListener("focus", () => showPv(a.dataset.pv));
+    });
+    new MutationObserver(() => { if (panel.hidden) showPv(fallback); }).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
   });
   document.addEventListener("click", (e) => { if (openTrigger && !e.target.closest(".mm-item")) { closeAll(); onScroll(); } });
   document.addEventListener("keydown", (e) => {

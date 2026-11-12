@@ -1,4 +1,4 @@
-import { t, isAr, locale } from "./i18n.js?v=14";
+import { t, isAr, locale } from "./i18n.js?v=15";
 /**
  * Small "live" touches that make each section feel current:
  *  - P1 SLA clock replay (Managed services)

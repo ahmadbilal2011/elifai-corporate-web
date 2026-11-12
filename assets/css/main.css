@@ -1858,3 +1858,49 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .mnav-foot .lang-link { padding: 10px 14px; border: 1px solid var(--line-strong); border-radius: 999px; }
 [dir="rtl"] .mnav-head { letter-spacing: 0; }
 @media (max-width: 380px) { .mnav-grid { grid-template-columns: 1fr; } }
+
+/* ---------- v15: service previews in the Services menu ---------- */
+.mm-pv { display: flex; flex-direction: column; gap: 8px; height: 100%; }
+.mm-pv[hidden] { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .mm-pv.is-on > * { animation: rise .35s var(--ease-out) both; }
+  .mm-pv.is-on > :nth-child(2) { animation-delay: .03s; } .mm-pv.is-on > :nth-child(3) { animation-delay: .06s; }
+  .mm-pv.is-on > :nth-child(4) { animation-delay: .09s; } .mm-pv.is-on > :nth-child(5) { animation-delay: .12s; }
+}
+.mm-grid a.is-pv { background: var(--tint); border-color: var(--line); }
+.pv-stat { font-size: .74rem; color: var(--muted); }
+.pv-stat b { color: var(--emerald); font-weight: 600; }
+.pv-uptime { display: grid; grid-template-columns: repeat(30, 1fr); gap: 2px; height: 30px; align-items: end; }
+.pv-uptime i { height: 100%; border-radius: 1.5px; background: var(--emerald); opacity: .85; transform-origin: bottom; }
+.pv-uptime i.inc { background: var(--accent); }
+.pv-funnel { position: relative; height: 54px; border-radius: 8px; overflow: hidden; background: linear-gradient(180deg, transparent, var(--tint)); }
+.pv-funnel i { position: absolute; top: -6px; left: var(--x); width: 5px; height: 5px; border-radius: 50%; background: var(--red); }
+.pv-funnel i:nth-child(3n) { background: var(--accent); }
+.pv-funnel em { position: absolute; left: 50%; bottom: 6px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 0 4px var(--emerald-soft); }
+.pv-stack { display: grid; gap: 4px; }
+.pv-stack i { font-style: normal; font: 500 .7rem var(--font-mono); padding: 6px 9px; border-radius: 6px; background: var(--bg-3); border-inline-start: 2px solid var(--emerald); color: var(--text-2); }
+.pv-stack i:nth-child(1) { border-color: var(--accent); } .pv-stack i:nth-child(2) { border-color: var(--red); }
+.pv-stack i:last-child { background: linear-gradient(90deg, rgba(209,0,0,.22), rgba(255,153,0,.16)); }
+.pv-code { display: grid; gap: 3px; padding: 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: .7rem; }
+.pv-code i { font-style: normal; color: var(--text-2); white-space: nowrap; overflow: hidden; }
+.pv-code b { color: var(--red); font-weight: 500; } .pv-code .ok { color: var(--emerald); }
+.pv-check { display: grid; gap: 5px; }
+.pv-check i { font-style: normal; font-size: .8rem; display: flex; align-items: center; gap: 8px; color: var(--text-2); }
+.pv-check i::before { content: "✓"; width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center; font-size: .6rem; font-weight: 700; background: var(--emerald); color: #0C1219; }
+@media (prefers-reduced-motion: no-preference) {
+  .mm-pv.is-on .pv-uptime i { animation: pv-up .5s var(--ease-out) both; animation-delay: calc(var(--d) * 18ms); }
+  .mm-pv.is-on .pv-funnel i { animation: pv-fall 1.6s ease-in infinite; animation-delay: var(--d); }
+  .mm-pv.is-on .pv-funnel em { animation: pv-beat 1.6s ease-in-out infinite; }
+  .mm-pv.is-on .pv-stack i { animation: rise .4s var(--ease-out) both; }
+  .mm-pv.is-on .pv-stack i:nth-child(2) { animation-delay: .08s; } .mm-pv.is-on .pv-stack i:nth-child(3) { animation-delay: .16s; } .mm-pv.is-on .pv-stack i:nth-child(4) { animation-delay: .24s; }
+  .mm-pv.is-on .pv-code i { animation: pv-type .5s steps(18) both; }
+  .mm-pv.is-on .pv-code i:nth-child(2) { animation-delay: .4s; } .mm-pv.is-on .pv-code i:nth-child(3) { animation-delay: .8s; }
+  .mm-pv.is-on .pv-check i::before { animation: pv-tick .3s var(--ease-out) both; }
+  .mm-pv.is-on .pv-check i:nth-child(2)::before { animation-delay: .2s; } .mm-pv.is-on .pv-check i:nth-child(3)::before { animation-delay: .4s; } .mm-pv.is-on .pv-check i:nth-child(4)::before { animation-delay: .6s; }
+}
+@keyframes pv-up { from { transform: scaleY(.1); } to { transform: none; } }
+@keyframes pv-fall { 0% { left: var(--x); top: -6px; opacity: 0; } 15% { opacity: 1; } 100% { left: calc(50% - 2px); top: 42px; opacity: 0; } }
+@keyframes pv-beat { 50% { box-shadow: 0 0 0 7px var(--emerald-soft); } }
+@keyframes pv-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes pv-tick { from { transform: scale(0); } to { transform: none; } }
+[dir="rtl"] .pv-code { direction: ltr; text-align: left; }

@@ -1,4 +1,4 @@
-import { t, isAr, locale } from "./i18n.js?v=14";
+import { t, isAr, locale } from "./i18n.js?v=15";
 /**
  * Footprint map: region cards highlight the map, an automatic tour cycles
  * through the regions, packets travel along each link to and from the

@@ -35,8 +35,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Red+Hat+Display:wght@500;600;700&amp;family=Red+Hat+Text:wght@400;500;600&amp;family=Red+Hat+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/assets/css/main.css?v=14">
-  <script type="module" src="/assets/js/main.js?v=14"></script>
+  <link rel="stylesheet" href="/assets/css/main.css?v=15">
+  <script type="module" src="/assets/js/main.js?v=15"></script>
 
   <script type="application/ld+json">
   {"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Elifai", "url": "https://elifai.pk/ar/", "logo": "https://elifai.pk/assets/img/logo-mark.svg", "email": "info@elifai.pk", "telephone": "+966540952792", "address": {"@type": "PostalAddress", "addressLocality": "Islamabad", "addressCountry": "PK"}, "parentOrganization": {"@type": "Organization", "name": "Sysnetrix Pvt Ltd", "address": {"@type": "PostalAddress", "addressLocality": "Islamabad", "addressCountry": "PK"}}, "areaServed": ["Saudi Arabia", "United Arab Emirates", "Qatar", "Bahrain", "Kuwait", "Oman", "Pakistan", "Worldwide"], "slogan": "Managed cloud and AI operations for Saudi Arabia and the Gulf", "knowsAbout": ["Managed IT services", "AIOps", "Red Hat Enterprise Linux", "Ubuntu", "Red Hat OpenShift", "Kubernetes", "AWS", "Google Cloud", "Oracle Cloud Infrastructure", "Alibaba Cloud", "VMware"], "founder": {"@type": "Person", "name": "Ahmad Bilal", "jobTitle": "Chief Executive Officer", "sameAs": "https://www.linkedin.com/in/ahmadbilal2011/"}, "inLanguage": "ar"}
@@ -69,14 +69,51 @@
               <div class="mm-inner">
                 <div class="mm-col">
                   <p class="mm-head mono">ما نقدّمه</p>
-                  <ul class="mm-grid"><li><a href="#capabilities" data-svc-open="0"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span class="mm-txt"><span class="mm-title">الخدمات المُدارة</span><span class="mm-sub">عمليات عن بُعد على مدار الساعة</span></span></a></li><li><a href="#capabilities" data-svc-open="1"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span class="mm-txt"><span class="mm-title">الذكاء الاصطناعي للعمليات</span><span class="mm-sub">استشارات AIOps</span></span></a></li><li><a href="#capabilities" data-svc-open="2"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18Z"/></svg></span><span class="mm-txt"><span class="mm-title">السحابة ولينكس وكوبرنيتس</span><span class="mm-sub">البناء والترحيل</span></span></a></li><li><a href="#capabilities" data-svc-open="3"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 6l-2 12"/></svg></span><span class="mm-txt"><span class="mm-title">البرمجيات المؤسسية</span><span class="mm-sub">منصات ثنائية اللغة</span></span></a></li><li><a href="#capabilities" data-svc-open="4"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></span><span class="mm-txt"><span class="mm-title">إليفاي الأساسية <span class="mm-badge mono">للشركات</span></span><span class="mm-sub">تقنية المعلومات للشركات الصغيرة والمتوسطة</span></span></a></li><li><a href="#telecom"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18c4-8 14-8 18-12"/><circle cx="3" cy="18" r="1.6"/><circle cx="21" cy="6" r="1.6"/></svg></span><span class="mm-txt"><span class="mm-title">الاتصالات والألياف <span class="mm-badge mono">جديد</span></span><span class="mm-sub">الألياف وDWDM والكابلات والشبكات</span></span></a></li></ul>
+                  <ul class="mm-grid"><li><a data-pv="managed" href="#capabilities" data-svc-open="0"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span class="mm-txt"><span class="mm-title">الخدمات المُدارة</span><span class="mm-sub">عمليات عن بُعد على مدار الساعة</span></span></a></li><li><a data-pv="ai" href="#capabilities" data-svc-open="1"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><span class="mm-txt"><span class="mm-title">الذكاء الاصطناعي للعمليات</span><span class="mm-sub">استشارات AIOps</span></span></a></li><li><a data-pv="cloud" href="#capabilities" data-svc-open="2"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18Z"/></svg></span><span class="mm-txt"><span class="mm-title">السحابة ولينكس وكوبرنيتس</span><span class="mm-sub">البناء والترحيل</span></span></a></li><li><a data-pv="code" href="#capabilities" data-svc-open="3"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 6l-2 12"/></svg></span><span class="mm-txt"><span class="mm-title">البرمجيات المؤسسية</span><span class="mm-sub">منصات ثنائية اللغة</span></span></a></li><li><a data-pv="smb" href="#capabilities" data-svc-open="4"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></span><span class="mm-txt"><span class="mm-title">إليفاي الأساسية <span class="mm-badge mono">للشركات</span></span><span class="mm-sub">تقنية المعلومات للشركات الصغيرة والمتوسطة</span></span></a></li><li><a data-pv="fiber" href="#telecom"><span class="mm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18c4-8 14-8 18-12"/><circle cx="3" cy="18" r="1.6"/><circle cx="21" cy="6" r="1.6"/></svg></span><span class="mm-txt"><span class="mm-title">الاتصالات والألياف <span class="mm-badge mono">جديد</span></span><span class="mm-sub">الألياف وDWDM والكابلات والشبكات</span></span></a></li></ul>
                 </div>
-                <aside class="mm-promo">
-                  <span class="mm-fiber" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <p class="mm-promo-k mono">خدمة جديدة</p>
-                  <p class="mm-promo-t">الاتصالات والألياف</p>
-                  <p class="mm-promo-s">تركيب الألياف، ونقل DWDM فائق النطاق الترددي، والكابلات المهيكلة والشبكات، مع الاختبار قبل التسليم.</p>
-                  <a class="mm-promo-a" href="#telecom">اطّلع على خدمات الاتصالات <span aria-hidden="true">→</span></a>
+                <aside class="mm-promo" data-pv-pane aria-live="polite">
+                  <div class="mm-pv" data-pv-for="managed" hidden>
+                    <p class="mm-promo-k mono">عمليات عن بُعد على مدار الساعة</p>
+                    <p class="mm-promo-t">الخدمات المُدارة</p>
+                    <span class="pv-uptime" aria-hidden="true"><i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i><i style="--d:5"></i><i style="--d:6"></i><i style="--d:7"></i><i style="--d:8"></i><i style="--d:9"></i><i style="--d:10"></i><i style="--d:11"></i><i style="--d:12"></i><i style="--d:13"></i><i style="--d:14"></i><i style="--d:15"></i><i style="--d:16"></i><i style="--d:17" class="inc"></i><i style="--d:18"></i><i style="--d:19"></i><i style="--d:20"></i><i style="--d:21"></i><i style="--d:22"></i><i style="--d:23"></i><i style="--d:24"></i><i style="--d:25"></i><i style="--d:26"></i><i style="--d:27"></i><i style="--d:28"></i><i style="--d:29"></i></span><span class="pv-stat mono"><b>99.97%</b> وقت التشغيل · آخر ٣٠ يومًا</span>
+                    <p class="mm-promo-s">نراقب أنظمتكم ونحدّثها ونأخذ نسخها الاحتياطية ونستعيدها ليلًا ونهارًا، بمهندسين معروفين بالاسم وتقرير شهري.</p>
+                    <a class="mm-promo-a" href="#capabilities" data-svc-open="0">اكتشف الخدمات المُدارة <span aria-hidden="true">→</span></a>
+                  </div>
+                  <div class="mm-pv" data-pv-for="ai" hidden>
+                    <p class="mm-promo-k mono">استشارات AIOps</p>
+                    <p class="mm-promo-t">الذكاء الاصطناعي للعمليات</p>
+                    <span class="pv-funnel" aria-hidden="true"><i style="--x:5%;--d:0.00s"></i><i style="--x:42%;--d:0.17s"></i><i style="--x:79%;--d:0.34s"></i><i style="--x:26%;--d:0.51s"></i><i style="--x:63%;--d:0.68s"></i><i style="--x:10%;--d:0.85s"></i><i style="--x:47%;--d:1.02s"></i><i style="--x:84%;--d:1.19s"></i><i style="--x:31%;--d:1.36s"></i><i style="--x:68%;--d:1.53s"></i><i style="--x:15%;--d:0.10s"></i><i style="--x:52%;--d:0.27s"></i><i style="--x:89%;--d:0.44s"></i><i style="--x:36%;--d:0.61s"></i><em></em></span><span class="pv-stat mono"><b>412</b> تنبيه ← <b>1</b> حادثة</span>
+                    <p class="mm-promo-s">ذكاء اصطناعي يقلّل ضجيج التنبيهات ويفرز التذاكر ويكتب مسودات مراجعات الحوادث، مع موافقة مهندس على كل تغيير.</p>
+                    <a class="mm-promo-a" href="#capabilities" data-svc-open="1">اكتشف الذكاء الاصطناعي للعمليات <span aria-hidden="true">→</span></a>
+                  </div>
+                  <div class="mm-pv" data-pv-for="cloud" hidden>
+                    <p class="mm-promo-k mono">البناء والترحيل</p>
+                    <p class="mm-promo-t">السحابة ولينكس وكوبرنيتس</p>
+                    <span class="pv-stack" aria-hidden="true"><i>apps · GitOps</i><i>OpenShift · GKE · EKS</i><i>RHEL · Ubuntu</i><i>سحابة داخل المنطقة</i></span>
+                    <p class="mm-promo-s">مناطق هبوط سحابية ومنصات كوبرنيتس وبيئات لينكس، تُبنى كرمز برمجي وتُسلَّم مع أدلة التشغيل.</p>
+                    <a class="mm-promo-a" href="#capabilities" data-svc-open="2">اكتشف السحابة ولينكس <span aria-hidden="true">→</span></a>
+                  </div>
+                  <div class="mm-pv" data-pv-for="code" hidden>
+                    <p class="mm-promo-k mono">منصات ثنائية اللغة</p>
+                    <p class="mm-promo-t">البرمجيات المؤسسية</p>
+                    <span class="pv-code mono" aria-hidden="true"><i><b>const</b> dir = ar ? "rtl" : "ltr";</i><i><b>render</b>(portal, dir);</i><i class="ok">✓ 214 tests passed</i></span>
+                    <p class="mm-promo-s">بوابات وتكاملات وأدوات داخلية بالعربية والإنجليزية، مع شيفرة مصدرية مملوكة لكم.</p>
+                    <a class="mm-promo-a" href="#capabilities" data-svc-open="3">اكتشف برمجيات المؤسسات <span aria-hidden="true">→</span></a>
+                  </div>
+                  <div class="mm-pv" data-pv-for="smb" hidden>
+                    <p class="mm-promo-k mono">تقنية المعلومات للشركات الصغيرة والمتوسطة</p>
+                    <p class="mm-promo-t">إليفاي الأساسية</p>
+                    <span class="pv-check" aria-hidden="true"><i>إعداد Microsoft 365</i><i>أجهزة محمولة مؤمّنة</i><i>نسخ احتياطي يومي</i><i>دعم فني عبر واتساب</i></span>
+                    <p class="mm-promo-s">كل ما تحتاجه شركة من ١٠ إلى ٢٥٠ موظفًا من تقنية المعلومات، برسوم شهرية واحدة لكل مستخدم.</p>
+                    <a class="mm-promo-a" href="#capabilities" data-svc-open="4">اكتشف Elifai Essentials <span aria-hidden="true">→</span></a>
+                  </div>
+                  <div class="mm-pv is-on" data-pv-for="fiber">
+                    <p class="mm-promo-k mono">خدمة جديدة</p>
+                    <p class="mm-promo-t">الاتصالات والألياف</p>
+                    <span class="mm-fiber" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <p class="mm-promo-s">تركيب الألياف، ونقل DWDM فائق النطاق الترددي، والكابلات المهيكلة والشبكات، مع الاختبار قبل التسليم.</p>
+                    <a class="mm-promo-a" href="#telecom">اطّلع على خدمات الاتصالات <span aria-hidden="true">→</span></a>
+                  </div>
                 </aside>
               </div>
             </div>
